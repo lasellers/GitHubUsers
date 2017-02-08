@@ -1,3 +1,108 @@
-<h1>
+<div class="container">
+
+<h1 highlight>
   {{title}}
 </h1>
+
+<div class="row">
+  <div class="col-sm-6">
+<h2>Users</h2>
+
+  <p>This is some text.</p> 
+
+<input #username type="text" [(ngModel)]="baseusername">
+<button (click)="changeBaseUsername($event,username.value)">List following users</button>
+<p>Querying with {{baseusername}}</p>
+
+<!--  *ngIf="userService.followings"  -->
+<ul>
+ <li *ngFor="let following of userService.followings">
+       <button (click)="loadUser(following.login)">{{following.login}}</button>
+       <button (click)="changeBaseUsername($event,following.login)">List following users</button>
+   </li>  
+</ul>
+
+    <button (click)="changeBaseUsernameToDefault($event)">List following users of default user</button>
+  
+<hr>
+ 
+  </div> 
+   <div class="col-sm-6">
+<h2>User</h2>
+
+<div *ngIf="userService.user">
+
+<div class="row">
+  <div class="col-sm-12"><img src="{{userService.user.avatar_url}}" class="responsive"></div>
+</div>
+
+<div class="row">
+  <div class="col-sm-6">Login</div>
+  <div class="col-sm-6">{{userService.user.login}}</div>
+</div>
+
+<div class="row">
+  <div class="col-sm-6">Id</div>
+  <div class="col-sm-6">{{userService.user.id}}</div>
+</div>
+
+<div class="row">
+  <div class="col-sm-6">Url</div>
+  <div class="col-sm-6"><a href="{{userService.user.url}}">{{userService.user.url}}</a></div>
+</div>
+<div class="row">
+  <div class="col-sm-6">html_url</div>
+  <div class="col-sm-6"><a href="{{userService.user.html_url}}">{{userService.user.html_url}}</a></div>
+</div>
+
+<div class="row">
+  <div class="col-sm-6">name</div>
+  <div class="col-sm-6"><a href="{{userService.user.name}}">{{userService.user.name}}</a></div>
+</div>
+<div class="row">
+  <div class="col-sm-6">company</div>
+  <div class="col-sm-6"><a href="{{userService.user.company}}">{{userService.user.company}}</a></div>
+</div>
+<div class="row">
+  <div class="col-sm-6">blog</div>
+  <div class="col-sm-6"><a href="{{userService.user.blog}}">{{userService.user.blog}}</a></div>
+</div>
+<div class="row">
+  <div class="col-sm-6">location</div>
+  <div class="col-sm-6"><a href="{{userService.userlocation}}">{{userService.user.location}}</a></div>
+</div>
+<div class="row">
+  <div class="col-sm-6">email</div>
+  <div class="col-sm-6"><a href="mailto:{{userService.user.email}}">{{userService.user.email}}</a></div>
+</div>
+
+<div class="row">
+  <div class="col-sm-6">bio</div>
+  <div class="col-sm-6"><a href="{{userService.user.bio}}">{{userService.user.bio}}</a></div>
+</div>
+
+<div class="row">
+  <div class="col-sm-3">public_repos</div>
+  <div class="col-sm-3">{{userService.user.public_repos}}</div>
+  <div class="col-sm-3">public_gists</div>
+  <div class="col-sm-3">{{userService.user.public_gists}}</div>
+</div>
+
+<div class="row">
+  <div class="col-sm-3">followers</div>
+  <div class="col-sm-3">{{userService.user.followers}}</div>
+  <div class="col-sm-3">following</div>
+  <div class="col-sm-3">{{userService.user.following}}</div>
+</div>
+
+<div class="row">
+  <div class="col-sm-3">created_at</div>
+  <div class="col-sm-3">{{userService.user.created_at}}</div>
+  <div class="col-sm-3">updated_at</div>
+  <div class="col-sm-3">{{userService.user.updated_at}}</div>
+</div>
+
+</div>
+
+   </div>
+</div>
