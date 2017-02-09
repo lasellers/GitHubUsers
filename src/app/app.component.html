@@ -15,7 +15,7 @@
 
                     <p>
                         https://github.com/<input #username type="text" [(ngModel)]="baseUsername">
-                        <button class="btn btn-primary btn-sm" (click)="changeBaseUsername($event,baseUsername.value)">Show following</button>
+                        <button class="btn btn-primary btn-sm" (click)="changeBaseUsername(baseUsername.value)">Show following</button>
                     </p>
 
                 </div>
@@ -35,7 +35,8 @@
 
                 </div>
                 <div class="panel-footer">
-                    <button class="btn btn-primary" (click)="changeBaseUsernameToDefault()">Select default user (AKA lasellers)</button>
+                    <button class="btn btn-primary btn-sm" (click)="changeBaseUsernameToDefault()">Select default user</button>
+                    <button class="btn btn-info btn-sm" (click)="loadUser('lasellers')">(AKA lasellers)</button>
                 </div>
                 <!-- / panel-footer -->
 
