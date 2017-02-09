@@ -10,42 +10,58 @@ console.clear();
 })
 export class AppComponent implements OnInit {
   title = 'GitHub Users';
- defaultBaseUsername = 'lasellers';
+  defaultBaseUsername = 'lasellers';
 
-  @Input()  baseUsername = this.defaultBaseUsername;
+  @Input() baseUsername = this.defaultBaseUsername;
 
+/**
+ * 
+ */
   constructor(
     private userService: GitHubUserService
-    //@Inject('productsdata') private mail,
-//@Inject('api') private api
-  ){
+  )
+  {
        this.baseUsername = this.defaultBaseUsername;
   }
 
-changeBaseUsernameToDefault(event)
+/**
+ * 
+ */
+changeBaseUsernameToDefault()
 {
   this.baseUsername = this.defaultBaseUsername;
   this.loadFollowing(this.baseUsername);
 }
 
-changeBaseUsername(event, username: string)
+/**
+ * 
+ */
+changeBaseUsername(username: string)
 {
   this.baseUsername = username;
   this.loadFollowing(this.baseUsername);
 }
 
+/**
+ * 
+ */
   loadFollowing(username: string) {
     console.log('AppComponent:loadFollowing');
     this.userService.getFollowing(username);
 }
 
+/**
+ * 
+ */
   loadUser(username: string) {
     console.log('AppComponent:loadUser');
     this.userService.getUser(username);
 }
 
+/**
+ * 
+ */
  ngOnInit() {
-   //this.baseUsername=this.defaultBaseUsername;
    this.loadFollowing(this.baseUsername);
   }
 

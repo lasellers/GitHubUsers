@@ -1,4 +1,41 @@
+html,
+body {
+    background: #222;
+    color: white;
+}
+
 .responsive {
     max-width: 100%;
     max-height: 120px;
+}
+
+.click {
+    text-decoration: underline;
+}
+
+.username {}
+
+.following {}
+
+.user-group {
+    margin: 0;
+    padding: 0;
+    clear: both;
+}
+
+.user-label {
+    line-height: 1.5em;
+    min-height: 1.5em;
+    margin: 0;
+    padding: .5em 1em .5em 1em;
+    font-weight: bold;
+    text-align: right;
+}
+
+.user-line {
+    line-height: 1.5em;
+    min-height: 1.5em;
+    margin: 0;
+    padding: .5em 1em .5em 1em;
+    text-align: left;
 }
