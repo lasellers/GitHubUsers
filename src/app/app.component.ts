@@ -1,8 +1,11 @@
-import { Component, NgModule, ElementRef, OnInit, Input  } from '@angular/core';
+import { Component, NgModule, ElementRef, OnInit, Input, ViewContainerRef  } from '@angular/core';
 import { GitHubUserService } from './git-hub-user.service';
+
+import {ToasterModule, ToasterService, ToasterConfig} from 'angular2-toaster';
 
 console.clear();
 
+/* styleUrls ['./app.component.css')*/
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -14,14 +17,24 @@ export class AppComponent implements OnInit {
 
   @Input() baseUsername = this.defaultBaseUsername;
 
+ public toasterconfig : ToasterConfig = 
+        new ToasterConfig({
+            showCloseButton: true, 
+            tapToDismiss: true, 
+            timeout: 10000
+        });
+
 /**
  * 
  */
   constructor(
     private userService: GitHubUserService
+  ,public toasterService: ToasterService
   )
   {
        this.baseUsername = this.defaultBaseUsername;
+
+        this.toasterService = toasterService;
   }
 
 /**
@@ -30,7 +43,8 @@ export class AppComponent implements OnInit {
 changeBaseUsernameToDefault()
 {
   this.baseUsername = this.defaultBaseUsername;
-  this.loadFollowing(this.baseUsername);
+  this.loadFollowings(this.baseUsername);
+  this.loadFollowers(this.baseUsername);
 }
 
 /**
@@ -39,15 +53,24 @@ changeBaseUsernameToDefault()
 changeBaseUsername(username: string)
 {
   this.baseUsername = username;
-  this.loadFollowing(this.baseUsername);
+  this.loadFollowings(this.baseUsername);
+  this.loadFollowers(this.baseUsername);
 }
 
 /**
  * 
  */
-  loadFollowing(username: string) {
-    console.log('AppComponent:loadFollowing');
-    this.userService.getFollowing(username);
+  loadFollowings(username: string) {
+    console.log('AppComponent:loadFollowings');
+    this.userService.getFollowings(username);
+}
+
+/**
+ * 
+ */
+  loadFollowers(username: string) {
+    console.log('AppComponent:loadFollowers');
+    this.userService.getFollowers(username);
 }
 
 /**
@@ -62,7 +85,10 @@ changeBaseUsername(username: string)
  * 
  */
  ngOnInit() {
-   this.loadFollowing(this.baseUsername);
+   this.loadFollowings(this.baseUsername);
+  this.loadFollowers(this.baseUsername);
   }
+
+
 
 }

@@ -13,9 +13,11 @@ body {
     text-decoration: underline;
     color: black;
 }
+
 .click:hover {
     color: goldenrod;
 }
+
 .username {}
 
 .following {}
