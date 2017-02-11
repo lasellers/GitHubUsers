@@ -1,5 +1,5 @@
-<div class="container">
-
+<div class="fluid-container">
+    <toaster-container></toaster-container>
     <h1 highlight>
         {{title}}
     </h1>
@@ -15,27 +15,55 @@
 
                     <p>
                         https://github.com/<input #username type="text" [(ngModel)]="baseUsername">
-                        <button class="btn btn-primary btn-sm" (click)="changeBaseUsername(baseUsername.value)">Show following</button>
+                        <button class="btn btn-primary btn-sm" (click)="changeBaseUsername(username.value)">User</button>
                     </p>
 
                 </div>
 
                 <div class="panel-body">
 
-                    <table class="table table-striped" *ngIf="userService.followings">
-                        <tr class="" *ngFor="let following of userService.followings">
-                            <td>
-                                <span class="click username" (click)="loadUser(following.login)">{{following.login}}</span>
-                            </td>
-                            <td>
-                                <span class="click following" (click)="changeBaseUsername(following.login)"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>Following</span>
-                            </td>
-                        </tr>
-                    </table>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <table class="table table-striped" *ngIf="userService.followings">
+                                <thead>
+                                    <tr>
+                                        <th>Following</th>
+                                    </tr>
+                                </thead>
+                                <tr class="" *ngFor="let following of userService.followings">
+                                    <td>
+                                        <span class="click username" (click)="loadUser(following.login)">{{following.login}}</span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm following" (click)="changeBaseUsername(following.login)">User</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-sm-6">
 
+                            <table class="table table-striped" *ngIf="userService.followers">
+                                <thead>
+                                    <tr>
+                                        <th>Followers</th>
+                                    </tr>
+                                </thead>
+                                <tr class="" *ngFor="let follower of userService.followers">
+                                    <td>
+                                        <span class="click username" (click)="loadUser(follower.login)">{{follower.login}}</span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm following" (click)="changeBaseUsername(follower.login)">User</button>
+                                    </td>
+                                </tr>
+
+                            </table>
+
+                        </div>
+                    </div>
                 </div>
                 <div class="panel-footer">
-                    <button class="btn btn-primary btn-sm" (click)="changeBaseUsernameToDefault()">Select default user</button>
+                    <button class="btn btn-primary btn-sm" (click)="changeBaseUsernameToDefault()">Default User</button>
                     <span class="click" (click)="loadUser('lasellers')">(AKA lasellers)</span>
                 </div>
                 <!-- / panel-footer -->
@@ -117,25 +145,25 @@
                             </div>
 
                             <div class="user-group">
-                                <div class="col-sm-3 user-label">Repos</div>
+                                <label class="col-sm-3 user-label">Repos</label>
                                 <div class="col-sm-3 user-line">{{userService.user.public_repos}}</div>
-                                <div class="col-sm-3 user-label">Gits</div>
+                                <label class="col-sm-3 user-label">Gits</label>
                                 <div class="col-sm-3 user-line">{{userService.user.public_gists}}</div>
                             </div>
 
                             <div class="user-group">
-                                <div class="col-sm-3 user-label">Followers</div>
+                                <label class="col-sm-3 user-label">Followers</label>
                                 <div class="col-sm-3 user-line">{{userService.user.followers}}</div>
-                                <div class="col-sm-3 user-label">Following</div>
+                                <label class="col-sm-3 user-label">Following</label>
                                 <div class="col-sm-3 user-line">{{userService.user.following}}</div>
                             </div>
 
                             <div class="user-group">
-                                <div class="col-sm-4 user-label">Created</div>
+                                <label class="col-sm-4 user-label">Created</label>
                                 <div class="col-sm-8 user-line">{{userService.user.created_at}}</div>
                             </div>
                             <div class="user-group">
-                                <div class="col-sm-4 user-label">Last updated</div>
+                                <label class="col-sm-4 user-label">Last updated</label>
                                 <div class="col-sm-8 user-line">{{userService.user.updated_at}}</div>
                             </div>
 
@@ -159,5 +187,8 @@
 </div>
 
 <div class="footer navbar-fixed-bottom navbar navbar-inverse">
-    <p class="text-center"><a href="https://github.com/lasellers">https://github.com/lasellers</a></p>
+    <p class="text-center">
+        <a href="https://github.com/lasellers">https://github.com/lasellers</a>
+        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+    </p>
 </div>
