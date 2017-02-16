@@ -9,9 +9,17 @@ import {ToasterModule, ToasterService} from 'angular2-toaster';
 export class GitHubUserService {
  apiUrl = 'https://api.github.com/users/';
 
+  // current data
+  baseUsername = null;
+
   user = null;
   followings = [];
   followers = [];
+
+  // was cached flag
+  userWasCached = false;
+  followingsWasCached = false;
+  followersWasCached = false;
 
   /**
   * 
@@ -21,6 +29,39 @@ export class GitHubUserService {
    ,public toasterService: ToasterService
   ) { }
 
+/**
+ * 
+ */
+    clearUserCache() {
+      console.log("clearUserCache " + this.user.login);
+ //     if("login" in this.user) {
+        if(this.user.hasOwnProperty("login")) {
+        localStorage.removeItem('user_' + this.user.login);
+        this.userWasCached = false;
+      }
+    }
+
+/**
+ * 
+ */
+    clearFollowersCache() { 
+      console.log("clearFollowersCache " + this.baseUsername);
+      if(this.baseUsername != null) {
+        localStorage.removeItem('followers_' + this.baseUsername);
+        this.followersWasCached = false;
+      }
+    }
+  
+/**
+ * 
+ */
+    clearFollowingsCache() { 
+      console.log("clearFollowingsCache " + this.baseUsername);
+      if(this.baseUsername != null) {
+        localStorage.removeItem('followings_' + this.baseUsername);
+        this.followingsWasCached = false;
+      }
+    }
   /**
    * 
    */
@@ -32,6 +73,7 @@ export class GitHubUserService {
       console.log('Cached User: ');
       console.log(JSON.parse(cachedObj));
       this.user = JSON.parse(cachedObj);
+      this.userWasCached = true;
       return {};
     }
 
@@ -40,6 +82,7 @@ export class GitHubUserService {
       .subscribe(
         user => {
           this.user = user;
+          this.userWasCached = false;
           localStorage.setItem('user_' + username, JSON.stringify(this.user));
           console.log(this.user);
         },
@@ -58,11 +101,14 @@ export class GitHubUserService {
   getFollowings(username: string) {
     console.log('GitHubUserService:getFollowings');
 
+    this.baseUsername = username;
+
     const cachedObj = localStorage.getItem('followings_' + username);
     if ( cachedObj !== null) {
       console.log('Cached Followings: ');
       console.log(JSON.parse(cachedObj));
-      this.followings=JSON.parse(cachedObj);
+      this.followings = JSON.parse(cachedObj);
+      this.followingsWasCached = true;
       return {};
   }
 
@@ -71,7 +117,8 @@ export class GitHubUserService {
       .subscribe(
         followings => {
           this.followings = Array.from(followings);
-          localStorage.setItem('followings_' + username, JSON.stringify(this.followings));
+          this.followingsWasCached = false;
+           localStorage.setItem('followings_' + username, JSON.stringify(this.followings));
           console.log(this.followings);
        },
        error => {
@@ -89,11 +136,14 @@ export class GitHubUserService {
   getFollowers(username: string) {
     console.log('GitHubUserService:getFollowers');
 
+    this.baseUsername = username;
+
     const cachedObj = localStorage.getItem('followers_' + username);
     if ( cachedObj !== null) {
       console.log('Cached Followers: ');
       console.log(JSON.parse(cachedObj));
       this.followers = JSON.parse(cachedObj);
+      this.followersWasCached = true;
       return {};
   }
 
@@ -102,6 +152,7 @@ export class GitHubUserService {
       .subscribe(
        followers => {
           this.followers = Array.from(followers);
+          this.followersWasCached = false;
           localStorage.setItem('followers_' + username, JSON.stringify(this.followers));
           console.log(this.followers);
        },

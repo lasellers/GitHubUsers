@@ -17,10 +17,10 @@ export class AppComponent implements OnInit {
 
   @Input() baseUsername = this.defaultBaseUsername;
 
- public toasterconfig : ToasterConfig = 
+ public toasterconfig : ToasterConfig =
         new ToasterConfig({
-            showCloseButton: true, 
-            tapToDismiss: true, 
+            showCloseButton: true,
+            tapToDismiss: true,
             timeout: 10000
         });
 
@@ -28,13 +28,12 @@ export class AppComponent implements OnInit {
  * 
  */
   constructor(
-    private userService: GitHubUserService
-  ,public toasterService: ToasterService
+    private userService: GitHubUserService,
+    public toasterService: ToasterService
   )
   {
-       this.baseUsername = this.defaultBaseUsername;
-
-        this.toasterService = toasterService;
+      this.baseUsername = this.defaultBaseUsername;
+      this.toasterService = toasterService;
   }
 
 /**
@@ -81,6 +80,7 @@ changeBaseUsername(username: string)
     this.userService.getUser(username);
 }
 
+
 /**
  * 
  */
@@ -88,7 +88,5 @@ changeBaseUsername(username: string)
    this.loadFollowings(this.baseUsername);
   this.loadFollowers(this.baseUsername);
   }
-
-
 
 }

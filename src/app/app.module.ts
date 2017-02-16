@@ -8,12 +8,14 @@ import { HighlightDirective } from './highlight.directive';
 import { GitHubUserService } from './git-hub-user.service';
 
 import {ToasterModule, ToasterService} from 'angular2-toaster';
+import { ToolTipDirective } from './tool-tip.directive';
 //import {Root} from './root.component'
 
 @NgModule({
   declarations: [
     AppComponent,
-    HighlightDirective
+    HighlightDirective,
+    ToolTipDirective
   ],
   imports: [
     BrowserModule,

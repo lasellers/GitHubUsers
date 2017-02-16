@@ -27,7 +27,7 @@
                             <table class="table table-striped" *ngIf="userService.followings">
                                 <thead>
                                     <tr>
-                                        <th>Following</th>
+                                        <th>Following <span *ngIf="userService.followingsWasCached" class="glyphicon glyphicon-remove" (click)="userService.clearFollowingsCache()" tooltipPlacement="left" tooltip="Clear cache"></span></th>
                                     </tr>
                                 </thead>
                                 <tr class="" *ngFor="let following of userService.followings">
@@ -45,7 +45,7 @@
                             <table class="table table-striped" *ngIf="userService.followers">
                                 <thead>
                                     <tr>
-                                        <th>Followers</th>
+                                        <th>Followers <span *ngIf="userService.followersWasCached" class="glyphicon glyphicon-remove" (click)="userService.clearFollowersCache()" tooltipPlacement="left" tooltip="Clear cache"></span></th>
                                     </tr>
                                 </thead>
                                 <tr class="" *ngFor="let follower of userService.followers">
@@ -78,6 +78,7 @@
                 <div class="panel-heading">
                     <h3 class="panel-title" *ngIf="userService.user !== null">
                         {{userService.user.name}}
+                        <span *ngIf="userService.userWasCached" class="glyphicon glyphicon-remove" (click)="userService.clearUserCache()" tooltipPlacement="left" tooltip="Clear cache"></span>
                     </h3>
                 </div>
 
