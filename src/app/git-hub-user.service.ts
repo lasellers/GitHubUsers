@@ -66,7 +66,7 @@ export class GitHubUserService {
    * 
    */
   getUser(username: string) {
-    console.log('GitHubUserService:getUser');
+    console.log('GitHubUserService:getUser username:' + username);
 
     const cachedObj = localStorage.getItem('user_' + username);
     if (cachedObj !== null) {
@@ -99,7 +99,7 @@ export class GitHubUserService {
    * 
    */
   getFollowings(username: string) {
-    console.log('GitHubUserService:getFollowings');
+    console.log('GitHubUserService:getFollowings username:' + username);
 
     this.baseUsername = username;
 
@@ -134,7 +134,7 @@ export class GitHubUserService {
     * 
     */
   getFollowers(username: string) {
-    console.log('GitHubUserService:getFollowers');
+    console.log('GitHubUserService:getFollowers username:' + username);
 
     this.baseUsername = username;
 
