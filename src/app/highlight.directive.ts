@@ -1,13 +1,18 @@
-import { Directive, ElementRef } from '@angular/core';
+import { Directive, ElementRef, Input, OnInit } from '@angular/core';
 
 @Directive({
   selector: '[highlight]'
 })
-export class HighlightDirective {
-
-  constructor(el: ElementRef) {
-    el.nativeElement.style.backgroundColor = '#eee';
-    console.log(`highlight called on ${el.nativeElement.tagName}`);
+export class HighlightDirective implements OnInit {
+  @Input() el: string;
+  constructor(
+    private elementRef: ElementRef
+  )
+  {
+    elementRef.nativeElement.style.backgroundColor = '#eee';
+    console.log(`highlight called on ${elementRef.nativeElement.tagName}`);
   }
-
+  ngOnInit() {
+    console.log("input-box keys  : ", this.el);
+  }
 }
