@@ -5,7 +5,6 @@ import { ToasterModule, ToasterService, ToasterConfig } from 'angular2-toaster';
 
 console.clear();
 
-/* styleUrls ['./app.component.css')*/
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
