@@ -2,6 +2,7 @@
 
 import { TestBed, async } from '@angular/core/testing';
 import { HighlightDirective } from './highlight.directive';
+import { Directive, ElementRef, Input, OnInit } from '@angular/core';
 
 describe('HighlightDirective', () => {
   it('should create an instance', () => {

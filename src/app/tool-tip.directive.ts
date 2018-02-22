@@ -8,5 +8,3 @@ export class ToolTipDirective {
   constructor() { }
 
 }
-
-
