@@ -11,8 +11,9 @@ console.clear();
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'GitHub Users';
-  defaultBaseUsername = 'lasellers';
+  title: string = 'GitHub Users';
+  defaultBaseUsername: string = 'lasellers';
+  version: string = "1.0.5";
 
   @Input() baseUsername = this.defaultBaseUsername;
 
