@@ -17,8 +17,9 @@ beforeEach(async(() => {
 
 describe('HighlightDirective', () => {
   it('should create an instance', () => {
-   // const directive = new HighlightDirective(ElementRef);
-   // expect(directive).toBeTruthy();
+    const el = new ElementRef("<p highlight>GitHub Users</p>");
+    const directive = new HighlightDirective(el);
+    expect(directive).toBeTruthy();
     expect(true).toBeTruthy();
   });
 });

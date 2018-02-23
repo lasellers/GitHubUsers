@@ -104,6 +104,18 @@
                             </div>
 
                             <div class="user-group">
+                                <label class="col-sm-4 user-label">Name</label>
+                                <div class="col-sm-6 user-line">
+                                    {{userService.user.name}}
+                                </div>
+                            </div>
+
+                            <div class="user-group">
+                                <label class="col-sm-4 user-label">Hireable</label>
+                                <div class="col-sm-8 user-line">{{userService.user.hireable==true?"Yes":"No"}}</div>
+                            </div>
+
+                            <div class="user-group">
                                 <label class="col-sm-4 user-label">Id</label>
                                 <div class="col-sm-6 user-line">
                                     {{userService.user.id}}
@@ -148,7 +160,7 @@
                             <div class="user-group">
                                 <label class="col-sm-3 user-label">Repos</label>
                                 <div class="col-sm-3 user-line">{{userService.user.public_repos}}</div>
-                                <label class="col-sm-3 user-label">Gits</label>
+                                <label class="col-sm-3 user-label">Gists</label>
                                 <div class="col-sm-3 user-line">{{userService.user.public_gists}}</div>
                             </div>
 
