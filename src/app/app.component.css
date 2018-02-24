@@ -6,7 +6,8 @@ body {
 
 .responsive {
     max-width: 100%;
-    max-height: 120px;
+    max-height: 200px;
+    /* 120px; */
 }
 
 .click {

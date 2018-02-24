@@ -1,6 +1,5 @@
 import { Component, NgModule, ElementRef, OnInit, Input, ViewContainerRef } from '@angular/core';
 import { GitHubUserService } from './git-hub-user.service';
-
 import { ToasterModule, ToasterService, ToasterConfig } from 'angular2-toaster';
 
 console.clear();
@@ -12,10 +11,10 @@ console.clear();
 })
 export class AppComponent implements OnInit {
   title: string = 'GitHub Users';
-  defaultBaseUsername: string = 'lasellers';
+  //defaultBaseUsername: string = 'lasellers';
   version: string = "1.0.5";
 
-  @Input() baseUsername = this.defaultBaseUsername;
+  @Input() baseUsername = ""; //this.defaultBaseUsername;
 
   public toasterconfig: ToasterConfig =
   new ToasterConfig({
@@ -31,7 +30,8 @@ export class AppComponent implements OnInit {
     private userService: GitHubUserService,
     public toasterService: ToasterService
   ) {
-    this.baseUsername = this.defaultBaseUsername;
+    //this.baseUsername = this.defaultBaseUsername;
+    this.baseUsername = this.userService.getUserBasename();
     this.toasterService = toasterService;
   }
 
@@ -39,7 +39,8 @@ export class AppComponent implements OnInit {
    * 
    */
   changeBaseUsernameToDefault() {
-    this.baseUsername = this.defaultBaseUsername;
+    this.baseUsername = this.userService.getUserBasename();
+    //this.baseUsername = this.defaultBaseUsername;
     this.loadFollowings(this.baseUsername);
     this.loadFollowers(this.baseUsername);
   }

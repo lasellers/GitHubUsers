@@ -9,13 +9,15 @@ import { GitHubUserService } from './git-hub-user.service';
 
 import { ToasterModule, ToasterService } from 'angular2-toaster';
 import { ToolTipDirective } from './tool-tip.directive';
+import { Highlight2Directive } from './highlight2.directive';
 // import {Root} from './root.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     HighlightDirective,
-    ToolTipDirective
+    ToolTipDirective,
+    Highlight2Directive
   ],
   imports: [
     BrowserModule,

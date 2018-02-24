@@ -2,32 +2,48 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 // import { Subscription } from 'rxjs/Subscription';
-
 import { ToasterModule, ToasterService } from 'angular2-toaster';
 
 @Injectable()
 export class GitHubUserService {
-  apiUrl = 'https://api.github.com/users/';
+  apiUrl: string = 'https://api.github.com/users/';
 
   // current data
-  baseUsername = null;
+  baseUsername: string = 'lasellers';
+  defaultBaseUsername: string = 'lasellers';
 
   user = null;
   followings = [];
   followers = [];
 
   // was cached flag
-  userWasCached = false;
-  followingsWasCached = false;
-  followersWasCached = false;
+  userWasCached: boolean = false;
+  followingsWasCached: boolean = false;
+  followersWasCached: boolean = false;
 
   /**
   * 
    */
   constructor(
-    private http: Http
-    , public toasterService: ToasterService
+    private http: Http,
+    public toasterService: ToasterService
   ) { }
+
+    /**
+   * 
+   */
+  setUserBasename(baseUsername: string) {
+    this.baseUsername = baseUsername;
+    console.log('setUserBasename ' + this.baseUsername);
+  }
+
+   /**
+   * 
+   */
+  getUserBasename() {
+    console.log('getUserBasename ' + this.baseUsername);
+    return this.baseUsername;
+  }
 
   /**
    * 
