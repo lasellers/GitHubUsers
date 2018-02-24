@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
    * 
    */
   changeBaseUsernameToDefault() {
-    this.baseUsername = this.userService.getUserBasename();
+    this.baseUsername = this.userService.getUserBasenameDefault();
     //this.baseUsername = this.defaultBaseUsername;
     this.loadFollowings(this.baseUsername);
     this.loadFollowers(this.baseUsername);

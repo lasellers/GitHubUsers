@@ -45,6 +45,15 @@ export class GitHubUserService {
     return this.baseUsername;
   }
 
+    /**
+   * 
+   */
+  getUserBasenameDefault() {
+    this.baseUsername=this.defaultBaseUsername;
+    console.log('getUserBasenameDefault ' + this.baseUsername);
+    return this.baseUsername;
+  }
+
   /**
    * 
    */
