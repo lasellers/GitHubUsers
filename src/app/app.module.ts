@@ -1,16 +1,18 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ViewContainerRef } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule, ViewContainerRef} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+// import {HttpModule} from '@angular/http';
+import {HttpClientModule} from '@angular/common/http';
 
-import { AppComponent } from './app.component';
-import { HighlightDirective } from './highlight.directive';
-import { GitHubUserService } from './git-hub-user.service';
+import {AppComponent} from './app.component';
+import {HighlightDirective} from './highlight.directive';
+import {GitHubUserService} from './git-hub-user.service';
 
-import { ToasterModule, ToasterService } from 'angular2-toaster';
-import { ToolTipDirective } from './tool-tip.directive';
-import { Highlight2Directive } from './highlight2.directive';
-import { UserDetailComponent } from './users/user-detail/user-detail.component';
+import {ToasterModule, ToasterService} from 'angular2-toaster';
+import {ToolTipDirective} from './tool-tip.directive';
+import {Highlight2Directive} from './highlight2.directive';
+import {UserDetailComponent} from './users/user-detail/user-detail.component';
+
 // import {Root} from './root.component'
 
 @NgModule({
@@ -24,7 +26,8 @@ import { UserDetailComponent } from './users/user-detail/user-detail.component';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule,
+    // HttpModule,
+    HttpClientModule,
     ToasterModule
     // ToastModule.forRoot()
   ],
@@ -33,4 +36,5 @@ import { UserDetailComponent } from './users/user-detail/user-detail.component';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

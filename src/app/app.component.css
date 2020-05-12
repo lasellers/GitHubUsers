@@ -20,3 +20,10 @@ body {
 .following {
     padding: .5em;
 }
+
+.user {
+    background: white;
+}
+.user-follows-back {
+    background: yellow;
+}
