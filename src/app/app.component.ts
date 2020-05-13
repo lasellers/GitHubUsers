@@ -6,7 +6,7 @@ import {Subscription} from 'rxjs';
 import packageJson from '../../package.json';
 
 import {ToastrService} from 'ngx-toastr';
-import { faMinusCircle, faCloudDownloadAlt, faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
+import {faMinusCircle, faCloudDownloadAlt, faExchangeAlt} from '@fortawesome/free-solid-svg-icons';
 
 console.clear();
 
@@ -36,10 +36,8 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   constructor(
     private userService: GitHubUserService,
-    //    public toasterService: ToasterService
     private toast: ToastrService
   ) {
-    // this.baseUsername = this.defaultBaseUsername;
     this.baseUsername = this.userService.getUserBasename();
     console.log('constructor: isCaching:', this.isCaching);
   }
@@ -52,11 +50,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.loadFollowers(this.baseUsername);
 
     this.UserServiceStatusRef = this.userService.cachedChange$.subscribe((status) => {
+      console.log('Emitting statusChange ...');
       this.statusChange.emit(status);
     });
 
     this.toast.success(this.version, this.title);
-
   }
 
   ngOnDestroy() {
@@ -75,7 +73,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   statusChangeEvent(status) {
     // const properties = Array.from(status);
-    console.log(status);
+    console.log('statusChange -> statusChangeEvent:', status);
     /*
         for (const [key, value] of Object.entries(status)) {
           console.log(`${key}: ${value}`);

@@ -3,21 +3,19 @@ import {NgModule, ViewContainerRef} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 
-import {ToastrModule} from 'ngx-toastr';
+import {CommonModule} from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-// import {FontAwesomeModule, FaIconLibrary} from '@fortawesome/angular-fontawesome';
-
 import {AppComponent} from './app.component';
 import {HighlightDirective} from './highlight.directive';
 import {GitHubUserService} from './git-hub-user.service';
 import {Highlight2Directive} from './highlight2.directive';
 import {UserDetailComponent} from './users/user-detail/user-detail.component';
-
 // import { fas } from '@fortawesome/free-solid-svg-icons';
 // import { far } from '@fortawesome/free-regular-svg-icons';
-import { faMinusCircle, faCloudDownloadAlt, faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
+import {faMinusCircle, faCloudDownloadAlt, faExchangeAlt} from '@fortawesome/free-solid-svg-icons';
+import {ToastrModule} from 'ngx-toastr';
 
 @NgModule({
   declarations: [
