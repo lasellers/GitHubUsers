@@ -2,7 +2,6 @@ import {Component, NgModule, ElementRef, OnInit, OnDestroy, Input, ViewContainer
 import {GitHubUserService} from './git-hub-user.service';
 import {ToastrModule} from 'ngx-toastr';
 import {Subscription} from 'rxjs';
-// import {version, name} from '../../package.json';
 // @ts-ignore
 import packageJson from '../../package.json';
 
@@ -16,8 +15,6 @@ console.clear();
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  // title: string = 'GitHub Users';
-  // version: string = '1.0.10';
   public version: string = packageJson.version;
   public title: string = packageJson.name;
 
@@ -30,15 +27,8 @@ export class AppComponent implements OnInit, OnDestroy {
     useCached: false
   };
 
-  @Output() onStatusChange = new EventEmitter();
+  @Output() statusChange = new EventEmitter();
   private UserServiceStatusRef: Subscription = null;
-
-  /*public toasterconfig: ToasterConfig =
-    new ToasterConfig({
-      showCloseButton: true,
-      tapToDismiss: true,
-      timeout: 10000
-    });*/
 
   /**
    *
@@ -46,7 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private userService: GitHubUserService,
     //    public toasterService: ToasterService
-    private toastr: ToastrService
+    private toast: ToastrService
   ) {
     // this.baseUsername = this.defaultBaseUsername;
     this.baseUsername = this.userService.getUserBasename();
@@ -61,27 +51,28 @@ export class AppComponent implements OnInit, OnDestroy {
     this.loadFollowers(this.baseUsername);
 
     this.UserServiceStatusRef = this.userService.cachedChange$.subscribe((status) => {
-      this.onStatusChange.emit(status);
+      this.statusChange.emit(status);
     });
 
-    this.toastr.success(this.version, this.title);
+    this.toast.success(this.version, this.title);
 
   }
 
   ngOnDestroy() {
+    console.log('ngOnDestroy');
   }
 
-  /*onStatusChange(field: string, value: boolean) {
-    console.log('!!! onStatusChange:', field, value);
+  /*statusChange(field: string, value: boolean) {
+    console.log('!!! statusChange:', field, value);
     this.cachingStatus[field] = value;
   }*/
   cacheServiceChange(field: string, value: boolean) {
     console.log('!!! cacheServiceChange:', field, value);
     this.cachingStatus[field] = value;
-    this.toastr.success('Caching ' + value);
+    this.toast.success('Caching ' + value);
   }
 
-  onStatusChangeEvent(status) {
+  statusChangeEvent(status) {
     // const properties = Array.from(status);
     console.log(status);
     /*
@@ -134,11 +125,16 @@ export class AppComponent implements OnInit, OnDestroy {
     this.userService.getUser(username);
   }
 
+  isUserCached(username: string) {
+      console.log('AppComponent:isUserCached');
+      return (localStorage.getItem('user_' + username) !== null);
+  }
+
   changeCaching(value: boolean) {
     console.log('changeCaching ' + value);
     this.userService.useCached = value;
-    this.toastr.success('Caching ' + value);
-    this.toastr.success('Caching ' + (value ? 'On' : 'Off'));
+    this.toast.success('Caching ' + value);
+    this.toast.success('Caching ' + (value ? 'On' : 'Off'));
   }
 
   userFollowsBack(username: string) {

@@ -4,7 +4,7 @@
     <h3 class="panel-title" *ngIf="userService.user !== null">
       {{userService.user.name}}
       <span *ngIf="userService.userWasCached" class="glyphicon glyphicon-remove" (click)="userService.clearUserCache()"
-            tooltipPlacement="left" tooltip="Clear cache"></span>
+            placement="left" ngbTooltip="Clear cache"></span>
     </h3>
   </div>
 

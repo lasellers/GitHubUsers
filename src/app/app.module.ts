@@ -15,6 +15,7 @@ import {UserDetailComponent} from './users/user-detail/user-detail.component';
 
 import { ToastrModule } from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // import {Root} from './root.component'
 
@@ -34,7 +35,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     HttpClientModule,
     // ToasterModule.forRoot()
     // ToastModule.forRoot()
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    NgbModule
   ],
   providers: [GitHubUserService,
     // ToasterModule, ToasterService

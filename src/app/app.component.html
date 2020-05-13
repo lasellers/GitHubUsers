@@ -7,7 +7,7 @@
   <div class="row">
     <div class="col-sm-6">
     </div>
-    <div class="col-sm-6" (onStatusChange)='onStatusChangeEvent($event)'>
+    <div class="col-sm-6" (statusChange)='statusChangeEvent($event)'>
       Caching <input type="checkbox" [(ngModel)]="isCaching" (change)="changeCaching(isCaching)">
       iscaching= {{isCaching}}
       userWasCached= {{cachingStatus.userWasCached}}
@@ -32,7 +32,7 @@
 
           <p>
             https://github.com/<input #usernameInput type="text" [(ngModel)]="baseUsername">
-            <button class="btn btn-primary btn-sm" (click)="changeBaseUsername(username.value)">User</button>
+            <button class="btn btn-primary btn-sm" (click)="changeBaseUsername(usernameInput.value)">User</button>
           </p>
 
         </div>
@@ -45,13 +45,14 @@
                 <thead>
                 <tr>
                   <th>Following <span *ngIf="userService.followingsWasCached" class="glyphicon glyphicon-remove"
-                                      (click)="userService.clearFollowingsCache()" tooltipPlacement="left"
-                                      tooltip="Clear cache"></span></th>
+                                      (click)="userService.clearFollowingsCache()" placement="left"
+                                      ngbTooltip="Clear cache"></span></th>
                 </tr>
                 </thead>
                 <tr class="" *ngFor="let following of userService.followings">
                   <td>
                     <span class="click username" (click)="loadUser(following.login)">{{following.login}}</span>
+                    <div [hidden]="!isUserCached(following.login)" class="glyphicon glyphicon-download-alt"></div>
                   </td>
                   <td>
                     <button class="btn btn-primary btn-sm following" (click)="changeBaseUsername(following.login)">
@@ -74,6 +75,7 @@
                 <tr class="" *ngFor="let follower of userService.followers">
                   <td>
                     <span class="click username" (click)="loadUser(follower.login)">{{follower.login}}</span>
+                    <div [hidden]="!isUserCached(follower.login)" class="glyphicon glyphicon-download-alt"></div>
                   </td>
                   <td>
                     <button class="btn btn-primary btn-sm following" (click)="changeBaseUsername(follower.login)">User
@@ -87,8 +89,10 @@
           </div>
         </div>
         <div class="panel-footer">
-          <button class="btn btn-primary btn-sm" (click)="changeBaseUsernameToDefault()">Default User</button>
+          <div class="btn-group btn-group-toggle">
+          <button class="btn btn-primary btn-sm" (click)="changeBaseUsernameToDefault()" placement="top" ngbTooltip="Change to default user">Default User</button>
           <span class="click" (click)="loadUser('lasellers')" highlight2>(AKA lasellers)</span>
+          </div>
         </div>
         <!-- / panel-footer -->
 

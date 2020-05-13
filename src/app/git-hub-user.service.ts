@@ -43,7 +43,7 @@ export class GitHubUserService {
   constructor(
     private http: HttpClient,
 //    public toasterService: ToasterService
-    private toastr: ToastrService
+    private toast: ToastrService
   ) {
   }
 
@@ -236,7 +236,7 @@ export class GitHubUserService {
     const message: string = `Error: (${error.status}) ${text}`;
     // this.toasterService.pop('error', `Error: ${error.status}`, text);
 
-    this.toastr.error(text, `Error: ${error.status}`);
+    this.toast.error(text, `Error: ${error.status}`);
   }
 
 }

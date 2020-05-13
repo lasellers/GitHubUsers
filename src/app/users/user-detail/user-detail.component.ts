@@ -9,7 +9,7 @@ import {GitHubUserService} from '../../git-hub-user.service';
 export class UserDetailComponent implements OnInit {
 
   constructor(
-    private userService: GitHubUserService
+    protected userService: GitHubUserService
   ) {
   }
 
