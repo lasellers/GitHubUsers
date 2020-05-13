@@ -10,8 +10,8 @@ export class GitHubUserService {
   apiUrl: string = 'https://api.github.com/users/';
 
   // current data
-  baseUsername: string = 'lasellers';
   defaultBaseUsername: string = 'lasellers';
+  baseUsername: string = 'lasellers';
 
   user: any = null;
   followings: any = [];
@@ -36,7 +36,6 @@ export class GitHubUserService {
    */
   constructor(
     private http: HttpClient,
-    //    public toasterService: ToasterService
     private toast: ToastrService
   ) {
   }
@@ -125,7 +124,7 @@ export class GitHubUserService {
     }
 
     this.http.get(this.apiUrl + username).pipe(
-      map((res: HttpResponse<any>) => res)) // res.json())
+      map((res: HttpResponse<any>) => res)) // res.json()c)
       .subscribe(
         user => {
           this.user = user;

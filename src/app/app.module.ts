@@ -12,7 +12,6 @@ import {FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome
 import {AppComponent} from './app.component';
 import {HighlightDirective} from './highlight.directive';
 import {GitHubUserService} from './git-hub-user.service';
-import {ToolTipDirective} from './tool-tip.directive';
 import {Highlight2Directive} from './highlight2.directive';
 import {UserDetailComponent} from './users/user-detail/user-detail.component';
 
@@ -24,7 +23,6 @@ import { faMinusCircle, faCloudDownloadAlt, faExchangeAlt } from '@fortawesome/f
   declarations: [
     AppComponent,
     HighlightDirective,
-    ToolTipDirective,
     Highlight2Directive,
     UserDetailComponent
   ],
