@@ -3,8 +3,8 @@
   <div class="panel-heading">
     <h3 class="panel-title" *ngIf="userService.user !== null">
       {{userService.user.name}}
-      <span *ngIf="userService.userWasCached" class="glyphicon glyphicon-remove" (click)="userService.clearUserCache()"
-            placement="left" ngbTooltip="Clear cache"></span>
+      <fa-icon [icon]="['fas','minus-circle']" *ngIf="userService.userWasCached" (click)="userService.clearUserCache()"
+            placement="left" ngbTooltip="Clear cache"></fa-icon>
     </h3>
   </div>
 

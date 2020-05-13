@@ -1,15 +1,9 @@
-
 import {map} from 'rxjs/operators';
 import {EventEmitter, Injectable, Output, OnDestroy} from '@angular/core';
-// import {Http, Response} from '@angular/http';
 import {HttpClient, HttpResponse} from '@angular/common/http';
-
 // import { Subscription } from 'rxjs/Subscription';
-// import {ToasterModule, ToasterService} from 'angular2-toaster';
-
 import {Subject} from 'rxjs';
-
-import { ToastrService } from 'ngx-toastr';
+import {ToastrService} from 'ngx-toastr';
 
 @Injectable()
 export class GitHubUserService {
@@ -42,7 +36,7 @@ export class GitHubUserService {
    */
   constructor(
     private http: HttpClient,
-//    public toasterService: ToasterService
+    //    public toasterService: ToasterService
     private toast: ToastrService
   ) {
   }
@@ -50,7 +44,7 @@ export class GitHubUserService {
   /**
    *
    */
-  setUserBasename(baseUsername: string) {
+  setUserBasename(baseUsername: string): void {
     this.baseUsername = baseUsername;
     console.log('setUserBasename ' + this.baseUsername);
   }
@@ -66,7 +60,7 @@ export class GitHubUserService {
   /**
    *
    */
-  getUserBasenameDefault() {
+  getUserBasenameDefault(): string {
     this.baseUsername = this.defaultBaseUsername;
     console.log('getUserBasenameDefault ' + this.baseUsername);
     return this.baseUsername;
@@ -75,7 +69,7 @@ export class GitHubUserService {
   /**
    *
    */
-  clearUserCache() {
+  clearUserCache(): void {
     console.log('clearUserCache ' + this.user.login);
     //     if("login" in this.user) {
     if (this.user.hasOwnProperty('login')) {
@@ -89,7 +83,7 @@ export class GitHubUserService {
   /**
    *
    */
-  clearFollowersCache() {
+  clearFollowersCache(): void {
     console.log('clearFollowersCache ' + this.baseUsername);
     if (this.baseUsername != null) {
       localStorage.removeItem('followers_' + this.baseUsername);
@@ -102,7 +96,7 @@ export class GitHubUserService {
   /**
    *
    */
-  clearFollowingsCache() {
+  clearFollowingsCache(): void {
     console.log('clearFollowingsCache ' + this.baseUsername);
     if (this.baseUsername != null) {
       localStorage.removeItem('followings_' + this.baseUsername);
@@ -115,7 +109,7 @@ export class GitHubUserService {
   /**
    *
    */
-  getUser(username: string) {
+  getUser(username: string): void {
     console.log('GitHubUserService:getUser username:' + username);
 
     if (this.useCached) {
@@ -126,11 +120,11 @@ export class GitHubUserService {
         // this.userWasCachedChange.emit(this.userWasCached);
         this.cachedChangeSource$.next({userWasCached: this.userWasCached});
         console.log('Cached User: ', this.user);
-        return {};
+        return;
       }
     }
 
-    const obj = this.http.get(this.apiUrl + username).pipe(
+    this.http.get(this.apiUrl + username).pipe(
       map((res: HttpResponse<any>) => res)) // res.json())
       .subscribe(
         user => {
@@ -145,14 +139,12 @@ export class GitHubUserService {
           this.emitErrorMessage(error);
         },
         () => console.log('getUser finished'));
-
-    return obj;
   }
 
   /**
    *
    */
-  getFollowings(username: string) {
+  getFollowings(username: string): void {
     console.log('GitHubUserService:getFollowings username:' + username);
 
     this.baseUsername = username;
@@ -165,11 +157,11 @@ export class GitHubUserService {
         // this.followingsWasCachedChange.emit(this.followingsWasCached);
         this.cachedChangeSource$.next({followingsWasCached: this.followingsWasCached});
         console.log('Cached Followings: ', this.followings);
-        return {};
+        return;
       }
     }
 
-    const obj = this.http.get(this.apiUrl + username + '/following').pipe(
+    this.http.get(this.apiUrl + username + '/following').pipe(
       map((res: HttpResponse<any>) => res)) //  res.json())
       .subscribe(followings => {
 //          this.followings = Array.from(followings);
@@ -185,14 +177,12 @@ export class GitHubUserService {
         },
         () => console.log('getFollowings finished')
       );
-
-    return obj;
   }
 
   /**
    *
    */
-  getFollowers(username: string) {
+  getFollowers(username: string): void {
     console.log('GitHubUserService:getFollowers username:' + username);
 
     this.baseUsername = username;
@@ -205,11 +195,11 @@ export class GitHubUserService {
         // this.followersWasCachedChange.emit(this.followersWasCached);
         this.cachedChangeSource$.next({followersWasCached: this.followersWasCached});
         console.log('Cached Followers: ', this.followers);
-        return {};
+        return;
       }
     }
 
-    const obj = this.http.get(this.apiUrl + username + '/followers').pipe(
+    this.http.get(this.apiUrl + username + '/followers').pipe(
       map((res: HttpResponse<any>) => res)) //  res.json())
       .subscribe(followers => {
 //          this.followers = Array.from(followers);
@@ -225,8 +215,11 @@ export class GitHubUserService {
         },
         () => console.log('getFollowers finished')
       );
+  }
 
-    return obj;
+  isUserCached(username: string): boolean {
+    // console.log('GitHubUserService:isUserCached');
+    return (localStorage.getItem('user_' + username) !== null);
   }
 
   emitErrorMessage(error): void {
@@ -234,8 +227,6 @@ export class GitHubUserService {
     const text: string = error.statusText || 'Internet Error';
     console.error(`Error: (${error.status}) ${text}`);
     const message: string = `Error: (${error.status}) ${text}`;
-    // this.toasterService.pop('error', `Error: ${error.status}`, text);
-
     this.toast.error(text, `Error: ${error.status}`);
   }
 

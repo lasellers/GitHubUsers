@@ -1,23 +1,24 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule, ViewContainerRef} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-// import {HttpModule} from '@angular/http';
 import {HttpClientModule} from '@angular/common/http';
+
+import {ToastrModule} from 'ngx-toastr';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+// import {FontAwesomeModule, FaIconLibrary} from '@fortawesome/angular-fontawesome';
 
 import {AppComponent} from './app.component';
 import {HighlightDirective} from './highlight.directive';
 import {GitHubUserService} from './git-hub-user.service';
-
-// import {ToasterModule, ToasterService} from 'angular2-toaster';
 import {ToolTipDirective} from './tool-tip.directive';
 import {Highlight2Directive} from './highlight2.directive';
 import {UserDetailComponent} from './users/user-detail/user-detail.component';
 
-import { ToastrModule } from 'ngx-toastr';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
-// import {Root} from './root.component'
+// import { fas } from '@fortawesome/free-solid-svg-icons';
+// import { far } from '@fortawesome/free-regular-svg-icons';
+import { faMinusCircle, faCloudDownloadAlt, faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
 
 @NgModule({
   declarations: [
@@ -31,17 +32,22 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     BrowserModule,
     FormsModule,
     BrowserAnimationsModule,
-    // HttpModule,
     HttpClientModule,
-    // ToasterModule.forRoot()
-    // ToastModule.forRoot()
     ToastrModule.forRoot(),
-    NgbModule
+    NgbModule,
+    FontAwesomeModule
   ],
-  providers: [GitHubUserService,
-    // ToasterModule, ToasterService
+  providers: [
+    GitHubUserService
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
+  // constructor(library: FaIconLibrary) {
+  //  library.addIconPacks(fas);
+  // }
+  constructor(library: FaIconLibrary) {
+    // Add an icon to the library for convenient access in other components
+    library.addIcons(faMinusCircle, faCloudDownloadAlt, faExchangeAlt);
+  }
 }

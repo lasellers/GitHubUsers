@@ -6,6 +6,7 @@ import {Subscription} from 'rxjs';
 import packageJson from '../../package.json';
 
 import {ToastrService} from 'ngx-toastr';
+import { faMinusCircle, faCloudDownloadAlt, faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
 
 console.clear();
 
@@ -125,15 +126,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.userService.getUser(username);
   }
 
-  isUserCached(username: string) {
-      console.log('AppComponent:isUserCached');
-      return (localStorage.getItem('user_' + username) !== null);
-  }
-
   changeCaching(value: boolean) {
     console.log('changeCaching ' + value);
     this.userService.useCached = value;
-    this.toast.success('Caching ' + value);
     this.toast.success('Caching ' + (value ? 'On' : 'Off'));
   }
 
