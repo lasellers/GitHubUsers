@@ -1,9 +1,10 @@
 import {Component, NgModule, ElementRef, OnInit, OnDestroy, Input, ViewContainerRef, Output, EventEmitter} from '@angular/core';
 import {GitHubUserService} from './git-hub-user.service';
-// import {ToasterModule, ToasterService, ToasterConfig} from 'angular2-toaster';
 import {ToastrModule} from 'ngx-toastr';
 import {Subscription} from 'rxjs';
-// import { version, name } from '../../package.json';
+// import {version, name} from '../../package.json';
+// @ts-ignore
+import packageJson from '../../package.json';
 
 import {ToastrService} from 'ngx-toastr';
 
@@ -15,10 +16,10 @@ console.clear();
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title: string = 'GitHub Users';
-  version: string = '1.0.10';
-  // public version: string = version;
-  // public title: string = name;
+  // title: string = 'GitHub Users';
+  // version: string = '1.0.10';
+  public version: string = packageJson.version;
+  public title: string = packageJson.name;
 
   @Input() baseUsername = ''; // this.defaultBaseUsername;
   @Input() isCaching: boolean = true;
@@ -49,7 +50,6 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
     // this.baseUsername = this.defaultBaseUsername;
     this.baseUsername = this.userService.getUserBasename();
-    //   this.toasterService = ToastrService;
     console.log('constructor: isCaching:', this.isCaching);
   }
 
@@ -64,7 +64,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.onStatusChange.emit(status);
     });
 
-    this.toastr.success('Lorem', `Hello`);
+    this.toastr.success(this.version, this.title);
 
   }
 
