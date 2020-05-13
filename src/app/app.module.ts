@@ -8,10 +8,13 @@ import {AppComponent} from './app.component';
 import {HighlightDirective} from './highlight.directive';
 import {GitHubUserService} from './git-hub-user.service';
 
-import {ToasterModule, ToasterService} from 'angular2-toaster';
+// import {ToasterModule, ToasterService} from 'angular2-toaster';
 import {ToolTipDirective} from './tool-tip.directive';
 import {Highlight2Directive} from './highlight2.directive';
 import {UserDetailComponent} from './users/user-detail/user-detail.component';
+
+import { ToastrModule } from 'ngx-toastr';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 // import {Root} from './root.component'
 
@@ -26,13 +29,15 @@ import {UserDetailComponent} from './users/user-detail/user-detail.component';
   imports: [
     BrowserModule,
     FormsModule,
+    BrowserAnimationsModule,
     // HttpModule,
     HttpClientModule,
-    ToasterModule
+    // ToasterModule.forRoot()
     // ToastModule.forRoot()
+    ToastrModule.forRoot()
   ],
   providers: [GitHubUserService,
-    ToasterModule, ToasterService
+    // ToasterModule, ToasterService
   ],
   bootstrap: [AppComponent]
 })

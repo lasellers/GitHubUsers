@@ -1,10 +1,15 @@
+
+import {map} from 'rxjs/operators';
 import {EventEmitter, Injectable, Output, OnDestroy} from '@angular/core';
 // import {Http, Response} from '@angular/http';
 import {HttpClient, HttpResponse} from '@angular/common/http';
-import 'rxjs/add/operator/map';
+
 // import { Subscription } from 'rxjs/Subscription';
-import {ToasterModule, ToasterService} from 'angular2-toaster';
-import {Subject} from 'rxjs/Subject';
+// import {ToasterModule, ToasterService} from 'angular2-toaster';
+
+import {Subject} from 'rxjs';
+
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class GitHubUserService {
@@ -37,7 +42,8 @@ export class GitHubUserService {
    */
   constructor(
     private http: HttpClient,
-    public toasterService: ToasterService
+//    public toasterService: ToasterService
+    private toastr: ToastrService
   ) {
   }
 
@@ -124,8 +130,8 @@ export class GitHubUserService {
       }
     }
 
-    const obj = this.http.get(this.apiUrl + username)
-      .map((res: HttpResponse<any>) => res) // res.json())
+    const obj = this.http.get(this.apiUrl + username).pipe(
+      map((res: HttpResponse<any>) => res)) // res.json())
       .subscribe(
         user => {
           this.user = user;
@@ -163,8 +169,8 @@ export class GitHubUserService {
       }
     }
 
-    const obj = this.http.get(this.apiUrl + username + '/following')
-      .map((res: HttpResponse<any>) => res) //  res.json())
+    const obj = this.http.get(this.apiUrl + username + '/following').pipe(
+      map((res: HttpResponse<any>) => res)) //  res.json())
       .subscribe(followings => {
 //          this.followings = Array.from(followings);
           this.followings = followings;
@@ -203,8 +209,8 @@ export class GitHubUserService {
       }
     }
 
-    const obj = this.http.get(this.apiUrl + username + '/followers')
-      .map((res: HttpResponse<any>) => res) //  res.json())
+    const obj = this.http.get(this.apiUrl + username + '/followers').pipe(
+      map((res: HttpResponse<any>) => res)) //  res.json())
       .subscribe(followers => {
 //          this.followers = Array.from(followers);
           this.followers = followers;
@@ -228,7 +234,9 @@ export class GitHubUserService {
     const text: string = error.statusText || 'Internet Error';
     console.error(`Error: (${error.status}) ${text}`);
     const message: string = `Error: (${error.status}) ${text}`;
-    this.toasterService.pop('error', `Error: ${error.status}`, text);
+    // this.toasterService.pop('error', `Error: ${error.status}`, text);
+
+    this.toastr.error(text, `Error: ${error.status}`);
   }
 
 }

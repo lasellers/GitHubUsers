@@ -1,8 +1,11 @@
 import {Component, NgModule, ElementRef, OnInit, OnDestroy, Input, ViewContainerRef, Output, EventEmitter} from '@angular/core';
 import {GitHubUserService} from './git-hub-user.service';
-import {ToasterModule, ToasterService, ToasterConfig} from 'angular2-toaster';
-import {Subscription} from 'rxjs/Subscription';
+// import {ToasterModule, ToasterService, ToasterConfig} from 'angular2-toaster';
+import {ToastrModule} from 'ngx-toastr';
+import {Subscription} from 'rxjs';
 // import { version, name } from '../../package.json';
+
+import {ToastrService} from 'ngx-toastr';
 
 console.clear();
 
@@ -29,23 +32,24 @@ export class AppComponent implements OnInit, OnDestroy {
   @Output() onStatusChange = new EventEmitter();
   private UserServiceStatusRef: Subscription = null;
 
-  public toasterconfig: ToasterConfig =
+  /*public toasterconfig: ToasterConfig =
     new ToasterConfig({
       showCloseButton: true,
       tapToDismiss: true,
       timeout: 10000
-    });
+    });*/
 
   /**
    *
    */
   constructor(
     private userService: GitHubUserService,
-    public toasterService: ToasterService
+    //    public toasterService: ToasterService
+    private toastr: ToastrService
   ) {
     // this.baseUsername = this.defaultBaseUsername;
     this.baseUsername = this.userService.getUserBasename();
-    this.toasterService = toasterService;
+    //   this.toasterService = ToastrService;
     console.log('constructor: isCaching:', this.isCaching);
   }
 
@@ -59,6 +63,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.UserServiceStatusRef = this.userService.cachedChange$.subscribe((status) => {
       this.onStatusChange.emit(status);
     });
+
+    this.toastr.success('Lorem', `Hello`);
+
   }
 
   ngOnDestroy() {
@@ -68,18 +75,19 @@ export class AppComponent implements OnInit, OnDestroy {
     console.log('!!! onStatusChange:', field, value);
     this.cachingStatus[field] = value;
   }*/
-  cacheChange(field: string, value: boolean) {
-    console.log('!!! cacheChange:', field, value);
+  cacheServiceChange(field: string, value: boolean) {
+    console.log('!!! cacheServiceChange:', field, value);
     this.cachingStatus[field] = value;
+    this.toastr.success('Caching ' + value);
   }
 
   onStatusChangeEvent(status) {
     // const properties = Array.from(status);
-console.log(status);
-/*
-    for (const [key, value] of Object.entries(status)) {
-      console.log(`${key}: ${value}`);
-    }*/
+    console.log(status);
+    /*
+        for (const [key, value] of Object.entries(status)) {
+          console.log(`${key}: ${value}`);
+        }*/
 
   }
 
@@ -127,8 +135,10 @@ console.log(status);
   }
 
   changeCaching(value: boolean) {
-    console.log('changeCaching');
+    console.log('changeCaching ' + value);
     this.userService.useCached = value;
+    this.toastr.success('Caching ' + value);
+    this.toastr.success('Caching ' + (value ? 'On' : 'Off'));
   }
 
   userFollowsBack(username: string) {

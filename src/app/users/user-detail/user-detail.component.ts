@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { GitHubUserService } from '../../git-hub-user.service';
+import {Component, OnInit} from '@angular/core';
+import {GitHubUserService} from '../../git-hub-user.service';
 
 @Component({
   selector: 'user-detail',
@@ -8,9 +8,10 @@ import { GitHubUserService } from '../../git-hub-user.service';
 })
 export class UserDetailComponent implements OnInit {
 
-  constructor(   
+  constructor(
     private userService: GitHubUserService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
   }

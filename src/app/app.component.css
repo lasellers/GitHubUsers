@@ -1,29 +1,30 @@
 html,
 body {
-    background: #222;
-    color: white;
+  background: #222;
+  color: white;
 }
 
 .click {
-    text-decoration: underline;
-    color: black;
+  text-decoration: underline;
+  color: black;
 }
 
 .click:hover {
-    color: goldenrod;
+  color: goldenrod;
 }
 
 .username {
-    padding: .5em;
+  padding: .5em;
 }
 
 .following {
-    padding: .5em;
+  padding: .5em;
 }
 
 .user {
-    background: white;
+  background: white;
 }
+
 .user-follows-back {
-    background: yellow;
+  background: yellow;
 }

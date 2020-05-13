@@ -1,5 +1,4 @@
 <div class="fluid-container">
-  <toaster-container></toaster-container>
   <h1 highlight>
     {{title}}
   </h1>
@@ -8,7 +7,7 @@
   <div class="row">
     <div class="col-sm-6">
     </div>
-    <div class="col-sm-6" (onStatusChange)='onStatusChangeEvent()'>
+    <div class="col-sm-6" (onStatusChange)='onStatusChangeEvent($event)'>
       Caching <input type="checkbox" [(ngModel)]="isCaching" (change)="changeCaching(isCaching)">
       iscaching= {{isCaching}}
       userWasCached= {{cachingStatus.userWasCached}}
@@ -18,10 +17,10 @@
 
     </div>
   </div>
-  <div (userWasCachedChange)='cacheChange("userWasCached",$event)'></div>
-  <div (followingsWasCachedChange)='cacheChange("followingsWasCached",$event)'></div>
-  <div (followersWasCachedChange)='cacheChange("followersWasCached",$event)'></div>
-  <div (useCachedChange)='cacheChange("useCached",$event)'></div>
+  <div (userWasCachedChange)='cacheServiceChange("userWasCached",$event)'></div>
+  <div (followingsWasCachedChange)='cacheServiceChange("followingsWasCached",$event)'></div>
+  <div (followersWasCachedChange)='cacheServiceChange("followersWasCached",$event)'></div>
+  <div (useCachedChange)='cacheServiceChange("useCached",$event)'></div>
 
   <div class="row">
     <div class="col-sm-6">
