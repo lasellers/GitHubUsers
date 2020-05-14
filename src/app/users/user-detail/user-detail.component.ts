@@ -1,6 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, Input} from '@angular/core';
 import {GitHubUserService} from '../../git-hub-user.service';
-import {faMinusCircle, faCloudDownloadAlt, faExchangeAlt} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -9,15 +8,21 @@ import {faMinusCircle, faCloudDownloadAlt, faExchangeAlt} from '@fortawesome/fre
   styleUrls: ['./user-detail.component.css']
 })
 export class UserDetailComponent implements OnInit {
-  faMinusCircle;
+
+  @Output() notifyRootUsername: EventEmitter<string> = new EventEmitter<string>();
+  @Input() username;
 
   constructor(
     protected userService: GitHubUserService
   ) {
-    //  faMinusCircle = faMinusCircle;
   }
 
   ngOnInit() {
+  }
+
+  makeUserRoot(username2: string) {
+    console.log('Emit: makeUserRoot ...');
+    this.notifyRootUsername.emit(username2); // {username: username}
   }
 
 }

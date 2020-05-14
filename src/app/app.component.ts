@@ -7,6 +7,7 @@ import packageJson from '../../package.json';
 
 import {ToastrService} from 'ngx-toastr';
 import {faMinusCircle, faCloudDownloadAlt, faExchangeAlt} from '@fortawesome/free-solid-svg-icons';
+import {UserDetailComponent} from './users/user-detail/user-detail.component';
 
 console.clear();
 
@@ -19,7 +20,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public version: string = packageJson.version;
   public title: string = packageJson.name;
 
-  @Input() baseUsername = ''; // this.defaultBaseUsername;
+  baseUsername: string = this.userService.getUserBasenameDefault();
   @Input() isCaching: boolean = true;
   cachingStatus = {
     userWasCached: false,
@@ -38,8 +39,9 @@ export class AppComponent implements OnInit, OnDestroy {
     private userService: GitHubUserService,
     private toast: ToastrService
   ) {
-    this.baseUsername = this.userService.getUserBasename();
     console.log('constructor: isCaching:', this.isCaching);
+    this.baseUsername = this.userService.getUserBasenameDefault();
+    console.log('constructor: baseUsername:', this.baseUsername);
   }
 
   /**
@@ -71,14 +73,21 @@ export class AppComponent implements OnInit, OnDestroy {
     this.toast.success('Caching ' + value);
   }
 
-  statusChangeEvent(status) {
+  onStatusChange(status) {
     // const properties = Array.from(status);
-    console.log('statusChange -> statusChangeEvent:', status);
+    console.log('statusChange -> onStatusChange:', status);
     /*
         for (const [key, value] of Object.entries(status)) {
           console.log(`${key}: ${value}`);
         }*/
+    this.toast.success('onStatusChange ' + status);
+  }
 
+  onRootUsername(username: string) {
+    this.toast.info('onRootUsername ' + username);
+    this.baseUsername = username;
+    this.loadFollowings(this.baseUsername);
+    this.loadFollowers(this.baseUsername);
   }
 
   /**
@@ -86,7 +95,6 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   changeBaseUsernameToDefault() {
     this.baseUsername = this.userService.getUserBasenameDefault();
-    // this.baseUsername = this.defaultBaseUsername;
     this.loadFollowings(this.baseUsername);
     this.loadFollowers(this.baseUsername);
   }
@@ -98,6 +106,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.baseUsername = username;
     this.loadFollowings(this.baseUsername);
     this.loadFollowers(this.baseUsername);
+    this.toast.success('Change baseUsername ' + this.baseUsername);
   }
 
   /**

@@ -1,10 +1,14 @@
 <div class="panel panel-default">
 
+  username = {{username}} {{userService.baseUsername}}
+
   <div class="panel-heading">
     <h3 class="panel-title" *ngIf="userService.user !== null">
       {{userService.user.name}}
       <fa-icon [icon]="['fas','minus-circle']" *ngIf="userService.userWasCached" (click)="userService.clearUserCache()"
-            placement="left" ngbTooltip="Clear user cache"></fa-icon>
+               placement="left" ngbTooltip="Clear user cache"></fa-icon>
+      <fa-icon [icon]="['fas','user-cog']" (click)="makeUserRoot(userService.user.login)"
+               placement="left" ngbTooltip="Make user root"></fa-icon>
     </h3>
   </div>
 
@@ -22,86 +26,86 @@
 
       <form class="form-horizontal">
 
-        <div class="user-group">
+        <div class="row user-group">
           <label class="col-sm-4 user-label">Username</label>
           <div class="col-sm-6 user-line">
             {{userService.user.login}}
           </div>
         </div>
 
-        <div class="user-group">
+        <div class="row user-group">
           <label class="col-sm-4 user-label">Name</label>
           <div class="col-sm-6 user-line">
             {{userService.user.name}}
           </div>
         </div>
 
-        <div class="user-group">
+        <div class="row user-group">
           <label class="col-sm-4 user-label">Hireable</label>
           <div class="col-sm-8 user-line">{{userService.user.hireable == true ? "Yes" : "No"}}</div>
         </div>
 
-        <div class="user-group">
+        <div class="row user-group">
           <label class="col-sm-4 user-label">Id</label>
           <div class="col-sm-6 user-line">
             {{userService.user.id}}
           </div>
         </div>
 
-        <div class="user-group">
+        <div class="row user-group">
           <label class="col-sm-4 user-label">Company</label>
           <div class="col-sm-6 user-line">
             {{userService.user.company}}
           </div>
         </div>
 
-        <div class="user-group">
+        <div class="row user-group">
           <label class="col-sm-4 user-label">Blog</label>
           <div class="col-sm-6 user-line">
             <a href="{{userService.user.blog}}">{{userService.user.blog}}</a>
           </div>
         </div>
 
-        <div class="user-group">
+        <div class="row user-group">
           <label class="col-sm-4 user-label">Location</label>
           <div class="col-sm-6 user-line">
             {{userService.user.location}}
           </div>
         </div>
 
-        <div class="user-group">
+        <div class="row user-group">
           <label class="col-sm-4 user-label">Email</label>
           <div class="col-sm-6 user-line">
             <a href="mailto:{{userService.user.email}}">{{userService.user.email}}</a>
           </div>
         </div>
 
-        <div class="user-group">
+        <div class="row user-group">
           <label class="col-sm-4 user-label">Bio</label>
           <div class="col-sm-6 user-line">
             {{userService.user.bio}}
           </div>
         </div>
 
-        <div class="user-group">
+        <div class="row user-group">
           <label class="col-sm-3 user-label">Repos</label>
           <div class="col-sm-3 user-line">{{userService.user.public_repos}}</div>
           <label class="col-sm-3 user-label">Gists</label>
           <div class="col-sm-3 user-line">{{userService.user.public_gists}}</div>
         </div>
 
-        <div class="user-group">
+        <div class="row user-group">
           <label class="col-sm-3 user-label">Followers</label>
           <div class="col-sm-3 user-line">{{userService.user.followers}}</div>
           <label class="col-sm-3 user-label">Following</label>
           <div class="col-sm-3 user-line">{{userService.user.following}}</div>
         </div>
 
-        <div class="user-group">
+        <div class="row user-group">
           <label class="col-sm-4 user-label">Created</label>
           <div class="col-sm-8 user-line">{{userService.user.created_at}}</div>
         </div>
-        <div class="user-group">
+        <div class="row user-group">
           <label class="col-sm-4 user-label">Last updated</label>
           <div class="col-sm-8 user-line">{{userService.user.updated_at}}</div>
         </div>

@@ -14,7 +14,7 @@ import {Highlight2Directive} from './highlight2.directive';
 import {UserDetailComponent} from './users/user-detail/user-detail.component';
 // import { fas } from '@fortawesome/free-solid-svg-icons';
 // import { far } from '@fortawesome/free-regular-svg-icons';
-import {faMinusCircle, faCloudDownloadAlt, faExchangeAlt} from '@fortawesome/free-solid-svg-icons';
+import {faMinusCircle, faCloudDownloadAlt, faExchangeAlt, faUserCog} from '@fortawesome/free-solid-svg-icons';
 import {ToastrModule} from 'ngx-toastr';
 
 @NgModule({
@@ -44,6 +44,6 @@ export class AppModule {
   // }
   constructor(library: FaIconLibrary) {
     // Add an icon to the library for convenient access in other components
-    library.addIcons(faMinusCircle, faCloudDownloadAlt, faExchangeAlt);
+    library.addIcons(faMinusCircle, faCloudDownloadAlt, faExchangeAlt, faUserCog);
   }
 }

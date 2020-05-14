@@ -2,25 +2,20 @@
   <h1 highlight>
     {{title}}
   </h1>
-  <p class="lead">Angular 10 Experiment using GitHub API (v {{version}})</p>
+  <p class="lead">Angular 9 Experiment using GitHub API (v {{version}})</p>
 
   <div class="row">
     <div class="col-sm-6">
     </div>
-    <div class="col-sm-6" (statusChange)='statusChangeEvent($event)'>
+    <div class="col-sm-6">
       Caching <input type="checkbox" [(ngModel)]="isCaching" (change)="changeCaching(isCaching)">
       iscaching= {{isCaching}}
       userWasCached= {{cachingStatus.userWasCached}}
       followingsWasCached= {{cachingStatus.followingsWasCached}}
       followersWasCached= {{cachingStatus.followersWasCached}}
       useCached= {{cachingStatus.useCached}}
-
     </div>
   </div>
-  <div (userWasCachedChange)='cacheServiceChange("userWasCached",$event)'></div>
-  <div (followingsWasCachedChange)='cacheServiceChange("followingsWasCached",$event)'></div>
-  <div (followersWasCachedChange)='cacheServiceChange("followersWasCached",$event)'></div>
-  <div (useCachedChange)='cacheServiceChange("useCached",$event)'></div>
 
   <div class="row">
     <div class="col-sm-6">
@@ -30,10 +25,14 @@
         <div class="panel-heading">
           <h3 class="panel-title"></h3>
 
-          <p>
-            https://github.com/<input #usernameInput type="text" [(ngModel)]="baseUsername">
-            <button class="btn btn-primary btn-sm" (click)="changeBaseUsername(usernameInput.value)" placement="left" ngbTooltip="Change root user">User</button>
-          </p>
+          <form>
+            <p>
+              https://github.com/<input #usernameInput type="text" [(ngModel)]="baseUsername" value="{{baseUsername}}">
+              <button class="btn btn-primary btn-sm" (click)="changeBaseUsername(usernameInput.value)" placement="left"
+                      ngbTooltip="Change root user">User
+              </button>
+            </p>
+          </form>
 
         </div>
 
@@ -54,7 +53,8 @@
                 <tr class="" *ngFor="let following of userService.followings">
                   <td>
                     <span class="click username" (click)="loadUser(following.login)">{{following.login}}</span>
-                    <fa-icon [icon]="['fas','cloud-download-alt']" [hidden]="!userService.isUserCached(following.login)" placement="left" ngbTooltip="Cached"></fa-icon>
+                    <fa-icon [icon]="['fas','cloud-download-alt']" [hidden]="!userService.isUserCached(following.login)"
+                             placement="left" ngbTooltip="Cached"></fa-icon>
                   </td>
                   <td>
                     <button class="btn btn-primary btn-sm following" (click)="changeBaseUsername(following.login)">
@@ -79,7 +79,8 @@
                 <tr class="" *ngFor="let follower of userService.followers">
                   <td>
                     <span class="click username" (click)="loadUser(follower.login)">{{follower.login}}</span>
-                    <fa-icon [icon]="['fas','cloud-download-alt']" [hidden]="!userService.isUserCached(follower.login)" placement="left" ngbTooltip="Cached"></fa-icon>
+                    <fa-icon [icon]="['fas','cloud-download-alt']" [hidden]="!userService.isUserCached(follower.login)"
+                             placement="left" ngbTooltip="Cached"></fa-icon>
                   </td>
                   <td>
                     <button class="btn btn-primary btn-sm following" (click)="changeBaseUsername(follower.login)">User
@@ -107,7 +108,8 @@
     </div>
     <div class="col-sm-6">
 
-      <user-detail></user-detail>
+      <user-detail [username]="baseUsername" (notifyRootUsername)='onRootUsername($event)'
+                   (notifyStatusChange)='onStatusChange($event)'></user-detail>
 
     </div>
 
@@ -115,10 +117,11 @@
   <!-- /row -->
 </div>
 <!-- /fluid-container -->
-t
+
 <div class="footer navbar-fixed-bottom navbar navbar-inverse">
   <p class="text-center">
     <a href="https://github.com/lasellers">https://github.com/lasellers ({{baseUsername}})</a>
-    <fa-icon [icon]="['fas','exchange-alt']" aria-hidden="true" placement="left" ngbTooltip="Change root user"></fa-icon>
+    <fa-icon [icon]="['fas','exchange-alt']" aria-hidden="true" placement="left"
+             ngbTooltip="Change root user"></fa-icon>
   </p>
 </div>
