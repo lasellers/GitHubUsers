@@ -1,14 +1,14 @@
 <div class="panel panel-default">
 
-  username = {{username}} {{userService.baseUsername}}
+  baseUsername = {{baseUsername}} {{userService.baseUsername}}
 
   <div class="panel-heading">
     <h3 class="panel-title" *ngIf="userService.user !== null">
       {{userService.user.name}}
       <fa-icon [icon]="['fas','minus-circle']" *ngIf="userService.userWasCached" (click)="userService.clearUserCache()"
                placement="left" ngbTooltip="Clear user cache"></fa-icon>
-      <fa-icon [icon]="['fas','user-cog']" (click)="makeUserRoot(userService.user.login)"
-               placement="left" ngbTooltip="Make user root"></fa-icon>
+      <fa-icon [icon]="['fas','user-cog']" (click)="changeBaseUsername(userService.user.login)"
+               placement="left" ngbTooltip="Make user base"></fa-icon>
     </h3>
   </div>
 

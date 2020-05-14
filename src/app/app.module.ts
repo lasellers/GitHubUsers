@@ -16,13 +16,15 @@ import {UserDetailComponent} from './users/user-detail/user-detail.component';
 // import { far } from '@fortawesome/free-regular-svg-icons';
 import {faMinusCircle, faCloudDownloadAlt, faExchangeAlt, faUserCog} from '@fortawesome/free-solid-svg-icons';
 import {ToastrModule} from 'ngx-toastr';
+import { UserListComponent } from './user-list/user-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HighlightDirective,
     Highlight2Directive,
-    UserDetailComponent
+    UserDetailComponent,
+    UserListComponent
   ],
   imports: [
     BrowserModule,

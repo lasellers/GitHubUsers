@@ -1,5 +1,6 @@
 import {Component, EventEmitter, OnInit, Output, Input} from '@angular/core';
 import {GitHubUserService} from '../../git-hub-user.service';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -8,21 +9,25 @@ import {GitHubUserService} from '../../git-hub-user.service';
   styleUrls: ['./user-detail.component.css']
 })
 export class UserDetailComponent implements OnInit {
-
-  @Output() notifyRootUsername: EventEmitter<string> = new EventEmitter<string>();
-  @Input() username;
+  @Input() baseUsername;
+  @Output() notifyBaseUsername: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(
-    protected userService: GitHubUserService
+    protected userService: GitHubUserService,
+    private toast: ToastrService
   ) {
   }
 
   ngOnInit() {
+    this.userService.getUser(this.baseUsername);
+    this.toast.info(this.baseUsername, 'User Detail');
   }
 
-  makeUserRoot(username2: string) {
-    console.log('Emit: makeUserRoot ...');
-    this.notifyRootUsername.emit(username2); // {username: username}
+  changeBaseUsername(username2: string) {
+    console.log('Emit: changeBaseUsername ...');
+    this.baseUsername = username2;
+    this.toast.success('Change baseUsername ' + this.baseUsername, 'User Detail');
+    this.notifyBaseUsername.emit(this.baseUsername); // {username: username}
   }
 
 }
