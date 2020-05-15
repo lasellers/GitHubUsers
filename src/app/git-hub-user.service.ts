@@ -303,7 +303,6 @@ export class GitHubUserService {
     if (this.isCaching) {
       const gist = localStorage.getItem('gist_' + gistId);
       if (gist !== null) {
-        console.log('Cached Gist ' + file.raw_url, gist);
 
         this.gist.push({
           id: gistId,
@@ -315,8 +314,9 @@ export class GitHubUserService {
           cached: true
         });
 
-        this.toast.success(`${file.filename} (${file.size})`);
-        this.toast.info(gist);
+        this.toast.info(`${file.filename} (${file.size})`, '', {
+          timeOut: 2000
+        });
 
         return;
       }
@@ -327,7 +327,6 @@ export class GitHubUserService {
       .subscribe(
         gist => {
           localStorage.setItem('gist_' + gistId, gist);
-          console.log('Gist:', gist);
 
           this.gist.push({
             id: gistId,
@@ -339,8 +338,9 @@ export class GitHubUserService {
             cached: false
           });
 
-          this.toast.info(`${file.filename} (${file.size})`);
-          this.toast.info(gist);
+          this.toast.info(`${file.filename} (${file.size})`, '', {
+            timeOut: 2000
+          });
         },
         error => {
           this.emitErrorMessage(error);

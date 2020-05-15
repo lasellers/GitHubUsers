@@ -44,7 +44,9 @@ export class AppComponent implements OnInit, OnDestroy {
    *
    */
   ngOnInit() {
-    this.toast.success(this.version, this.title);
+    this.toast.success(this.version, this.title, {
+      timeOut: 12000
+    });
 
     this.userService.loadUser(this.baseUsername);
 
@@ -92,11 +94,16 @@ export class AppComponent implements OnInit, OnDestroy {
     // this.userService.cacheStatus2$.unsubscribe();
   }
 
-  cacheServiceChange(field: string, value: boolean) {
+  clearCache() {
+    localStorage.clear();
+    this.toast.success('Cache cleared', 'App');
+  }
+
+  /* cacheServiceChange(field: string, value: boolean) {
     console.log('!!! cacheServiceChange:', field, value);
     this.cachingStatus[field] = value;
     this.toast.success('Caching ' + value, 'App');
-  }
+  } */
 
  /* onStatusChange(status) {
     // const properties = Array.from(status);
