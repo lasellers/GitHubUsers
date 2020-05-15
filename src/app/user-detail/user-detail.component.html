@@ -1,7 +1,7 @@
-<div class="panel panel-default">
+<div class="card card-default">
 
-  <div class="panel-heading">
-    <h3 class="panel-title" *ngIf="userService.user !== null">
+  <div class="card-heading">
+    <h3 class="card-title" *ngIf="userService.user !== null">
       {{userService.user.name}}
       <fa-icon [icon]="['fas','minus-circle']" *ngIf="userService.userWasCached" (click)="userService.clearUserCache()"
                placement="left" ngbTooltip="Clear user cache"></fa-icon>
@@ -10,7 +10,7 @@
     </h3>
   </div>
 
-  <div class="panel-body">
+  <div class="card-body">
 
     <div *ngIf="userService.user == null">
       <p>Select one of the users {{userService.baseUsername}} is following to see their information.</p>
@@ -113,12 +113,12 @@
 
     </div>
     <!-- ngIf="userService.user -->
-    <div class="panel-footer">
+    <div class="card-footer">
 
     </div>
-    <!-- / panel-footer -->
+    <!-- / card-footer -->
 
   </div>
-  <!-- / panel-body -->
+  <!-- / card-body -->
 </div>
-<!-- / panel panel-default -->
+<!-- / card card-default -->

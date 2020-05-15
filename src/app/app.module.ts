@@ -18,6 +18,7 @@ import {Highlight2Directive} from './highlight2.directive';
 import {UserDetailComponent} from './user-detail/user-detail.component';
 import { UserFollowersComponent } from './user-followers/user-followers.component';
 import { UserFollowingsComponent } from './user-followings/user-followings.component';
+import { UserGistsComponent } from './user-gists/user-gists.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { UserFollowingsComponent } from './user-followings/user-followings.compo
     Highlight2Directive,
     UserDetailComponent,
     UserFollowersComponent,
-    UserFollowingsComponent
+    UserFollowingsComponent,
+    UserGistsComponent
   ],
   imports: [
     BrowserModule,

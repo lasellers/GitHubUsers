@@ -17,7 +17,7 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.userService.getFollowers(this.baseUsername);
+    this.userService.getFollowers();
     // this.toast.info(this.baseUsername, 'User Followers');
     console.log('ngOnInit UserFollowersComponent: baseUsername ' + this.baseUsername);
   }
@@ -31,7 +31,7 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
    */
   loadFollowers(username: string) {
     console.log('AppComponent:loadFollowers');
-    this.userService.getFollowers(username);
+    this.userService.getFollowers();
   }
 
   /**
@@ -39,7 +39,7 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
    */
   loadUser(username: string) {
     console.log('AppComponent:loadUser');
-    this.userService.getUser(username);
+    this.userService.loadUser(username);
   }
 
   /**
@@ -47,9 +47,7 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
    */
   changeBaseUsername(username: string) {
     this.baseUsername = username;
-    this.userService.getUser(this.baseUsername);
-    this.userService.getFollowers(this.baseUsername);
-    this.userService.getFollowings(this.baseUsername);
+    this.userService.loadUser(this.baseUsername);
     this.notifyBaseUsername.emit(this.baseUsername);
     this.toast.success('Change baseUsername ' + this.baseUsername, 'User List');
   }

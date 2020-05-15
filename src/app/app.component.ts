@@ -21,6 +21,7 @@ export class AppComponent implements OnInit, OnDestroy {
     userWasCached: false,
     followingsWasCached: false,
     followersWasCached: false,
+    gistsWasCached: false,
     useCached: false
   };
 
@@ -43,34 +44,38 @@ export class AppComponent implements OnInit, OnDestroy {
    *
    */
   ngOnInit() {
-    this.userService.getUser(this.baseUsername);
-    this.userService.getFollowers(this.baseUsername);
-    this.userService.getFollowings(this.baseUsername);
-
     this.toast.success(this.version, this.title);
 
+    this.userService.loadUser(this.baseUsername);
+
     this.userService.cacheStatus$.subscribe(data => {
-      console.log('cache status:', data);
+      console.log('subscribe cache status:', data);
       this.toast.info(JSON.stringify(data), 'Cache Status');
       this.cachingStatus = data;
     });
 
     this.userService.cacheStatusUser$.subscribe(data => {
-      console.log('cacheStatusUser$:', data);
-      this.toast.info(data.toString(), 'Cache Status User');
+      console.log('subscribe cacheStatusUser$:', data);
+      this.toast.info( 'Cache User: ' + data.toString());
       this.cachingStatus.userWasCached = data;
     });
 
     this.userService.cacheStatusFollowers$.subscribe(data => {
-      console.log('cacheStatusFollowers$:', data);
-      this.toast.info(data.toString(), 'Cache Status Followers');
+      console.log('subscribe cacheStatusFollowers$:', data);
+      this.toast.info( 'Cache Followers: ' + data.toString());
       this.cachingStatus.followersWasCached = data;
     });
 
     this.userService.cacheStatusFollowings$.subscribe(data => {
-      console.log('cacheStatusFollowings$:', data);
-      this.toast.info(data.toString(), 'Cache Status Followings');
+      console.log('subscribe cacheStatusFollowings$:', data);
+      this.toast.info('Cache Followings: ' + data.toString());
       this.cachingStatus.followingsWasCached = data;
+    });
+
+    this.userService.cacheStatusGists$.subscribe(data => {
+      console.log('subscribe cacheStatusGists$:', data);
+      this.toast.info('Cache Gists: ' + data.toString());
+      this.cachingStatus.gistsWasCached = data;
     });
 
     /* this.userService.cacheStatus2$.subscribe(data => {
@@ -107,8 +112,7 @@ export class AppComponent implements OnInit, OnDestroy {
   onBaseUsername(username: string) {
     this.toast.info('onBaseUsername ' + username, 'App');
     this.baseUsername = username;
-    this.userService.getFollowers(this.baseUsername);
-    this.userService.getFollowings(this.baseUsername);
+    this.userService.loadUser(this.baseUsername);
   }
 
   /**
@@ -116,8 +120,7 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   changeBaseUsernameToDefault() {
     this.baseUsername = this.userService.getUserBasenameDefault();
-    this.userService.getFollowers(this.baseUsername);
-    this.userService.getFollowings(this.baseUsername);
+    this.userService.loadUser(this.baseUsername);
     this.toast.success('Change baseUsername to default ' + this.baseUsername, 'App');
   }
 
@@ -126,9 +129,12 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   changeBaseUsername(username: string) {
     this.baseUsername = username;
-    this.userService.getUser(this.baseUsername);
-    this.userService.getFollowers(this.baseUsername);
-    this.userService.getFollowings(this.baseUsername);
+    this.userService.loadUser(this.baseUsername);
+
+    // this.userService.getUser(this.baseUsername);
+    // this.userService.getFollowers(this.baseUsername);
+    // this.userService.getFollowings(this.baseUsername);
+    // this.userService.getGists(this.baseUsername);
     this.toast.success('Change baseUsername ' + this.baseUsername, 'App');
   }
 
@@ -138,7 +144,4 @@ export class AppComponent implements OnInit, OnDestroy {
     this.toast.success('Caching ' + (value ? 'On' : 'Off'), 'App');
   }
 
-  userFollowsBack(username: string) {
-
-  }
 }

@@ -4,76 +4,74 @@
   </h1>
   <p class="lead">Learning Angular 9 using the GitHub API (v {{version}})</p>
 
-  <div class="row">
-    <div class="col-sm-6">
+  <div class="container">
 
-      <div class="panel panel-default">
+    <div class="row">
+      <div class="col-sm-6">
 
-        <div class="panel-heading">
-          <h3 class="panel-title"></h3>
+        <form>
+          <p>
+            https://github.com/<input #usernameInput type="text" name="baseUsername" [(ngModel)]="baseUsername"
+                                      value="{{baseUsername}}">
+            <button class="btn btn-primary btn-sm" (click)="changeBaseUsername(usernameInput.value)"
+                    placement="left"
+                    ngbTooltip="Change base user">User
+            </button>
+          </p>
+        </form>
 
-          <form>
-            <p>
-              https://github.com/<input #usernameInput type="text" name="baseUsername" [(ngModel)]="baseUsername"
-                                        value="{{baseUsername}}">
-              <button class="btn btn-primary btn-sm" (click)="changeBaseUsername(usernameInput.value)" placement="left"
-                      ngbTooltip="Change base user">User
-              </button>
-            </p>
-          </form>
-
-        </div>
       </div>
+      <div class="col-sm-6">
+        Caching <input type="checkbox" [(ngModel)]="isCaching" (change)="changeCaching(isCaching)">
+      </div>
+    </div>
+    <!-- /row -->
 
-    </div>
-    <div class="col-sm-6">
-      Caching <input type="checkbox" [(ngModel)]="isCaching" (change)="changeCaching(isCaching)">
-    </div>
-  </div>
+    <div class="row">
 
-  <div class="row">
-    <div class="col-4"
-         [ngClass]="{'text-danger': cachingStatus.userWasCached, 'text-warning': !cachingStatus.userWasCached}">
-      userWasCached
-    </div>
-    <div class="col-4"
-         [ngClass]="{'text-danger': cachingStatus.followingsWasCached, 'text-warning': !cachingStatus.followingsWasCached}">
-      followingsWasCached
-    </div>
-    <div class="col-4"
-         [ngClass]="{'text-danger': cachingStatus.followersWasCached, 'text-warning': !cachingStatus.followersWasCached}">
-      followersWasCached
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-sm-6">
-      <div class="container">
-
+      <div class="col-sm-4">
+        <div class=""
+             [ngClass]="{'text-info': cachingStatus.userWasCached, 'text-warning': !cachingStatus.userWasCached}">
+          userWasCached
+        </div>
         <user-detail [baseUsername]="baseUsername"
                      (notifyBaseUsername)='onBaseUsername($event)'></user-detail>
-
       </div>
-    </div>
-    <div class="col-sm-3">
-      <div class="container">
 
+      <div class="col-sm-4">
+        <div class=""
+             [ngClass]="{'text-info': cachingStatus.followersWasCached, 'text-warning': !cachingStatus.followersWasCached}">
+          followersWasCached
+        </div>
         <app-user-followers [baseUsername]="baseUsername"
-                       (notifyBaseUsername)='onBaseUsername($event)'></app-user-followers>
-
+                            (notifyBaseUsername)='onBaseUsername($event)'></app-user-followers>
       </div>
-    </div>
-    <div class="col-sm-3">
-      <div class="container">
 
+      <div class="col-sm-4">
+        <div class=""
+             [ngClass]="{'text-info': cachingStatus.followingsWasCached, 'text-warning': !cachingStatus.followingsWasCached}">
+          followingsWasCached
+        </div>
         <app-user-followings [baseUsername]="baseUsername"
-                       (notifyBaseUsername)='onBaseUsername($event)'></app-user-followings>
+                             (notifyBaseUsername)='onBaseUsername($event)'></app-user-followings>
+      </div>
 
+    </div>
+    <!-- /row -->
+
+    <div class="row">
+      <div class="col-sm-3">
+        <div class=""
+             [ngClass]="{'text-danger': cachingStatus.gistsWasCached, 'text-warning': !cachingStatus.gistsWasCached}">
+          gistsWasCached
+        </div>
+        <app-user-gists [baseUsername]="baseUsername"></app-user-gists>
       </div>
     </div>
+    <!-- /row -->
 
   </div>
-  <!-- /row -->
+  <!-- /container -->
 </div>
 <!-- /fluid-container -->
 
@@ -102,4 +100,3 @@
 
   </div>
 </footer>
-

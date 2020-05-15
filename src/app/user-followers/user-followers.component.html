@@ -1,9 +1,9 @@
-<div class="panel panel-default">
+<div class="card">
 
-  <div class="panel-heading">
-    <h3 class="panel-title"></h3>
+  <div class="card-heading">
+    <h3 class="card-title">Followers</h3>
 
-    <div class="panel-body">
+    <div class="card-body">
 
       <div class="row">
         <div class="col-sm-12">
@@ -14,13 +14,13 @@
               <th>Followers
                 <fa-icon [icon]="['fas','minus-circle']" *ngIf="userService.followersWasCached"
                          (click)="userService.clearFollowersCache()" placement="left"
-                         ngbTooltip="Clear user cache"></fa-icon>
+                         ngbTooltip="Clear followers cache"></fa-icon>
               </th>
             </tr>
             </thead>
             <tr class="" *ngFor="let follower of userService.followers">
               <td>
-                <span class="click username" (click)="loadUser(follower.login)">{{follower.login}}</span>
+                <span class="" (click)="userService.loadUser(follower.login)">{{follower.login}}</span>
                 <fa-icon [icon]="['fas','cloud-download-alt']" [hidden]="!userService.isUserCached(follower.login)"
                          placement="left" ngbTooltip="Cached"></fa-icon>
               </td>
@@ -36,7 +36,7 @@
       </div>
     </div>
 
-    <!-- / panel-footer -->
+    <!-- / card-footer -->
 
   </div>
 </div>

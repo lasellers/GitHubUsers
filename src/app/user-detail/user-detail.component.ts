@@ -19,7 +19,7 @@ export class UserDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.getUser(this.baseUsername);
+    this.userService.getUser();
     // this.toast.info(this.baseUsername, 'User Detail');
     console.log('ngOnInit UserDetailComponent: baseUsername ' + this.baseUsername);
   }
