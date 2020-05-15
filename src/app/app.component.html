@@ -14,7 +14,8 @@
 
           <form>
             <p>
-              https://github.com/<input #usernameInput type="text" name="baseUsername" [(ngModel)]="baseUsername" value="{{baseUsername}}">
+              https://github.com/<input #usernameInput type="text" name="baseUsername" [(ngModel)]="baseUsername"
+                                        value="{{baseUsername}}">
               <button class="btn btn-primary btn-sm" (click)="changeBaseUsername(usernameInput.value)" placement="left"
                       ngbTooltip="Change base user">User
               </button>
@@ -27,29 +28,55 @@
     </div>
     <div class="col-sm-6">
       Caching <input type="checkbox" [(ngModel)]="isCaching" (change)="changeCaching(isCaching)">
-      iscaching= {{isCaching}}
-      userWasCached= {{cachingStatus.userWasCached}}
-      followingsWasCached= {{cachingStatus.followingsWasCached}}
-      followersWasCached= {{cachingStatus.followersWasCached}}
-      useCached= {{cachingStatus.useCached}}
     </div>
   </div>
 
+  <div class="row">
+    <div class="col-2" [ngClass]="{'text-danger': isCaching, 'text-warning': !isCaching}">
+      iscaching
+    </div>
+    <div class="col-2"
+         [ngClass]="{'text-danger': cachingStatus.userWasCached, 'text-warning': !cachingStatus.userWasCached}">
+      userWasCached
+    </div>
+    <div class="col-2"
+         [ngClass]="{'text-danger': cachingStatus.followingsWasCached, 'text-warning': !cachingStatus.followingsWasCached}">
+      followingsWasCached
+    </div>
+    <div class="col-2"
+         [ngClass]="{'text-danger': cachingStatus.followersWasCached, 'text-warning': !cachingStatus.followersWasCached}">
+      followersWasCached
+    </div>
+    <div class="col-2"
+         [ngClass]="{'text-danger': cachingStatus.useCached, 'text-warning': !cachingStatus.useCached}">
+      useCached
+    </div>
+  </div>
 
   <div class="row">
     <div class="col-sm-6">
+      <div class="container">
 
-      <user-detail [baseUsername]="baseUsername" (notifyBaseUsername)='onBaseUsername($event)'
-                   (notifyStatusChange)='onStatusChange($event)'></user-detail>
+        <user-detail [baseUsername]="baseUsername"
+                     (notifyBaseUsername)='onBaseUsername($event)'></user-detail>
 
-
+      </div>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-3">
+      <div class="container">
 
-      <app-user-list [baseUsername]="baseUsername"
-                     (notifyBaseUsername)='onBaseUsername($event)'
-                     (notifyStatusChange)='onStatusChange($event)'></app-user-list>
+        <app-user-followers [baseUsername]="baseUsername"
+                       (notifyBaseUsername)='onBaseUsername($event)'></app-user-followers>
 
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="container">
+
+        <app-user-followings [baseUsername]="baseUsername"
+                       (notifyBaseUsername)='onBaseUsername($event)'></app-user-followings>
+
+      </div>
     </div>
 
   </div>
@@ -62,12 +89,12 @@
 
     <div class="row">
 
-      <div class="col-6">
-        <a class="" href="https://github.com/lasellers">https://github.com/lasellers ({{baseUsername}})</a>
-        <!--fa-icon [icon]="['fas','exchange-alt']" aria-hidden="true" placement="left"
-                 ngbTooltip="Change to Default User"></fa-icon-->
+      <div class="col-3">
+        <a class="" href="https://github.com/lasellers">https://github.com/lasellers</a>
       </div>
-
+      <div class="col-3">
+        <a class="" href="https://github.com/{{baseUsername}}">https://github.com/{{baseUsername}}</a>
+      </div>
       <div class="col-6">
         <button class="btn btn-primary btn-sm" (click)="changeBaseUsernameToDefault()" placement="top"
                 ngbTooltip="Change to Default User">Change to Default User

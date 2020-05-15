@@ -1,36 +1,25 @@
-import {Component, OnInit, OnDestroy, Output, EventEmitter, Input} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, OnDestroy, Output} from '@angular/core';
 import {GitHubUserService} from '../git-hub-user.service';
 import {ToastrService} from 'ngx-toastr';
-import {ToastrModule} from 'ngx-toastr';
-import {Subscription} from 'rxjs';
 
 @Component({
-  selector: 'app-user-list',
-  templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.css']
+  selector: 'app-user-followings',
+  templateUrl: './user-followings.component.html',
+  styleUrls: ['./user-followings.component.css']
 })
-export class UserListComponent implements OnInit, OnDestroy {
+export class UserFollowingsComponent implements OnInit, OnDestroy {
   @Input() baseUsername;
-  @Output() statusChange = new EventEmitter();
   @Output() notifyBaseUsername = new EventEmitter();
-  private UserServiceStatusRef: Subscription = null;
 
   constructor(
-    protected userService: GitHubUserService,
+    public userService: GitHubUserService,
     private toast: ToastrService) {
   }
 
   ngOnInit(): void {
-    this.userService.getUser(this.baseUsername);
-    this.userService.getFollowers(this.baseUsername);
     this.userService.getFollowings(this.baseUsername);
-
-    this.UserServiceStatusRef = this.userService.cachedChange$.subscribe((status) => {
-      console.log('Emitting statusChange ...');
-      this.statusChange.emit(status);
-    });
-
-    this.toast.info(this.baseUsername, 'User List');
+    // this.toast.info(this.baseUsername, 'User Followings');
+    console.log('ngOnInit UserFollowingsComponent: baseUsername ' + this.baseUsername);
   }
 
   ngOnDestroy() {
@@ -48,19 +37,10 @@ export class UserListComponent implements OnInit, OnDestroy {
   /**
    *
    */
-  loadFollowers(username: string) {
-    console.log('AppComponent:loadFollowers');
-    this.userService.getFollowers(username);
-  }
-
-  /**
-   *
-   */
   loadUser(username: string) {
     console.log('AppComponent:loadUser');
     this.userService.getUser(username);
   }
-
 
   /**
    *

@@ -7,16 +7,17 @@ import {CommonModule} from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {AppComponent} from './app.component';
-import {HighlightDirective} from './highlight.directive';
-import {GitHubUserService} from './git-hub-user.service';
-import {Highlight2Directive} from './highlight2.directive';
-import {UserDetailComponent} from './users/user-detail/user-detail.component';
 // import { fas } from '@fortawesome/free-solid-svg-icons';
 // import { far } from '@fortawesome/free-regular-svg-icons';
 import {faMinusCircle, faCloudDownloadAlt, faExchangeAlt, faUserCog} from '@fortawesome/free-solid-svg-icons';
 import {ToastrModule} from 'ngx-toastr';
-import { UserListComponent } from './user-list/user-list.component';
+import {AppComponent} from './app.component';
+import {HighlightDirective} from './highlight.directive';
+import {GitHubUserService} from './git-hub-user.service';
+import {Highlight2Directive} from './highlight2.directive';
+import {UserDetailComponent} from './user-detail/user-detail.component';
+import { UserFollowersComponent } from './user-followers/user-followers.component';
+import { UserFollowingsComponent } from './user-followings/user-followings.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { UserListComponent } from './user-list/user-list.component';
     HighlightDirective,
     Highlight2Directive,
     UserDetailComponent,
-    UserListComponent
+    UserFollowersComponent,
+    UserFollowingsComponent
   ],
   imports: [
     BrowserModule,
