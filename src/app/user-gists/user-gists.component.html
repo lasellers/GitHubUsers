@@ -1,37 +1,37 @@
-<div class="card card-default">
+<div class="row">
+  <div class="col-sm-12">
 
-  <div class="card-heading">
-    <h3 class="card-title">Gists</h3>
+    <table class="table table-striped" *ngIf="userService.gists">
+      <thead>
+      <tr>
+        <th>Gists
+          <fa-icon [icon]="['fas','minus-circle']" *ngIf="userService.gistsWasCached"
+                   (click)="userService.clearGistsCache()" placement="left"
+                   ngbTooltip="Clear gists cache"></fa-icon>
+        </th>
+      </tr>
+      </thead>
+    </table>
 
-    <div class="card-body">
-
-      <div class="row">
-        <div class="col-sm-12">
-          <table class="table table-striped" *ngIf="userService.gists">
-            <thead>
-            <tr>
-              <th>Gists
-                <fa-icon [icon]="['fas','minus-circle']" *ngIf="userService.gistsWasCached"
-                         (click)="userService.clearGistsCache()" placement="left"
-                         ngbTooltip="Clear gists cache"></fa-icon>
-              </th>
-            </tr>
-            </thead>
-            <tr class="" *ngFor="let gist of userService.gists">
-              <td>{{gist.url}}
-                <span class="" (click)="userService.loadUser(gist.login)">{{gist.login}}</span>
-                <fa-icon [icon]="['fas','cloud-download-alt']" [hidden]="!userService.isUserCached(gist.login)"
-                         placement="left" ngbTooltip="Cached"></fa-icon>
-              </td>
-              <td>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
+    <h2>Urls</h2>
+    <div class="row" class="" *ngFor="let gist of userService.gists">
+      <div>{{gist.url}} <fa-icon [icon]="['fas','minus-circle']"
+                                 (click)="userService.clearGistCache(gist.id)" placement="left"
+                                 ngbTooltip="Clear gist cache {{gist.id}}"></fa-icon></div>
     </div>
 
-    <!-- / card-footer -->
+    <h2>Gists</h2>
+    <div class="row" class="" *ngFor="let gist of userService.gist">
+      <hr>
+      <div>{{gist.url}} <fa-icon [icon]="['fas','minus-circle']" *ngIf="gist.cached"
+                                 (click)="userService.clearGistCache(gist.id)" placement="left"
+                                 ngbTooltip="Clear gist cache {{gist.id}}"></fa-icon></div>
+      <div>{{gist.filename}} </div>
+      <div>{{gist.language}}</div>
+      <div>{{gist.size}}</div>
+      <div><pre>{{gist.text}}</pre></div>
+    </div>
 
   </div>
 </div>
+

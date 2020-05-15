@@ -16,6 +16,7 @@ export class GitHubUserService {
   followings: any = [];
   followers: any = [];
   gists: any = [];
+  gist: any = [];
 
   // was cached flag
   userWasCached: boolean = false;
@@ -133,6 +134,15 @@ export class GitHubUserService {
     }
   }
 
+  clearGistCache(id: string): void {
+    console.log('clearGistCache ' + id);
+    if (this.baseUsername != null) {
+      localStorage.removeItem('gist_' + id);
+      // this.gistWasCached = false;
+      // this.emitCacheStatusGist();
+    }
+  }
+
   isUserCached(username: string): boolean {
     // console.log('GitHubUserService:isUserCached');
     return (localStorage.getItem('user_' + username) !== null);
@@ -167,7 +177,7 @@ export class GitHubUserService {
           this.user = user;
           this.userWasCached = false;
           this.emitCacheStatusUser();
-          localStorage.setItem('user_' + this.baseUsername, JSON.stringify(this.user));
+          localStorage.setItem('user_' + this.baseUsername, JSON.stringify(user));
           console.log(this.user);
         },
         error => {
@@ -197,7 +207,7 @@ export class GitHubUserService {
           this.followings = followings;
           this.followingsWasCached = false;
           this.emitCacheStatusFollowings();
-          localStorage.setItem('followings_' + this.baseUsername, JSON.stringify(this.followings));
+          localStorage.setItem('followings_' + this.baseUsername, JSON.stringify(followings));
           console.log('Followings:', this.followings);
         },
         error => {
@@ -228,7 +238,7 @@ export class GitHubUserService {
           this.followers = followers;
           this.followersWasCached = false;
           this.emitCacheStatusFollowers();
-          localStorage.setItem('followers_' + this.baseUsername, JSON.stringify(this.followers));
+          localStorage.setItem('followers_' + this.baseUsername, JSON.stringify(followers));
           console.log('Followers:', this.followers);
         },
         error => {
@@ -248,6 +258,9 @@ export class GitHubUserService {
         this.gistsWasCached = true;
         this.emitCacheStatusGists();
         console.log('Cached Gists ' + this.baseUsername, this.gists);
+
+        this.getGistsLoop(this.gists);
+
         return;
       }
     }
@@ -259,8 +272,10 @@ export class GitHubUserService {
           this.gists = gists;
           this.gistsWasCached = false;
           this.emitCacheStatusGists();
-          localStorage.setItem('gists_' + this.baseUsername, JSON.stringify(this.gists));
+          localStorage.setItem('gists_' + this.baseUsername, JSON.stringify(gists));
           console.log('Gists:', this.gists);
+
+          this.getGistsLoop(this.gists);
         },
         error => {
           this.emitErrorMessage(error);
@@ -268,13 +283,77 @@ export class GitHubUserService {
         () => console.log('getGists finished'));
   }
 
+  private getGistsLoop(gists) {
+    this.gist = [];
+    for (const gist of gists) {
+      for (const key in gist.files) {
+        if (gist.files.hasOwnProperty(key)) {
+          const file = gist.files[key];
+          if (file.hasOwnProperty('raw_url')) {
+            this.getGist(file, gist.id);
+          }
+        }
+      }
+    }
+  }
+
+  private getGist(file, gistId: string): void {
+    console.log('GitHubUserService:getGist ' + file.raw_url);
+
+    if (this.isCaching) {
+      const gist = localStorage.getItem('gist_' + gistId);
+      if (gist !== null) {
+        console.log('Cached Gist ' + file.raw_url, gist);
+
+        this.gist.push({
+          id: gistId,
+          url: file.raw_url,
+          filename: file.filename,
+          language: file.language,
+          size: file.size,
+          text: gist,
+          cached: true
+        });
+
+        this.toast.success(`${file.filename} (${file.size})`);
+        this.toast.info(gist);
+
+        return;
+      }
+    }
+
+    this.http.get(file.raw_url, {responseType: 'text'}).pipe(
+      map((res) => res))
+      .subscribe(
+        gist => {
+          localStorage.setItem('gist_' + gistId, gist);
+          console.log('Gist:', gist);
+
+          this.gist.push({
+            id: gistId,
+            url: file.raw_url,
+            filename: file.filename,
+            language: file.language,
+            size: file.size,
+            text: gist,
+            cached: false
+          });
+
+          this.toast.info(`${file.filename} (${file.size})`);
+          this.toast.info(gist);
+        },
+        error => {
+          this.emitErrorMessage(error);
+        },
+        () => console.log('getGist finished'));
+  }
 
   emitErrorMessage(error): void {
     // debugger;
     const text: string = error.statusText || 'Internet Error';
-    console.error(`Error: (${error.status}) ${text}`);
-    const message: string = `Error: (${error.status}) ${text}`;
-    this.toast.error(text, `Error: ${error.status}`);
+    const message: string = `Error: (${error.status}) (${error.message}) ${text}`;
+    console.error(`Error: ${message}`);
+    this.toast.error(text, `Error: ${message} `);
   }
 
 }

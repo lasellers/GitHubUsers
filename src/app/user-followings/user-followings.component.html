@@ -1,7 +1,9 @@
 <div class="card card-default">
 
   <div class="card-heading">
-    <h3 class="card-title">Following</h3>
+    <h3 class="card-title">Following <fa-icon [icon]="['fas','minus-circle']" *ngIf="userService.followingsWasCached"
+                                              (click)="userService.clearFollowingsCache()" placement="left"
+                                              ngbTooltip="Clear followings cache"></fa-icon></h3>
 
     <div class="card-body">
 
