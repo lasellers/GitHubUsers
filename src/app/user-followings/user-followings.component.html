@@ -21,7 +21,7 @@
             </thead>
             <tr class="" *ngFor="let following of userService.followings">
               <td>
-                <span class="" (click)="userService.loadUser(following.login)">{{following.login}}</span>
+                <span class="" (click)="userService.loadUserOnly(following.login)">{{following.login}}</span>
                 <fa-icon [icon]="['fas','cloud-download-alt']" [hidden]="!userService.isUserCached(following.login)"
                          placement="left" ngbTooltip="Cached"></fa-icon>
               </td>

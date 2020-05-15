@@ -150,34 +150,38 @@ export class GitHubUserService {
 
   loadUser(username: string) {
     this.baseUsername = username;
-    this.getUser();
+    this.getUser(username);
     this.getFollowers();
     this.getFollowings();
     this.getGists();
   }
 
-  getUser(): void {
-    console.log('GitHubUserService:getUser ' + this.baseUsername);
+  loadUserOnly(username: string) {
+    this.getUser(username);
+  }
+
+  getUser(username: string): void {
+    console.log('GitHubUserService:getUser ' + username);
 
     if (this.isCaching) {
-      const cachedObj = localStorage.getItem('user_' + this.baseUsername);
+      const cachedObj = localStorage.getItem('user_' + username);
       if (cachedObj !== null) {
         this.user = JSON.parse(cachedObj);
         this.userWasCached = true;
         this.emitCacheStatusUser();
-        console.log('Cached User ' + this.baseUsername, this.user);
+        console.log('Cached User ' + username, this.user);
         return;
       }
     }
 
-    this.http.get(this.apiUrl + this.baseUsername).pipe(
+    this.http.get(this.apiUrl + username).pipe(
       map((res: HttpResponse<any>) => res)) // res.json()c)
       .subscribe(
         user => {
           this.user = user;
           this.userWasCached = false;
           this.emitCacheStatusUser();
-          localStorage.setItem('user_' + this.baseUsername, JSON.stringify(user));
+          localStorage.setItem('user_' + username, JSON.stringify(user));
           console.log(this.user);
         },
         error => {
