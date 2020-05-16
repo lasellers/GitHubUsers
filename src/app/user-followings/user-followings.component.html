@@ -11,13 +11,6 @@
         <div class="col-sm-12">
           <table class="table table-striped" *ngIf="userService.followings">
             <thead>
-            <tr>
-              <th>Following
-                <fa-icon [icon]="['fas','minus-circle']" *ngIf="userService.followingsWasCached"
-                         (click)="userService.clearFollowingsCache()" placement="left"
-                         ngbTooltip="Clear followings cache"></fa-icon>
-              </th>
-            </tr>
             </thead>
             <tr class="" *ngFor="let following of userService.followings">
               <td>
