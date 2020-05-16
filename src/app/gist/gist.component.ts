@@ -2,6 +2,7 @@ import {Component, OnInit, OnDestroy} from '@angular/core';
 import {ToastrService} from 'ngx-toastr';
 import {GitHubUserService} from '../git-hub-user.service';
 import {Gist} from '../gist';
+import {BytesPipe} from '../bytes.pipe';
 
 @Component({
   selector: 'app-gist',
@@ -45,7 +46,8 @@ export class GistComponent implements OnInit, OnDestroy {
     console.log('subscribe gist$:', data.content, data.filename, data.size);
     this.gist = data.content;
 
-    this.toast.info(`${data.filename} (${data.size})`, '', {
+    const size = new BytesPipe().transform(data.size);
+    this.toast.info(`${data.filename} (${size})`, '', {
       timeOut: 2000
     });
   }

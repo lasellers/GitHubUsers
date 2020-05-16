@@ -1,16 +1,22 @@
+<h2>Gists
+  <fa-icon [icon]="['fas','minus-circle']"
+           (click)="userService.clearGistsCache()" placement="left"
+           ngbTooltip="Clear gists cache"></fa-icon>
+</h2>
 <table class="table table-striped" *ngIf="userService.gists">
   <thead>
   <tr>
-    <th>Gists
-      <fa-icon [icon]="['fas','minus-circle']"
-               (click)="userService.clearGistsCache()" placement="left"
-               ngbTooltip="Clear gists cache"></fa-icon>
-    </th>
+    <th>Filename</th>
+    <th>Size</th>
+    <th>Language</th>
+    <th></th>
+    <th></th>
   </tr>
   </thead>
   <tbody>
   <tr class="" *ngFor="let gist of userService.gists">
-    <td>{{gist.filename}} {{gist.size | bytes:"mb"}}</td>
+    <td>{{gist.filename}}</td>
+    <td class="bytes"><pre>{{gist.size | bytes}}</pre></td>
     <td>{{gist.language}}</td>
     <td>
       <fa-icon [icon]="['fas','minus-circle']"

@@ -6,3 +6,6 @@
 .fluid-container {
     padding-bottom: 4em !important;
 }
+.bytes {
+  white-space: pre;
+}
