@@ -3,7 +3,12 @@ import {EventEmitter, Injectable, Input, Output, OnDestroy} from '@angular/core'
 import {HttpClient, HttpResponse} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
 import {Subject} from 'rxjs';
+import {Gist} from './gist';
 
+/**
+ * Note: As this is experimental, this service is both acting as a singleton in someways and also emitting data for capture by components.
+ * Generally you'd only want to do one or the other, depending on the situation.
+ */
 @Injectable({providedIn: 'root'})
 export class GitHubUserService {
   apiUrl: string = 'https://api.github.com/users/';
@@ -16,7 +21,6 @@ export class GitHubUserService {
   followings: any = [];
   followers: any = [];
   gists: any = [];
-  gist: any = [];
 
   // was cached flag
   userWasCached: boolean = false;
@@ -32,8 +36,8 @@ export class GitHubUserService {
   @Output() cacheStatusFollowings$ = new EventEmitter();
   @Output() cacheStatusGists$ = new EventEmitter();
 
-  // private cacheStatus2Source$ = new Subject();
-  // public cacheStatus2$ = this.cacheStatus2Source$.asObservable();
+  public gistObserver$ = new Subject();
+  public gist$ = this.gistObserver$.asObservable();
 
   /**
    *
@@ -53,27 +57,22 @@ export class GitHubUserService {
       isCaching: this.isCaching
     };
     this.cacheStatus$.emit(data);
-    // this.cacheStatus2Source$.next(data);
   }
 
   emitCacheStatusUser() {
     this.cacheStatusUser$.emit(this.userWasCached);
-    // this.cacheStatus2Source$.next(this.userWasCached);
   }
 
   emitCacheStatusFollowers() {
     this.cacheStatusFollowers$.emit(this.followersWasCached);
-    // this.cacheStatus2Source$.next(this.followersWasCached);
   }
 
   emitCacheStatusFollowings() {
     this.cacheStatusFollowings$.emit(this.followingsWasCached);
-    // this.cacheStatus2Source$.next(this.followingsWasCached);
   }
 
   emitCacheStatusGists() {
     this.cacheStatusGists$.emit(this.gistsWasCached);
-    // this.cacheStatus2Source$.next(this.gistsWasCached);
   }
 
   /**
@@ -134,13 +133,12 @@ export class GitHubUserService {
     }
   }
 
-  clearGistCache(id: string): void {
-    console.log('clearGistCache ' + id);
-    if (this.baseUsername != null) {
-      localStorage.removeItem('gist_' + id);
-      // this.gistWasCached = false;
-      // this.emitCacheStatusGist();
-    }
+  clearGistCache(gist): void {
+    console.log('clearGistCache ', gist);
+    localStorage.removeItem('gist_' + gist.id + gist.filename);
+    gist.cached = false;
+    gist.gistRaw = '';
+    this.gistObserver$.next(gist);
   }
 
   isUserCached(username: string): boolean {
@@ -258,12 +256,12 @@ export class GitHubUserService {
     if (this.isCaching) {
       const cachedObj = localStorage.getItem('gists_' + this.baseUsername);
       if (cachedObj !== null) {
-        this.gists = JSON.parse(cachedObj);
+        const gists = JSON.parse(cachedObj);
         this.gistsWasCached = true;
         this.emitCacheStatusGists();
-        console.log('Cached Gists ' + this.baseUsername, this.gists);
+        console.log('Cached Gists ' + this.baseUsername, gists);
 
-        this.getGistsLoop(this.gists);
+        this.processGistsToArray(gists, true);
 
         return;
       }
@@ -273,13 +271,12 @@ export class GitHubUserService {
       map((res: HttpResponse<any>) => res)) // res.json()c)
       .subscribe(
         gists => {
-          this.gists = gists;
           this.gistsWasCached = false;
           this.emitCacheStatusGists();
           localStorage.setItem('gists_' + this.baseUsername, JSON.stringify(gists));
           console.log('Gists:', this.gists);
 
-          this.getGistsLoop(this.gists);
+          this.processGistsToArray(gists, false);
         },
         error => {
           this.emitErrorMessage(error);
@@ -287,64 +284,53 @@ export class GitHubUserService {
         () => console.log('getGists finished'));
   }
 
-  private getGistsLoop(gists) {
-    this.gist = [];
+  private processGistsToArray(gists, isCached: boolean) {
+    this.gists = [];
     for (const gist of gists) {
       for (const key in gist.files) {
         if (gist.files.hasOwnProperty(key)) {
           const file = gist.files[key];
           if (file.hasOwnProperty('raw_url')) {
-            this.getGist(file, gist.id);
+            // this.getGist(file, gist.id);
+            this.gists.push({
+              id: gist.id,
+              url: file.url,
+              contentUrl: file.raw_url,
+              filename: file.filename,
+              language: file.language,
+              size: file.size,
+              content: gist,
+              cached: isCached
+            });
           }
         }
       }
     }
   }
 
-  private getGist(file, gistId: string): void {
-    console.log('GitHubUserService:getGist ' + file.raw_url);
+  public getGist(gist): void {
+    console.log('GitHubUserService:getGist ', gist);
 
     if (this.isCaching) {
-      const gist = localStorage.getItem('gist_' + gistId);
-      if (gist !== null) {
-
-        this.gist.push({
-          id: gistId,
-          url: file.raw_url,
-          filename: file.filename,
-          language: file.language,
-          size: file.size,
-          text: gist,
-          cached: true
-        });
-
-        this.toast.info(`${file.filename} (${file.size})`, '', {
-          timeOut: 2000
-        });
-
+      const gistRaw = localStorage.getItem('gist_' + gist.id + gist.filename);
+     // console.log(' >>>> cached gist:', gistRaw);
+      if (gistRaw !== null) {
+        gist.content = gistRaw;
+        this.gistObserver$.next(gist);
         return;
       }
     }
 
-    this.http.get(file.raw_url, {responseType: 'text'}).pipe(
+    console.log('gist object:', gist);
+
+    this.http.get(gist.contentUrl, {responseType: 'text'}).pipe(
       map((res) => res))
       .subscribe(
-        gist => {
-          localStorage.setItem('gist_' + gistId, gist);
-
-          this.gist.push({
-            id: gistId,
-            url: file.raw_url,
-            filename: file.filename,
-            language: file.language,
-            size: file.size,
-            text: gist,
-            cached: false
-          });
-
-          this.toast.info(`${file.filename} (${file.size})`, '', {
-            timeOut: 2000
-          });
+        gistRaw => {
+          gist.content = gistRaw;
+        //  console.log(' >>>> gist:', gistRaw);
+          localStorage.setItem('gist_' + gist.id + gist.filename, gistRaw);
+          this.gistObserver$.next(gist);
         },
         error => {
           this.emitErrorMessage(error);

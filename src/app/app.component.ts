@@ -26,7 +26,6 @@ export class AppComponent implements OnInit, OnDestroy {
   };
 
   @Input() isCaching: boolean = true;
- // @Output() statusChange = new EventEmitter();
 
   /**
    *
@@ -80,18 +79,12 @@ export class AppComponent implements OnInit, OnDestroy {
       this.cachingStatus.gistsWasCached = data;
     });
 
-    /* this.userService.cacheStatus2$.subscribe(data => {
-       console.log('cache status 2:', data);
-       this.toast.warning(JSON.stringify(data), 'Cache Status 2');
-       // this.cachingStatus = data;
-     });*/
     console.log('ngOnInit App');
   }
 
   ngOnDestroy() {
     console.log('ngOnDestroy');
     this.userService.cacheStatus$.unsubscribe();
-    // this.userService.cacheStatus2$.unsubscribe();
   }
 
   clearCache() {

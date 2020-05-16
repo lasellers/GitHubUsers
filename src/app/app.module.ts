@@ -19,6 +19,8 @@ import {UserDetailComponent} from './user-detail/user-detail.component';
 import { UserFollowersComponent } from './user-followers/user-followers.component';
 import { UserFollowingsComponent } from './user-followings/user-followings.component';
 import { UserGistsComponent } from './user-gists/user-gists.component';
+import { BytesPipe } from './bytes.pipe';
+import { GistComponent } from './gist/gist.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { UserGistsComponent } from './user-gists/user-gists.component';
     UserDetailComponent,
     UserFollowersComponent,
     UserFollowingsComponent,
-    UserGistsComponent
+    UserGistsComponent,
+    BytesPipe,
+    GistComponent
   ],
   imports: [
     BrowserModule,

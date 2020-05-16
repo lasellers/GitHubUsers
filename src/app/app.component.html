@@ -68,12 +68,18 @@
     <!-- /row -->
 
     <div class="row">
-      <div class="col-sm-12">
+      <div class="col-sm-6">
         <div class=""
              [ngClass]="{'text-danger': cachingStatus.gistsWasCached, 'text-warning': !cachingStatus.gistsWasCached}">
           gistsWasCached
+          <fa-icon [icon]="['fas','minus-circle']" *ngIf="cachingStatus.gistsWasCached"
+                   (click)="userService.clearGistsCache()" placement="left"
+                   ngbTooltip="Clear gists cache"></fa-icon>
         </div>
         <app-user-gists [baseUsername]="baseUsername"></app-user-gists>
+      </div>
+      <div class="col-sm-6">
+        <app-gist></app-gist>
       </div>
     </div>
     <!-- /row -->
