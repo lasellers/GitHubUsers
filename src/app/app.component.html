@@ -1,13 +1,13 @@
-<div class="fluid-container">
+<div class="container-container">
   <h1 highlight>
     {{title}}
   </h1>
-  <p class="lead">Learning Angular 9 using the GitHub API (v {{version}})</p>
+  <div class="">
 
-  <div class="container">
+    <p class="lead">Learning Angular 9 using the GitHub API (v {{version}})</p>
 
     <div class="row">
-      <div class="col-sm-3 align-bottom">
+      <div class="col-sm-5 align-bottom">
 
         <form>
           <p>
@@ -26,10 +26,10 @@
                 ngbTooltip="Change to Default User">Change to Default User
         </button>
       </div>
-      <div class="col-sm-3 align-bottom">
+      <div class="col-sm-2 align-bottom">
         Caching <input type="checkbox" [(ngModel)]="isCaching" (change)="changeCaching(isCaching)">
       </div>
-      <div class="col-sm-3 align-bottom">
+      <div class="col-sm-2 align-bottom">
         <button (click)="clearCache()">Clear cache</button>
       </div>
     </div>
@@ -85,7 +85,6 @@
     <!-- /row -->
 
   </div>
-  <!-- /container -->
 </div>
 <!-- /fluid-container -->
 

@@ -1,18 +1,24 @@
 <div class="card card-default">
 
   <div class="card-heading">
-    <h3 class="card-title">Following <fa-icon [icon]="['fas','minus-circle']" *ngIf="userService.followingsWasCached"
-                                              (click)="userService.clearFollowingsCache()" placement="left"
-                                              ngbTooltip="Clear followings cache"></fa-icon></h3>
+    <h3 class="card-title">Following
+      <fa-icon [icon]="['fas','minus-circle']" *ngIf="userService.followingsWasCached"
+               (click)="userService.clearFollowingsCache()" placement="left"
+               ngbTooltip="Clear followings cache"></fa-icon>
+    </h3>
 
-    <div class="card-body">
+    <div class="card-body" *ngIf="userService.followings">
 
       <div class="row">
         <div class="col-sm-12">
-          <table class="table table-striped" *ngIf="userService.followings">
+          <table class="table table-striped">
             <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
             </thead>
-            <tr class="" *ngFor="let following of userService.followings">
+            <tr scope="row" *ngFor="let following of userService.followings">
               <td>
                 <span class="" (click)="userService.loadUserOnly(following.login)">{{following.login}}</span>
                 <fa-icon [icon]="['fas','cloud-download-alt']" [hidden]="!userService.isUserCached(following.login)"
