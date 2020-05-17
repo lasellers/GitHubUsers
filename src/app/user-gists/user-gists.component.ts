@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, OnDestroy, Output} from '@angular/core';
-import {GitHubUserService} from '../git-hub-user.service';
-import {ToastrService} from 'ngx-toastr';
+import { Component, EventEmitter, Input, OnInit, OnDestroy, Output } from '@angular/core';
+import { GitHubUserService } from '../git-hub-user.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-gists',
@@ -17,7 +17,6 @@ export class UserGistsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userService.getGists();
-    // this.toast.info(this.baseUsername, 'User Followings');
     console.log('ngOnInit UserGistsComponent: baseUsername ' + this.baseUsername);
   }
 

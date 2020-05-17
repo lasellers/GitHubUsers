@@ -4,6 +4,8 @@ import {ToastrService} from 'ngx-toastr';
 // @ts-ignore
 import packageJson from '../../package.json';
 import {faMinusCircle, faCloudDownloadAlt, faExchangeAlt} from '@fortawesome/free-solid-svg-icons';
+import {BytesPipe} from './bytes.pipe';
+import {Gist} from './gist';
 
 console.clear();
 
@@ -16,12 +18,18 @@ export class AppComponent implements OnInit, OnDestroy {
   public version: string = packageJson.version;
   public title: string = packageJson.name;
 
+  gist = {
+    content: '',
+    cached: false,
+    id: ''
+  }; // : Gist;
   baseUsername: string = this.userService.getUserBasenameDefault();
   cachingStatus = {
     userWasCached: false,
     followingsWasCached: false,
     followersWasCached: false,
     gistsWasCached: false,
+    gistWasCached: false,
     useCached: false
   };
 
@@ -31,7 +39,7 @@ export class AppComponent implements OnInit, OnDestroy {
    *
    */
   constructor(
-    private userService: GitHubUserService,
+    public userService: GitHubUserService,
     private toast: ToastrService
   ) {
     this.baseUsername = this.userService.getUserBasenameDefault();
@@ -49,21 +57,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.userService.loadUser(this.baseUsername);
 
-    this.userService.cacheStatus$.subscribe(data => {
-      console.log('subscribe cache status:', data);
-      this.toast.info(JSON.stringify(data), 'Cache Status');
-      this.cachingStatus = data;
-    });
-
     this.userService.cacheStatusUser$.subscribe(data => {
       console.log('subscribe cacheStatusUser$:', data);
-      this.toast.info( 'Cache User: ' + data.toString());
+      this.toast.info('Cache User: ' + data.toString());
       this.cachingStatus.userWasCached = data;
     });
 
     this.userService.cacheStatusFollowers$.subscribe(data => {
       console.log('subscribe cacheStatusFollowers$:', data);
-      this.toast.info( 'Cache Followers: ' + data.toString());
+      this.toast.info('Cache Followers: ' + data.toString());
       this.cachingStatus.followersWasCached = data;
     });
 
@@ -79,35 +81,45 @@ export class AppComponent implements OnInit, OnDestroy {
       this.cachingStatus.gistsWasCached = data;
     });
 
-    console.log('ngOnInit App');
+    this.userService.gistObserver$.subscribe(
+      data => {
+        console.log('Gist Event...');
+        if (data === null) {
+          this.toast.info('Clear gist cache');
+        } else {
+          this.gistEvent(data);
+        }
+      },
+      error => {
+        console.log('Error gist: ', error);
+      }
+    );
+  }
+
+  gistEvent(data) {
+    console.log('subscribe gist$:', data.content, data.filename, data.size);
+    this.gist = data;
+    this.cachingStatus.gistWasCached = data.cached;
+    const size = new BytesPipe().transform(data.size);
+    this.toast.info(`${data.filename} (${size})`, '', {
+      timeOut: 2000
+    });
   }
 
   ngOnDestroy() {
     console.log('ngOnDestroy');
-    this.userService.cacheStatus$.unsubscribe();
+    this.userService.cacheStatusUser$.unsubscribe();
+    this.userService.cacheStatusFollowers$.unsubscribe();
+    this.userService.cacheStatusFollowings$.unsubscribe();
+    this.userService.cacheStatusGists$.unsubscribe();
+
+    this.userService.gistObserver$.unsubscribe();
   }
 
   clearCache() {
     localStorage.clear();
     this.toast.success('Cache cleared', 'App');
   }
-
-  /* cacheServiceChange(field: string, value: boolean) {
-    console.log('!!! cacheServiceChange:', field, value);
-    this.cachingStatus[field] = value;
-    this.toast.success('Caching ' + value, 'App');
-  } */
-
- /* onStatusChange(status) {
-    // const properties = Array.from(status);
-    console.log('statusChange -> onStatusChange:', status);
-
-        for (const [key, value] of Object.entries(status)) {
-          console.log(`${key}: ${value}`);
-        }
-    this.toast.success('onStatusChange ' + status, 'App');
-  }
-  */
 
   onBaseUsername(username: string) {
     this.toast.info('onBaseUsername ' + username, 'App');
@@ -131,10 +143,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.baseUsername = username;
     this.userService.loadUser(this.baseUsername);
 
-    // this.userService.getUser(this.baseUsername);
-    // this.userService.getFollowers(this.baseUsername);
-    // this.userService.getFollowings(this.baseUsername);
-    // this.userService.getGists(this.baseUsername);
     this.toast.success('Change baseUsername ' + this.baseUsername, 'App');
   }
 

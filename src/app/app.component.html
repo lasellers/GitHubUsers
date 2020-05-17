@@ -40,7 +40,10 @@
       <div class="col-sm-4">
         <div class=""
              [ngClass]="{'text-info': cachingStatus.userWasCached, 'text-warning': !cachingStatus.userWasCached}">
-          userWasCached
+          User  {{ cachingStatus.userWasCached | wasCached}}
+          <fa-icon [icon]="['fas','minus-circle']" *ngIf="cachingStatus.userWasCached"
+                   (click)="userService.clearUserCache()" placement="left"
+                   ngbTooltip="Clear user cache"></fa-icon>
         </div>
         <user-detail [baseUsername]="baseUsername"
                      (notifyBaseUsername)='onBaseUsername($event)'></user-detail>
@@ -49,7 +52,10 @@
       <div class="col-sm-4">
         <div class=""
              [ngClass]="{'text-info': cachingStatus.followersWasCached, 'text-warning': !cachingStatus.followersWasCached}">
-          followersWasCached
+          Followers {{ cachingStatus.followersWasCached | wasCached}}
+          <fa-icon [icon]="['fas','minus-circle']" *ngIf="cachingStatus.followersWasCached"
+                   (click)="userService.clearFollowersCache()" placement="left"
+                   ngbTooltip="Clear followers cache"></fa-icon>
         </div>
         <app-user-followers [baseUsername]="baseUsername"
                             (notifyBaseUsername)='onBaseUsername($event)'></app-user-followers>
@@ -58,7 +64,10 @@
       <div class="col-sm-4">
         <div class=""
              [ngClass]="{'text-info': cachingStatus.followingsWasCached, 'text-warning': !cachingStatus.followingsWasCached}">
-          followingsWasCached
+          Followings  {{ cachingStatus.followingsWasCached | wasCached}}
+          <fa-icon [icon]="['fas','minus-circle']" *ngIf="cachingStatus.followingsWasCached"
+                   (click)="userService.clearFollowingsCache()" placement="left"
+                   ngbTooltip="Clear followings cache"></fa-icon>
         </div>
         <app-user-followings [baseUsername]="baseUsername"
                              (notifyBaseUsername)='onBaseUsername($event)'></app-user-followings>
@@ -71,7 +80,7 @@
       <div class="col-sm-6">
         <div class=""
              [ngClass]="{'text-danger': cachingStatus.gistsWasCached, 'text-warning': !cachingStatus.gistsWasCached}">
-          gistsWasCached
+          Gists {{ cachingStatus.gistsWasCached | wasCached}}
           <fa-icon [icon]="['fas','minus-circle']" *ngIf="cachingStatus.gistsWasCached"
                    (click)="userService.clearGistsCache()" placement="left"
                    ngbTooltip="Clear gists cache"></fa-icon>
@@ -79,6 +88,12 @@
         <app-user-gists [baseUsername]="baseUsername"></app-user-gists>
       </div>
       <div class="col-sm-6">
+        <div>
+          Gist {{ cachingStatus.gistWasCached | wasCached}}
+          <fa-icon [icon]="['fas','minus-circle']"
+                   (click)="userService.clearGistCache(gist)" placement="left"
+                   ngbTooltip="Clear gist cache"></fa-icon>
+        </div>
         <app-gist></app-gist>
       </div>
     </div>

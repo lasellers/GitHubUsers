@@ -21,6 +21,7 @@ import { UserFollowingsComponent } from './user-followings/user-followings.compo
 import { UserGistsComponent } from './user-gists/user-gists.component';
 import { BytesPipe } from './bytes.pipe';
 import { GistComponent } from './gist/gist.component';
+import { WasCachedPipe } from './was-cached.pipe';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { GistComponent } from './gist/gist.component';
     UserFollowingsComponent,
     UserGistsComponent,
     BytesPipe,
-    GistComponent
+    GistComponent,
+    WasCachedPipe
   ],
   imports: [
     BrowserModule,

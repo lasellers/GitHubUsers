@@ -1,6 +1,6 @@
-import {Component, EventEmitter, OnInit, Output, Input} from '@angular/core';
-import {GitHubUserService} from '../git-hub-user.service';
-import {ToastrService} from 'ngx-toastr';
+import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
+import { GitHubUserService } from '../git-hub-user.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -19,8 +19,6 @@ export class UserDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.userService.getUser(this.baseUsername);
-    // this.toast.info(this.baseUsername, 'User Detail');
     console.log('ngOnInit UserDetailComponent: baseUsername ' + this.baseUsername);
   }
 

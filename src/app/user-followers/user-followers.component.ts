@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, OnDestroy, Output} from '@angular/core';
-import {GitHubUserService} from '../git-hub-user.service';
-import {ToastrService} from 'ngx-toastr';
+import { Component, EventEmitter, Input, OnInit, OnDestroy, Output } from '@angular/core';
+import { GitHubUserService } from '../git-hub-user.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-followers',
@@ -24,14 +24,6 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     console.log('ngOnDestroy');
-  }
-
-  /**
-   *
-   */
-  loadFollowers(username: string) {
-    console.log('AppComponent:loadFollowers');
-    this.userService.getFollowers();
   }
 
   /**
