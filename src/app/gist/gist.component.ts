@@ -33,10 +33,6 @@ export class GistComponent implements OnInit, OnDestroy {
   gistEvent(data) {
     this.gist = data;
     this.content = data.content;
-    /*const size = new BytesPipe().transform(data.size);
-    this.toast.info(`${data.filename} (${size})`, '', {
-      timeOut: 2000
-    });*/
   }
 
   ngOnDestroy(): void {

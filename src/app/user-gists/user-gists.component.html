@@ -17,14 +17,17 @@
   <tr class="" *ngFor="let gist of userService.gists">
     <td>{{gist.filename}}</td>
     <td class="bytes">
-      <pre>{{gist.size | bytes}}</pre>
+      <pre>{{gist.size | bytes}}c</pre>
     </td>
     <td>{{gist.language}}</td>
     <td>.
       <button (click)="userService.getGist(gist)">get</button>
     </td>
     <td>
-      <fa-icon [icon]="['fas','minus-circle']"
+      <fa-icon [icon]="['fas','cloud-download-alt']" *ngIf="gist.wasCached"
+               placement="left"
+               ngbTooltip="Gist was cached {{gist.id}}"></fa-icon>
+      <fa-icon [icon]="['fas','minus-circle']" *ngIf="gist.cached"
                (click)="userService.clearGistCache(gist)" placement="left"
                ngbTooltip="Clear gist cache {{gist.id}}"></fa-icon>
     </td>

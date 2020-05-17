@@ -57,30 +57,20 @@ export class GitHubUserService {
     this.cacheStatusGists$.emit(status);
   }
 
-  /**
-   *
-   */
   setUserBasename(baseUsername: string): void {
     this.baseUsername = baseUsername;
-    console.log('setUserBasename ' + this.baseUsername);
   }
 
-  /**
-   *
-   */
   getUserBasename() {
-    console.log('getUserBasename ' + this.baseUsername);
     return this.baseUsername;
   }
 
   getUserBasenameDefault(): string {
     this.baseUsername = this.defaultBaseUsername;
-    console.log('getUserBasenameDefault ' + this.baseUsername);
     return this.baseUsername;
   }
 
   clearUserCache(): void {
-    console.log('clearUserCache ' + this.user.login);
     if (this.user.hasOwnProperty('login')) {
       localStorage.removeItem('user_' + this.user.login);
       this.emitCacheStatusUser(false);
@@ -88,7 +78,6 @@ export class GitHubUserService {
   }
 
   clearFollowersCache(): void {
-    console.log('clearFollowersCache ' + this.baseUsername);
     if (this.baseUsername != null) {
       localStorage.removeItem('followers_' + this.baseUsername);
       this.emitCacheStatusFollowers(false);
@@ -96,7 +85,6 @@ export class GitHubUserService {
   }
 
   clearFollowingsCache(): void {
-    console.log('clearFollowingsCache ' + this.baseUsername);
     if (this.baseUsername != null) {
       localStorage.removeItem('followings_' + this.baseUsername);
       this.emitCacheStatusFollowings(false);
@@ -105,7 +93,6 @@ export class GitHubUserService {
 
   clearGistsCache(): void {
     this.toast.info('Clear gist cache');
-    console.log('clearGistsCache ' + this.baseUsername);
     if (this.baseUsername != null) {
       localStorage.removeItem('gists_' + this.baseUsername);
       this.emitCacheStatusGists(false);
@@ -113,7 +100,6 @@ export class GitHubUserService {
   }
 
   clearGistCache(gist): void {
-    console.log('clearGistCache ', gist);
     localStorage.removeItem('gist_' + gist.id + gist.filename);
     if (typeof gist === 'object') {
       gist = this.blankGist();
@@ -123,12 +109,13 @@ export class GitHubUserService {
 
   blankGist(): Gist {
     const gist: Gist = {
-      content: '...',
+      content: '',
       filename: '',
       size: 0,
       contentUrl: '',
       language: '',
       cached: false,
+      wasCached: false,
       id: '',
       url: '',
     };
@@ -136,8 +123,23 @@ export class GitHubUserService {
   }
 
   isUserCached(username: string): boolean {
-    // console.log('GitHubUserService:isUserCached');
     return (localStorage.getItem('user_' + username) !== null);
+  }
+
+  isFollowersCached(username: string): boolean {
+    return (localStorage.getItem('followers_' + username) !== null);
+  }
+
+  isFollowingsCached(username: string): boolean {
+    return (localStorage.getItem('followings' + username) !== null);
+  }
+
+  isGistsCached(username: string): boolean {
+    return (localStorage.getItem('gists_' + username) !== null);
+  }
+
+  isGistCached(gist): boolean {
+    return (localStorage.getItem('gist_' + gist.id + gist.filename) !== null);
   }
 
   loadUser(username: string) {
@@ -153,14 +155,11 @@ export class GitHubUserService {
   }
 
   getUser(username: string): void {
-    console.log('GitHubUserService:getUser ' + username);
-
     if (this.isCaching) {
       const cachedObj = localStorage.getItem('user_' + username);
       if (cachedObj !== null) {
         this.user = JSON.parse(cachedObj);
         this.emitCacheStatusUser(true);
-        console.log('Cached User ' + username, this.user);
         return;
       }
     }
@@ -172,23 +171,19 @@ export class GitHubUserService {
           this.user = user;
           this.emitCacheStatusUser(false);
           localStorage.setItem('user_' + username, JSON.stringify(user));
-          console.log(this.user);
         },
         error => {
           this.emitErrorMessage(error);
-        },
-        () => console.log('getUser finished'));
+        }); // ,
+        // () => console.log('getUser finished'));
   }
 
   getFollowings(): void {
-    console.log('GitHubUserService:getFollowings ' + this.baseUsername);
-
     if (this.isCaching) {
       const cachedObj = localStorage.getItem('followings_' + this.baseUsername);
       if (cachedObj !== null) {
         this.followings = JSON.parse(cachedObj);
         this.emitCacheStatusFollowings(true);
-        console.log('Cached Followings ' + this.baseUsername, this.followings);
         return;
       }
     }
@@ -200,24 +195,20 @@ export class GitHubUserService {
           this.followings = followings;
           this.emitCacheStatusFollowings(false);
           localStorage.setItem('followings_' + this.baseUsername, JSON.stringify(followings));
-          console.log('Followings:', this.followings);
         },
         error => {
           this.emitErrorMessage(error);
-        },
-        () => console.log('getFollowings finished')
+        } // ,
+        // () => console.log('getFollowings finished')
       );
   }
 
   getFollowers(): void {
-    console.log('GitHubUserService:getFollowers ' + this.baseUsername);
-
     if (this.isCaching) {
       const cachedObj = localStorage.getItem('followers_' + this.baseUsername);
       if (cachedObj !== null) {
         this.followers = JSON.parse(cachedObj);
         this.emitCacheStatusFollowers(true);
-        console.log('Cached Followers ' + this.baseUsername, this.followers);
         return;
       }
     }
@@ -229,24 +220,20 @@ export class GitHubUserService {
           this.followers = followers;
           this.emitCacheStatusFollowers(false);
           localStorage.setItem('followers_' + this.baseUsername, JSON.stringify(followers));
-          console.log('Followers:', this.followers);
         },
         error => {
           this.emitErrorMessage(error);
-        },
-        () => console.log('getFollowers finished')
+        } // ,
+        // () => console.log('getFollowers finished')
       );
   }
 
   getGists(): void {
-    console.log('GitHubUserService:getGists ' + this.baseUsername);
-
     if (this.isCaching) {
       const cachedObj = localStorage.getItem('gists_' + this.baseUsername);
       if (cachedObj !== null) {
         const gists = JSON.parse(cachedObj);
         this.emitCacheStatusGists(true);
-        console.log('Cached Gists ' + this.baseUsername, gists);
 
         this.processGistsToArray(gists, true);
 
@@ -260,14 +247,13 @@ export class GitHubUserService {
         gists => {
           this.emitCacheStatusGists(false);
           localStorage.setItem('gists_' + this.baseUsername, JSON.stringify(gists));
-          console.log('Gists:', this.gists);
 
           this.processGistsToArray(gists, false);
         },
         error => {
           this.emitErrorMessage(error);
-        },
-        () => console.log('getGists finished'));
+        }); // ,
+        // () => console.log('getGists finished'));
   }
 
   private processGistsToArray(gists, isCached: boolean) {
@@ -294,27 +280,31 @@ export class GitHubUserService {
   }
 
   public getGist(gist: Gist): void {
-    console.log('GitHubUserService:getGist ', gist);
-
     if (this.isCaching) {
       const content = localStorage.getItem('gist_' + gist.id + gist.filename);
       if (content !== null) {
         gist.content = content;
+        gist.cached = true;
+        gist.wasCached = true;
+        console.log('gist object:', gist);
         this.gistObserver$.next(gist);
         return;
       }
     }
 
-    console.log('gist object:', gist);
+    console.log('gist object 2:', gist);
 
     this.http.get(gist.contentUrl, {responseType: 'text'}).pipe(
       map((res) => res))
       .subscribe(
         content => {
           gist.content = content;
+          gist.cached = true;
+          gist.wasCached = false;
           if (gist.size < (1024 * 32)) { /* store 32kb max */
             localStorage.setItem('gist_' + gist.id + gist.filename, content);
           }
+          console.log('gist object 3:', gist);
           this.gistObserver$.next(gist);
         },
         error => {

@@ -7,6 +7,7 @@ export class Gist {
     public contentUrl: string = '',
     public language: string = '',
     public cached: boolean = false,
+    public wasCached: boolean = false,
     public id: string = '',
     public url: string = '',
   ) {

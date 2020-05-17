@@ -17,11 +17,9 @@ export class UserGistsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userService.getGists();
-    console.log('ngOnInit UserGistsComponent: baseUsername ' + this.baseUsername);
   }
 
   ngOnDestroy() {
-    console.log('ngOnDestroy');
   }
 
 }

@@ -18,18 +18,15 @@ export class UserFollowingsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userService.getFollowings();
-    console.log('ngOnInit UserFollowingsComponent: baseUsername ' + this.baseUsername);
   }
 
   ngOnDestroy() {
-    console.log('ngOnDestroy');
   }
 
   /**
    *
    */
   loadUser(username: string) {
-    console.log('AppComponent:loadUser');
     this.userService.loadUser(username);
   }
 

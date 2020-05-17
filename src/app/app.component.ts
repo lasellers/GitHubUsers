@@ -43,8 +43,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private toast: ToastrService
   ) {
     this.baseUsername = this.userService.getUserBasenameDefault();
-    console.log('constructor: isCaching:', this.isCaching);
-    console.log('constructor: baseUsername:', this.baseUsername);
   }
 
   /**
@@ -58,32 +56,27 @@ export class AppComponent implements OnInit, OnDestroy {
     this.userService.loadUser(this.baseUsername);
 
     this.userService.cacheStatusUser$.subscribe(data => {
-      console.log('subscribe cacheStatusUser$:', data);
       this.toast.info('Cache User: ' + data.toString());
       this.cachingStatus.userWasCached = data;
     });
 
     this.userService.cacheStatusFollowers$.subscribe(data => {
-      console.log('subscribe cacheStatusFollowers$:', data);
       this.toast.info('Cache Followers: ' + data.toString());
       this.cachingStatus.followersWasCached = data;
     });
 
     this.userService.cacheStatusFollowings$.subscribe(data => {
-      console.log('subscribe cacheStatusFollowings$:', data);
       this.toast.info('Cache Followings: ' + data.toString());
       this.cachingStatus.followingsWasCached = data;
     });
 
     this.userService.cacheStatusGists$.subscribe(data => {
-      console.log('subscribe cacheStatusGists$:', data);
       this.toast.info('Cache Gists: ' + data.toString());
       this.cachingStatus.gistsWasCached = data;
     });
 
     this.userService.gistObserver$.subscribe(
       data => {
-        console.log('Gist Event...');
         if (data === null) {
           this.toast.info('Clear gist cache');
         } else {
@@ -97,7 +90,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   gistEvent(data) {
-    console.log('subscribe gist$:', data.content, data.filename, data.size);
     this.gist = data;
     this.cachingStatus.gistWasCached = data.cached;
     const size = new BytesPipe().transform(data.size);
@@ -107,7 +99,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log('ngOnDestroy');
     this.userService.cacheStatusUser$.unsubscribe();
     this.userService.cacheStatusFollowers$.unsubscribe();
     this.userService.cacheStatusFollowings$.unsubscribe();
@@ -118,6 +109,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
   clearCache() {
     localStorage.clear();
+    this.userService.loadUser(this.baseUsername);
+    this.cachingStatus = {
+      userWasCached: false,
+      followingsWasCached: false,
+      followersWasCached: false,
+      gistsWasCached: false,
+      gistWasCached: false,
+      useCached: false
+    };
     this.toast.success('Cache cleared', 'App');
   }
 
@@ -142,12 +142,10 @@ export class AppComponent implements OnInit, OnDestroy {
   changeBaseUsername(username: string) {
     this.baseUsername = username;
     this.userService.loadUser(this.baseUsername);
-
     this.toast.success('Change baseUsername ' + this.baseUsername, 'App');
   }
 
   changeCaching(value: boolean) {
-    console.log('changeCaching ' + value);
     this.userService.isCaching = value;
     this.toast.success('Caching ' + (value ? 'On' : 'Off'), 'App');
   }

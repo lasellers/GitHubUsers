@@ -19,11 +19,9 @@ export class UserDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('ngOnInit UserDetailComponent: baseUsername ' + this.baseUsername);
   }
 
   changeBaseUsername(username: string) {
-    console.log('Emit: changeBaseUsername ...');
     this.baseUsername = username;
     this.toast.success('Change baseUsername ' + this.baseUsername, 'User Detail');
     this.notifyBaseUsername.emit(this.baseUsername); // {username: username}
