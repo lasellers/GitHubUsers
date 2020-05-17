@@ -116,12 +116,23 @@ export class GitHubUserService {
     console.log('clearGistCache ', gist);
     localStorage.removeItem('gist_' + gist.id + gist.filename);
     if (typeof gist === 'object') {
-      gist.cached = false;
-      gist.content = '';
-      gist.filename = '';
-      gist.size = '';
+      gist = this.blankGist();
     }
     this.gistObserver$.next(gist);
+  }
+
+  blankGist(): Gist {
+    const gist: Gist = {
+      content: '...',
+      filename: '',
+      size: 0,
+      contentUrl: '',
+      language: '',
+      cached: false,
+      id: '',
+      url: '',
+    };
+    return gist;
   }
 
   isUserCached(username: string): boolean {
@@ -301,7 +312,9 @@ export class GitHubUserService {
       .subscribe(
         content => {
           gist.content = content;
-          localStorage.setItem('gist_' + gist.id + gist.filename, content);
+          if (gist.size < (1024 * 32)) { /* store 32kb max */
+            localStorage.setItem('gist_' + gist.id + gist.filename, content);
+          }
           this.gistObserver$.next(gist);
         },
         error => {

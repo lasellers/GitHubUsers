@@ -11,16 +11,7 @@ import { Gist } from '../gist';
 })
 export class GistComponent implements OnInit, OnDestroy {
   content: string;
-  gist: Gist = {
-    content: 'Loading...',
-    filename: '',
-    size: 0,
-    contentUrl: '',
-    language: '',
-    cached: false,
-    id: '',
-    url: '',
-  };
+  gist: Gist;
 
   constructor(
     public userService: GitHubUserService,
@@ -28,6 +19,7 @@ export class GistComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.gist = this.userService.blankGist();
     this.userService.gistObserver$.subscribe(
       data => {
         this.gistEvent(data);
