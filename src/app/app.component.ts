@@ -18,6 +18,9 @@ export class AppComponent implements OnInit, OnDestroy {
   public version: string = packageJson.version;
   public title: string = packageJson.name;
 
+  public val1 = false;
+  public val2 = true;
+
   gist = {
     content: '',
     cached: false,

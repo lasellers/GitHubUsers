@@ -1,32 +1,17 @@
-<div class="card">
+<h3>Followers</h3>
 
-  <div class="card-heading">
-    <h3 class="card-title">Followers</h3>
-
-    <div class="card-body">
-
-      <div class="row">
-        <div class="col-sm-12">
-          <table class="table table-striped" *ngIf="userService.followers">
-            <thead>
-            </thead>
-            <tr class="" *ngFor="let follower of userService.followers">
-              <td>
-                <span class="" (click)="userService.loadUserOnly(follower.login)">{{follower.login}}</span>
-                <fa-icon [icon]="['fas','cloud-download-alt']" [hidden]="!userService.isUserCached(follower.login)"
-                         placement="left" ngbTooltip="Cached"></fa-icon>
-              </td>
-              <td>
-                <button class="btn btn-primary btn-sm following" (click)="changeBaseUsername(follower.login)">User
-                </button>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- / card-footer -->
-
-  </div>
-</div>
+<table class="table table-striped" *ngIf="userService.followers">
+  <tbody>
+  <tr class="" *ngFor="let follower of userService.followers">
+    <td scope="col">
+      <span class="" (click)="userService.loadUserOnly(follower.login)">{{follower.login}}</span>
+      <fa-icon [icon]="['fas','cloud-download-alt']" [hidden]="!userService.isUserCached(follower.login)"
+               placement="left" ngbTooltip="Cached"></fa-icon>
+    </td>
+    <td scope="col">
+      <button class="btn btn-primary btn-sm following" (click)="changeBaseUsername(follower.login)">User
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>

@@ -9,6 +9,7 @@ describe('Gist', () => {
       'http://test.com',
       'Typescript',
       true,
+      true,
       'ff5',
       'http://test.com'
     );

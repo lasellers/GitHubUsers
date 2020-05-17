@@ -1,4 +1,5 @@
 <div class="card card-default">
+  <img src="{{userService.user.avatar_url}}" class="card-img-top">
 
   <div class="card-heading">
     <h3 class="card-title" *ngIf="userService.user !== null">
@@ -14,11 +15,7 @@
       <p>Select one of the users {{userService.baseUsername}} is following to see their information.</p>
     </div>
 
-    <div *ngIf="userService.user !== null">
-
-      <div class="row">
-        <div class="col-sm-12"><img src="{{userService.user.avatar_url}}" class="responsive"></div>
-      </div>
+    <div class="card-text" *ngIf="userService.user !== null">
 
       <form class="form-horizontal">
 

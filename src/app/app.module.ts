@@ -14,7 +14,6 @@ import {ToastrModule} from 'ngx-toastr';
 import {AppComponent} from './app.component';
 import {HighlightDirective} from './highlight.directive';
 import {GitHubUserService} from './git-hub-user.service';
-import {Highlight2Directive} from './highlight2.directive';
 import {UserDetailComponent} from './user-detail/user-detail.component';
 import { UserFollowersComponent } from './user-followers/user-followers.component';
 import { UserFollowingsComponent } from './user-followings/user-followings.component';
@@ -22,19 +21,20 @@ import { UserGistsComponent } from './user-gists/user-gists.component';
 import { BytesPipe } from './bytes.pipe';
 import { GistComponent } from './gist/gist.component';
 import { WasCachedPipe } from './was-cached.pipe';
+import { WasCachedHighlightDirective } from './was-cached-highlight.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     HighlightDirective,
-    Highlight2Directive,
     UserDetailComponent,
     UserFollowersComponent,
     UserFollowingsComponent,
     UserGistsComponent,
     BytesPipe,
     GistComponent,
-    WasCachedPipe
+    WasCachedPipe,
+    WasCachedHighlightDirective
   ],
   imports: [
     BrowserModule,

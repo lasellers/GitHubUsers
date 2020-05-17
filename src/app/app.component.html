@@ -1,4 +1,4 @@
-<div class="container-container">
+<div class="container-fluid">
   <h1 highlight>
     {{title}}
   </h1>
@@ -38,8 +38,8 @@
     <div class="row">
 
       <div class="col-sm-4">
-        <div class=""
-             [ngClass]="{'text-info': cachingStatus.userWasCached, 'text-warning': !cachingStatus.userWasCached}">
+        <div appWasCachedHighlight [wasCached]="cachingStatus.userWasCached" [classString]="'text-danger'">
+          <!--[ngClass]="{'text-info': cachingStatus.userWasCached, 'text-warning': !cachingStatus.userWasCached}"-->
           User {{ cachingStatus.userWasCached | wasCached}}
           <fa-icon [icon]="['fas','cloud-download-alt']" *ngIf="cachingStatus.userWasCached"
                    placement="left"
@@ -53,8 +53,7 @@
       </div>
 
       <div class="col-sm-4">
-        <div class=""
-             [ngClass]="{'text-info': cachingStatus.followersWasCached, 'text-warning': !cachingStatus.followersWasCached}">
+        <div appWasCachedHighlight [wasCached]="cachingStatus.followersWasCached">
           Followers {{ cachingStatus.followersWasCached | wasCached}}
           <fa-icon [icon]="['fas','cloud-download-alt']" *ngIf="cachingStatus.followersWasCached"
                    placement="left"
@@ -68,8 +67,7 @@
       </div>
 
       <div class="col-sm-4">
-        <div class=""
-             [ngClass]="{'text-info': cachingStatus.followingsWasCached, 'text-warning': !cachingStatus.followingsWasCached}">
+        <div appWasCachedHighlight [wasCached]="cachingStatus.followingsWasCached">
           Followings  {{ cachingStatus.followingsWasCached | wasCached}}
           <fa-icon [icon]="['fas','cloud-download-alt']" *ngIf="cachingStatus.followingsWasCached"
                    placement="left"
@@ -87,8 +85,8 @@
 
     <div class="row">
       <div class="col-sm-6">
-        <div class=""
-             [ngClass]="{'text-danger': cachingStatus.gistsWasCached, 'text-warning': !cachingStatus.gistsWasCached}">
+
+        <div appWasCachedHighlight [wasCached]="cachingStatus.gistsWasCached">
           Gists {{ cachingStatus.gistsWasCached | wasCached}}
           <fa-icon [icon]="['fas','cloud-download-alt']" *ngIf="cachingStatus.gistsWasCached"
                    placement="left"
@@ -98,14 +96,17 @@
                    ngbTooltip="Clear gists cache"></fa-icon>
         </div>
         <app-user-gists [baseUsername]="baseUsername"></app-user-gists>
+
       </div>
       <div class="col-sm-6">
+
         <div>
           Gist {{ cachingStatus.gistWasCached | wasCached}}
           <fa-icon [icon]="['fas','minus-circle']" *ngIf="userService.isGistsCached(baseUsername)"
                    (click)="userService.clearGistCache(gist)" placement="left"
                    ngbTooltip="Clear gist cache"></fa-icon>
         </div>
+
         <app-gist></app-gist>
       </div>
     </div>
