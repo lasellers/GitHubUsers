@@ -1,4 +1,14 @@
-import {Component, NgModule, ElementRef, OnInit, OnDestroy, Input, ViewContainerRef, Output, EventEmitter} from '@angular/core';
+import {
+  Component,
+  NgModule,
+  ElementRef,
+  OnInit,
+  OnDestroy,
+  Input,
+  ViewContainerRef,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import {GitHubUserService} from './git-hub-user.service';
 import {ToastrService} from 'ngx-toastr';
 // @ts-ignore
@@ -6,6 +16,7 @@ import packageJson from '../../package.json';
 import {faMinusCircle, faCloudDownloadAlt, faExchangeAlt} from '@fortawesome/free-solid-svg-icons';
 import {BytesPipe} from './bytes.pipe';
 import {Gist} from './gist';
+import {delay} from 'rxjs/operators';
 
 console.clear();
 
@@ -17,9 +28,6 @@ console.clear();
 export class AppComponent implements OnInit, OnDestroy {
   public version: string = packageJson.version;
   public title: string = packageJson.name;
-
-  public val1 = false;
-  public val2 = true;
 
   gist = {
     content: '',
@@ -33,7 +41,8 @@ export class AppComponent implements OnInit, OnDestroy {
     followersWasCached: false,
     gistsWasCached: false,
     gistWasCached: false,
-    useCached: false
+    useCached: false,
+    users: []
   };
 
   @Input() isCaching: boolean = true;
@@ -59,22 +68,25 @@ export class AppComponent implements OnInit, OnDestroy {
     this.userService.loadUser(this.baseUsername);
 
     this.userService.cacheStatusUser$.subscribe(data => {
-      this.toast.info('Cache User: ' + data.toString());
-      this.cachingStatus.userWasCached = data;
+      const [status, username] = data;
+      this.toast.info('Cached User: ' + status + ' ' + username);
+      this.cachingStatus.userWasCached = status;
+      this.cachingStatus.users[username] = status;
+      console.log(this.cachingStatus.users);
     });
 
     this.userService.cacheStatusFollowers$.subscribe(data => {
-      this.toast.info('Cache Followers: ' + data.toString());
+      this.toast.info('Cached Followers: ' + data.toString());
       this.cachingStatus.followersWasCached = data;
     });
 
     this.userService.cacheStatusFollowings$.subscribe(data => {
-      this.toast.info('Cache Followings: ' + data.toString());
+      this.toast.info('Cached Followings: ' + data.toString());
       this.cachingStatus.followingsWasCached = data;
     });
 
     this.userService.cacheStatusGists$.subscribe(data => {
-      this.toast.info('Cache Gists: ' + data.toString());
+      this.toast.info('Cached Gists: ' + data.toString());
       this.cachingStatus.gistsWasCached = data;
     });
 
@@ -119,14 +131,15 @@ export class AppComponent implements OnInit, OnDestroy {
       followersWasCached: false,
       gistsWasCached: false,
       gistWasCached: false,
-      useCached: false
+      useCached: false,
+      users: []
     };
     this.toast.success('Cache cleared', 'App');
   }
 
   onBaseUsername(username: string) {
-    this.toast.info('onBaseUsername ' + username, 'App');
     this.baseUsername = username;
+    this.toast.info('onBaseUsername ' + this.baseUsername, 'App');
     this.userService.loadUser(this.baseUsername);
   }
 

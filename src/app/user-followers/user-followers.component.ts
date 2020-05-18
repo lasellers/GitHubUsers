@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 export class UserFollowersComponent implements OnInit, OnDestroy {
   @Input() baseUsername;
   @Output() notifyBaseUsername = new EventEmitter();
+  private cachedUsers = [];
 
   constructor(
     public userService: GitHubUserService,
@@ -18,16 +19,21 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userService.getFollowers();
+
+    this.userService.cacheStatusUser$.subscribe(data => {
+      const [status, username] = data;
+      console.log('getFollowers User: ' + status + ' ' + username);
+      this.cachedUsers[username] = status;
+      console.log(this.cachedUsers);
+    });
   }
 
   ngOnDestroy() {
+    this.userService.cacheStatusUser$.unsubscribe();
   }
 
-  /**
-   *
-   */
-  loadUser(username: string) {
-    this.userService.loadUser(username);
+  isUserWasCached(username: string) {
+    return (username in this.cachedUsers);
   }
 
   /**

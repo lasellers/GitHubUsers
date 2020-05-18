@@ -24,10 +24,11 @@ export class GitHubUserService {
 
   @Input() isCaching: boolean = true;
 
-  @Output() cacheStatusUser$ = new EventEmitter();
-  @Output() cacheStatusFollowers$ = new EventEmitter();
-  @Output() cacheStatusFollowings$ = new EventEmitter();
-  @Output() cacheStatusGists$ = new EventEmitter();
+  // Make all of these async so we don't have a checked error
+  @Output() cacheStatusUser$ = new EventEmitter(true);
+  @Output() cacheStatusFollowers$ = new EventEmitter(true);
+  @Output() cacheStatusFollowings$ = new EventEmitter(true);
+  @Output() cacheStatusGists$ = new EventEmitter(true);
 
   public gistObserver$ = new Subject();
   public gist$ = this.gistObserver$.asObservable();
@@ -41,8 +42,8 @@ export class GitHubUserService {
   ) {
   }
 
-  emitCacheStatusUser(status: boolean) {
-    this.cacheStatusUser$.emit(status);
+  emitCacheStatusUser(status: boolean, username: string) {
+    this.cacheStatusUser$.emit([status, username]);
   }
 
   emitCacheStatusFollowers(status: boolean) {
@@ -73,7 +74,7 @@ export class GitHubUserService {
   clearUserCache(): void {
     if (this.user.hasOwnProperty('login')) {
       localStorage.removeItem('user_' + this.user.login);
-      this.emitCacheStatusUser(false);
+      this.emitCacheStatusUser(false, this.user.login);
     }
   }
 
@@ -159,24 +160,24 @@ export class GitHubUserService {
       const cachedUserObj = localStorage.getItem('user_' + username);
       if (cachedUserObj !== null) {
         this.user = JSON.parse(cachedUserObj);
-        this.emitCacheStatusUser(true);
+        this.emitCacheStatusUser(true, username);
         return;
       }
     }
 
     this.http.get(this.apiUrl + username).pipe(
       delay(0),
-      map((res: HttpResponse<any>) => res)) // res.json()c)
+      map((res: HttpResponse<any>) => res)) // res.json())
       .subscribe(
         user => {
           this.user = user;
-          this.emitCacheStatusUser(false);
+          this.emitCacheStatusUser(false, username);
           localStorage.setItem('user_' + username, JSON.stringify(user));
         },
         error => {
           this.emitErrorMessage(error);
         }); // ,
-        // () => console.log('getUser finished'));
+    // () => console.log('getUser finished'));
   }
 
   getFollowings(): void {
@@ -254,7 +255,7 @@ export class GitHubUserService {
         error => {
           this.emitErrorMessage(error);
         }); // ,
-        // () => console.log('getGists finished'));
+    // () => console.log('getGists finished'));
   }
 
   private processGistsToArray(gists, isCached: boolean) {

@@ -15,8 +15,6 @@ export class WasCachedHighlightDirective implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.wasCached);
-    console.log('class=', this.classString);
     if (this.wasCached) {
       this.elementRef.nativeElement.style.backgroundColor = 'yellow';
       this.elementRef.nativeElement.classList.add('text-info');

@@ -3,12 +3,20 @@
 ## Learning Angular 9 using the GitHub API
 
 This is both a functional project and a learning experiment using Angular 9.
+Because this is a learning project, different techniques are used in various parts of the code.
+And this is quite on purpose. Also, though it bugs me somewhat, much of the code is left sub-optimal
+as the elimination of some of it removes a path for further experimentation or review down the line.
 
+Hopefully playing with the code will help clear up some issues you encounter as well.
+
+Good luck.
+
+--Lewis
 
 ###
 * v1 2/6/2017 Angular 2.4 using npm angular cli beta.31
 * v2 2/20/2017 Update to Angular 5
-* v3 5/10/2020 Upgrade to Angular 9 and rewrite app extensively to experiment ith different Angular features.
+* v3 5/10/2020 Upgrade to Angular 9 and rewrite app extensively to experiment with different Angular features.
 
 
 ###

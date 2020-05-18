@@ -20,10 +20,13 @@
       <pre>{{gist.size | bytes}}c</pre>
     </td>
     <td>{{gist.language}}</td>
-    <td>.
+    <td>
       <button (click)="userService.getGist(gist)">get</button>
     </td>
     <td>
+      <fa-icon [icon]="['fas','cloud']" *ngIf="userService.isGistCached(gist)"
+               placement="left"
+               ngbTooltip="Gist is cached {{gist.id}}"></fa-icon>
       <fa-icon [icon]="['fas','cloud-download-alt']" *ngIf="gist.wasCached"
                placement="left"
                ngbTooltip="Gist was cached {{gist.id}}"></fa-icon>
