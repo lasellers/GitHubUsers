@@ -1,4 +1,4 @@
-import { map } from 'rxjs/operators';
+import { delay, map } from 'rxjs/operators';
 import { EventEmitter, Injectable, Input, Output, OnDestroy } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
@@ -156,15 +156,16 @@ export class GitHubUserService {
 
   getUser(username: string): void {
     if (this.isCaching) {
-      const cachedObj = localStorage.getItem('user_' + username);
-      if (cachedObj !== null) {
-        this.user = JSON.parse(cachedObj);
+      const cachedUserObj = localStorage.getItem('user_' + username);
+      if (cachedUserObj !== null) {
+        this.user = JSON.parse(cachedUserObj);
         this.emitCacheStatusUser(true);
         return;
       }
     }
 
     this.http.get(this.apiUrl + username).pipe(
+      delay(0),
       map((res: HttpResponse<any>) => res)) // res.json()c)
       .subscribe(
         user => {
@@ -189,6 +190,7 @@ export class GitHubUserService {
     }
 
     this.http.get(this.apiUrl + this.baseUsername + '/following').pipe(
+      delay(0),
       map((res: HttpResponse<any>) => res)) //  res.json())
       .subscribe(followings => {
 //          this.followings = Array.from(followings);
@@ -214,6 +216,7 @@ export class GitHubUserService {
     }
 
     this.http.get(this.apiUrl + this.baseUsername + '/followers').pipe(
+      delay(0),
       map((res: HttpResponse<any>) => res)) //  res.json())
       .subscribe(followers => {
 //          this.followers = Array.from(followers);
@@ -234,20 +237,18 @@ export class GitHubUserService {
       if (cachedObj !== null) {
         const gists = JSON.parse(cachedObj);
         this.emitCacheStatusGists(true);
-
         this.processGistsToArray(gists, true);
-
         return;
       }
     }
 
     this.http.get(this.apiUrl + this.baseUsername + '/gists').pipe(
+      delay(0),
       map((res: HttpResponse<any>) => res)) // res.json()c)
       .subscribe(
         gists => {
           this.emitCacheStatusGists(false);
           localStorage.setItem('gists_' + this.baseUsername, JSON.stringify(gists));
-
           this.processGistsToArray(gists, false);
         },
         error => {
@@ -295,6 +296,7 @@ export class GitHubUserService {
     console.log('gist object 2:', gist);
 
     this.http.get(gist.contentUrl, {responseType: 'text'}).pipe(
+      delay(0),
       map((res) => res))
       .subscribe(
         content => {
