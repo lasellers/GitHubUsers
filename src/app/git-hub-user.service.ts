@@ -1,9 +1,9 @@
-import { delay, map } from 'rxjs/operators';
-import { EventEmitter, Injectable, Input, Output, OnDestroy } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { ToastrService } from 'ngx-toastr';
-import { Subject } from 'rxjs';
-import { Gist } from './gist';
+import {delay, map} from 'rxjs/operators';
+import {EventEmitter, Injectable, Input, Output, OnDestroy} from '@angular/core';
+import {HttpClient, HttpResponse} from '@angular/common/http';
+import {ToastrService} from 'ngx-toastr';
+import {Subject} from 'rxjs';
+import {Gist} from './gist';
 
 /**
  * Note: As this is experimental, this service is both acting as a singleton in someways and also emitting data for capture by components.
@@ -42,19 +42,19 @@ export class GitHubUserService {
   ) {
   }
 
-  emitCacheStatusUser(status: boolean, username: string) {
+  emitCacheStatusUser(status: boolean, username: string): void {
     this.cacheStatusUser$.emit([status, username]);
   }
 
-  emitCacheStatusFollowers(status: boolean) {
+  emitCacheStatusFollowers(status: boolean): void {
     this.cacheStatusFollowers$.emit(status);
   }
 
-  emitCacheStatusFollowings(status: boolean) {
+  emitCacheStatusFollowings(status: boolean): void {
     this.cacheStatusFollowings$.emit(status);
   }
 
-  emitCacheStatusGists(status: boolean) {
+  emitCacheStatusGists(status: boolean): void {
     this.cacheStatusGists$.emit(status);
   }
 
@@ -62,7 +62,7 @@ export class GitHubUserService {
     this.baseUsername = baseUsername;
   }
 
-  getUserBasename() {
+  getUserBasename(): string {
     return this.baseUsername;
   }
 
@@ -258,7 +258,7 @@ export class GitHubUserService {
     // () => console.log('getGists finished'));
   }
 
-  private processGistsToArray(gists, isCached: boolean) {
+  private processGistsToArray(gists, isCached: boolean): void {
     this.gists = [];
     for (const gist of gists) {
       for (const key in gist.files) {
@@ -288,13 +288,10 @@ export class GitHubUserService {
         gist.content = content;
         gist.cached = true;
         gist.wasCached = true;
-        console.log('gist object:', gist);
         this.gistObserver$.next(gist);
         return;
       }
     }
-
-    console.log('gist object 2:', gist);
 
     this.http.get(gist.contentUrl, {responseType: 'text'}).pipe(
       delay(0),
@@ -307,7 +304,6 @@ export class GitHubUserService {
           if (gist.size < (1024 * 32)) { /* store 32kb max */
             localStorage.setItem('gist_' + gist.id + gist.filename, content);
           }
-          console.log('gist object 3:', gist);
           this.gistObserver$.next(gist);
         },
         error => {

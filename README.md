@@ -1,6 +1,6 @@
 # GitHub Users
 
-## Learning Angular 9 using the GitHub API
+## Learning Angular 9, using the GitHub API
 
 This is both a functional project and a learning experiment using Angular 9.
 Because this is a learning project, different techniques are used in various parts of the code.
@@ -20,7 +20,7 @@ Good luck.
 
 
 ###
-See `https://lasellers.github.io/GitHubUsers/` for the live version of this repo posted to gh-pages.
+See [https://lasellers.github.io/GitHubUsers/] for the live version of this repo posted to gh-pages.
 
 To publish to gh-pages yourself, the procedure used was:
 

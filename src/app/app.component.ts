@@ -72,7 +72,6 @@ export class AppComponent implements OnInit, OnDestroy {
       this.toast.info('Cached User: ' + status + ' ' + username);
       this.cachingStatus.userWasCached = status;
       this.cachingStatus.users[username] = status;
-      console.log(this.cachingStatus.users);
     });
 
     this.userService.cacheStatusFollowers$.subscribe(data => {

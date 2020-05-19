@@ -30,7 +30,7 @@ export class GistComponent implements OnInit, OnDestroy {
     );
   }
 
-  gistEvent(data) {
+  gistEvent(data): void {
     this.gist = data;
     this.content = data.content;
   }

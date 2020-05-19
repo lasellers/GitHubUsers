@@ -2,16 +2,16 @@
 
 <table class="table table-striped" *ngIf="userService.followers">
   <tbody>
-  <tr scope="row" *ngFor="let follower of userService.followers">
-    <td scope="col">
-      <span class="" (click)="userService.loadUserOnly(follower.login)">{{follower.login}}</span>
-      <fa-icon [icon]="['fas','cloud']" *ngIf="userService.isUserCached(follower.login)"
+  <tr class="row" *ngFor="let follower of userService.followers">
+    <td class="col">
+      <span (click)="userService.loadUserOnly(follower.login)">{{follower.login}}</span>
+      <fa-icon [icon]="['fas','cloud']" [hidden]="!userService.isUserCached(follower.login)"
                placement="left"
                ngbTooltip="User {{follower.login}} is cached localStorage"></fa-icon>
-      <fa-icon [icon]="['fas','cloud-download-alt']" [hidden]="isUserWasCached(follower.login)"
+      <fa-icon [icon]="['fas','cloud-download-alt']" [hidden]="!isUserWasCached(follower.login)"
                placement="left" ngbTooltip="User {{follower.login}} was cached as of last pull"></fa-icon>
     </td>
-    <td scope="col">
+    <td class="col">
       <button class="btn btn-primary btn-sm following" (click)="changeBaseUsername(follower.login)">User
       </button>
     </td>
