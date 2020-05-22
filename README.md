@@ -30,3 +30,8 @@ git merge master
 ng build
 git subtree push --prefix dist origin gh-pages
 ```
+
+
+## Todo
+* Add Material
+* Add service workers
