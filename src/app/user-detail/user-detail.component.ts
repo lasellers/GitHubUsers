@@ -1,6 +1,6 @@
-import {Component, EventEmitter, OnInit, Output, Input} from '@angular/core';
-import {GitHubUserService} from '../../git-hub-user.service';
-import {ToastrService} from 'ngx-toastr';
+import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
+import { GitHubUserService } from '../git-hub-user.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -13,19 +13,20 @@ export class UserDetailComponent implements OnInit {
   @Output() notifyBaseUsername: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(
-    protected userService: GitHubUserService,
+    public userService: GitHubUserService,
     private toast: ToastrService
   ) {
   }
 
   ngOnInit() {
-    this.userService.getUser(this.baseUsername);
-    this.toast.info(this.baseUsername, 'User Detail');
   }
 
-  changeBaseUsername(username2: string) {
-    console.log('Emit: changeBaseUsername ...');
-    this.baseUsername = username2;
+  /**
+   *
+   * @param username
+   */
+  changeBaseUsername(username: string): void {
+    this.baseUsername = username;
     this.toast.success('Change baseUsername ' + this.baseUsername, 'User Detail');
     this.notifyBaseUsername.emit(this.baseUsername); // {username: username}
   }

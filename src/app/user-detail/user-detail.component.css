@@ -1,0 +1,20 @@
+.user-group {
+  margin: 0;
+  padding: 0;
+  clear: both;
+}
+
+.user-group label, .user-label {
+  margin: 0;
+  font-weight: bold;
+  text-align: right;
+  padding: 0;
+  width: 100%;
+}
+
+.user-group div, .user-line {
+  margin: 0;
+  text-align: left;
+  padding: 0px 0px 0px 1em;
+  width: 100%;
+}

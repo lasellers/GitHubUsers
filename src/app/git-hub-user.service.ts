@@ -1,11 +1,15 @@
-import {map} from 'rxjs/operators';
-import {EventEmitter, Injectable, Output, OnDestroy} from '@angular/core';
+import {delay, map} from 'rxjs/operators';
+import {EventEmitter, Injectable, Input, Output, OnDestroy} from '@angular/core';
 import {HttpClient, HttpResponse} from '@angular/common/http';
-// import { Subscription } from 'rxjs/Subscription';
-import {Subject} from 'rxjs';
 import {ToastrService} from 'ngx-toastr';
+import {Subject} from 'rxjs';
+import {Gist} from './gist';
 
-@Injectable()
+/**
+ * Note: As this is experimental, this service is both acting as a singleton in someways and also emitting data for capture by components.
+ * Generally you'd only want to do one or the other, depending on the situation.
+ */
+@Injectable({providedIn: 'root'})
 export class GitHubUserService {
   apiUrl: string = 'https://api.github.com/users/';
 
@@ -16,20 +20,18 @@ export class GitHubUserService {
   user: any = null;
   followings: any = [];
   followers: any = [];
+  gists: any = [];
 
-  // was cached flag
-  userWasCached: boolean = false;
-  followingsWasCached: boolean = false;
-  followersWasCached: boolean = false;
-  useCached: boolean = true;
+  @Input() isCaching: boolean = true;
 
-  @Output() userWasCachedChange = new EventEmitter();
-  @Output() followingsWasCachedChange = new EventEmitter();
-  @Output() followersWasCachedChange = new EventEmitter();
-  @Output() useCachedChange = new EventEmitter();
+  // Make all of these async so we don't have a checked error
+  @Output() cacheStatusUser$ = new EventEmitter(true);
+  @Output() cacheStatusFollowers$ = new EventEmitter(true);
+  @Output() cacheStatusFollowings$ = new EventEmitter(true);
+  @Output() cacheStatusGists$ = new EventEmitter(true);
 
-  private cachedChangeSource$ = new Subject();
-  public cachedChange$ = this.cachedChangeSource$.asObservable();
+  public gistObserver$ = new Subject();
+  public gist$ = this.gistObserver$.asObservable();
 
   /**
    *
@@ -40,193 +42,282 @@ export class GitHubUserService {
   ) {
   }
 
-  /**
-   *
-   */
+  emitCacheStatusUser(status: boolean, username: string): void {
+    this.cacheStatusUser$.emit([status, username]);
+  }
+
+  emitCacheStatusFollowers(status: boolean): void {
+    this.cacheStatusFollowers$.emit(status);
+  }
+
+  emitCacheStatusFollowings(status: boolean): void {
+    this.cacheStatusFollowings$.emit(status);
+  }
+
+  emitCacheStatusGists(status: boolean): void {
+    this.cacheStatusGists$.emit(status);
+  }
+
   setUserBasename(baseUsername: string): void {
     this.baseUsername = baseUsername;
-    console.log('setUserBasename ' + this.baseUsername);
   }
 
-  /**
-   *
-   */
-  getUserBasename() {
-    console.log('getUserBasename ' + this.baseUsername);
+  getUserBasename(): string {
     return this.baseUsername;
   }
 
-  /**
-   *
-   */
   getUserBasenameDefault(): string {
     this.baseUsername = this.defaultBaseUsername;
-    console.log('getUserBasenameDefault ' + this.baseUsername);
     return this.baseUsername;
   }
 
-  /**
-   *
-   */
   clearUserCache(): void {
-    console.log('clearUserCache ' + this.user.login);
-    //     if("login" in this.user) {
     if (this.user.hasOwnProperty('login')) {
       localStorage.removeItem('user_' + this.user.login);
-      this.userWasCached = false;
-      this.userWasCachedChange.emit(this.userWasCached);
-      this.cachedChangeSource$.next({userWasCached: this.userWasCached});
+      this.emitCacheStatusUser(false, this.user.login);
     }
   }
 
-  /**
-   *
-   */
   clearFollowersCache(): void {
-    console.log('clearFollowersCache ' + this.baseUsername);
     if (this.baseUsername != null) {
       localStorage.removeItem('followers_' + this.baseUsername);
-      this.followersWasCached = false;
-      // this.followersWasCachedChange.emit(this.followersWasCached);
-      this.cachedChangeSource$.next({followersWasCached: this.followersWasCached});
+      this.emitCacheStatusFollowers(false);
     }
   }
 
-  /**
-   *
-   */
   clearFollowingsCache(): void {
-    console.log('clearFollowingsCache ' + this.baseUsername);
     if (this.baseUsername != null) {
       localStorage.removeItem('followings_' + this.baseUsername);
-      this.followingsWasCached = false;
-      // this.followingsWasCachedChange.emit(this.followingsWasCached);
-      this.cachedChangeSource$.next({followingsWasCached: this.followingsWasCached});
+      this.emitCacheStatusFollowings(false);
     }
   }
 
-  /**
-   *
-   */
-  getUser(username: string): void {
-    console.log('GitHubUserService:getUser username:' + username);
+  clearGistsCache(): void {
+    this.toast.info('Clear gist cache');
+    if (this.baseUsername != null) {
+      localStorage.removeItem('gists_' + this.baseUsername);
+      this.emitCacheStatusGists(false);
+    }
+  }
 
-    if (this.useCached) {
-      const cachedObj = localStorage.getItem('user_' + username);
-      if (cachedObj !== null) {
-        this.user = JSON.parse(cachedObj);
-        this.userWasCached = true;
-        // this.userWasCachedChange.emit(this.userWasCached);
-        this.cachedChangeSource$.next({userWasCached: this.userWasCached});
-        console.log('Cached User: ', this.user);
+  clearGistCache(gist): void {
+    localStorage.removeItem('gist_' + gist.id + gist.filename);
+    if (typeof gist === 'object') {
+      gist = this.blankGist();
+    }
+    this.gistObserver$.next(gist);
+  }
+
+  blankGist(): Gist {
+    const gist: Gist = {
+      content: '',
+      filename: '',
+      size: 0,
+      contentUrl: '',
+      language: '',
+      cached: false,
+      wasCached: false,
+      id: '',
+      url: '',
+    };
+    return gist;
+  }
+
+  isUserCached(username: string): boolean {
+    return (localStorage.getItem('user_' + username) !== null);
+  }
+
+  isFollowersCached(username: string): boolean {
+    return (localStorage.getItem('followers_' + username) !== null);
+  }
+
+  isFollowingsCached(username: string): boolean {
+    return (localStorage.getItem('followings' + username) !== null);
+  }
+
+  isGistsCached(username: string): boolean {
+    return (localStorage.getItem('gists_' + username) !== null);
+  }
+
+  isGistCached(gist): boolean {
+    return (localStorage.getItem('gist_' + gist.id + gist.filename) !== null);
+  }
+
+  loadUser(username: string) {
+    this.baseUsername = username;
+    this.getUser(username);
+    this.getFollowers();
+    this.getFollowings();
+    this.getGists();
+  }
+
+  loadUserOnly(username: string) {
+    this.getUser(username);
+  }
+
+  getUser(username: string): void {
+    if (this.isCaching) {
+      const cachedUserObj = localStorage.getItem('user_' + username);
+      if (cachedUserObj !== null) {
+        this.user = JSON.parse(cachedUserObj);
+        this.emitCacheStatusUser(true, username);
         return;
       }
     }
 
     this.http.get(this.apiUrl + username).pipe(
-      map((res: HttpResponse<any>) => res)) // res.json()c)
+      delay(0),
+      map((res: HttpResponse<any>) => res)) // res.json())
       .subscribe(
         user => {
           this.user = user;
-          this.userWasCached = false;
-          // this.userWasCachedChange.emit(this.userWasCached);
-          this.cachedChangeSource$.next({userWasCached: this.userWasCached});
-          localStorage.setItem('user_' + username, JSON.stringify(this.user));
-          console.log(this.user);
+          this.emitCacheStatusUser(false, username);
+          localStorage.setItem('user_' + username, JSON.stringify(user));
         },
         error => {
           this.emitErrorMessage(error);
-        },
-        () => console.log('getUser finished'));
+        }); // ,
+    // () => console.log('getUser finished'));
   }
 
-  /**
-   *
-   */
-  getFollowings(username: string): void {
-    console.log('GitHubUserService:getFollowings username:' + username);
-
-    this.baseUsername = username;
-
-    if (this.useCached) {
-      const cachedObj = localStorage.getItem('followings_' + username);
+  getFollowings(): void {
+    if (this.isCaching) {
+      const cachedObj = localStorage.getItem('followings_' + this.baseUsername);
       if (cachedObj !== null) {
         this.followings = JSON.parse(cachedObj);
-        this.followingsWasCached = true;
-        // this.followingsWasCachedChange.emit(this.followingsWasCached);
-        this.cachedChangeSource$.next({followingsWasCached: this.followingsWasCached});
-        console.log('Cached Followings: ', this.followings);
+        this.emitCacheStatusFollowings(true);
         return;
       }
     }
 
-    this.http.get(this.apiUrl + username + '/following').pipe(
+    this.http.get(this.apiUrl + this.baseUsername + '/following').pipe(
+      delay(0),
       map((res: HttpResponse<any>) => res)) //  res.json())
       .subscribe(followings => {
 //          this.followings = Array.from(followings);
           this.followings = followings;
-          this.followingsWasCached = false;
-          // this.followingsWasCachedChange.emit(this.followingsWasCached);
-          this.cachedChangeSource$.next({followingsWasCached: this.followingsWasCached});
-          localStorage.setItem('followings_' + username, JSON.stringify(this.followings));
-          console.log(this.followings);
+          this.emitCacheStatusFollowings(false);
+          localStorage.setItem('followings_' + this.baseUsername, JSON.stringify(followings));
         },
         error => {
           this.emitErrorMessage(error);
-        },
-        () => console.log('getFollowings finished')
+        } // ,
+        // () => console.log('getFollowings finished')
       );
   }
 
-  /**
-   *
-   */
-  getFollowers(username: string): void {
-    console.log('GitHubUserService:getFollowers username:' + username);
-
-    this.baseUsername = username;
-
-    if (this.useCached) {
-      const cachedObj = localStorage.getItem('followers_' + username);
+  getFollowers(): void {
+    if (this.isCaching) {
+      const cachedObj = localStorage.getItem('followers_' + this.baseUsername);
       if (cachedObj !== null) {
         this.followers = JSON.parse(cachedObj);
-        this.followersWasCached = true;
-        // this.followersWasCachedChange.emit(this.followersWasCached);
-        this.cachedChangeSource$.next({followersWasCached: this.followersWasCached});
-        console.log('Cached Followers: ', this.followers);
+        this.emitCacheStatusFollowers(true);
         return;
       }
     }
 
-    this.http.get(this.apiUrl + username + '/followers').pipe(
+    this.http.get(this.apiUrl + this.baseUsername + '/followers').pipe(
+      delay(0),
       map((res: HttpResponse<any>) => res)) //  res.json())
       .subscribe(followers => {
 //          this.followers = Array.from(followers);
           this.followers = followers;
-          this.followersWasCached = false;
-          // this.followersWasCachedChange.emit(this.followersWasCached);
-          this.cachedChangeSource$.next({followersWasCached: this.followersWasCached});
-          localStorage.setItem('followers_' + username, JSON.stringify(this.followers));
-          console.log(this.followers);
+          this.emitCacheStatusFollowers(false);
+          localStorage.setItem('followers_' + this.baseUsername, JSON.stringify(followers));
+        },
+        error => {
+          this.emitErrorMessage(error);
+        } // ,
+        // () => console.log('getFollowers finished')
+      );
+  }
+
+  getGists(): void {
+    if (this.isCaching) {
+      const cachedObj = localStorage.getItem('gists_' + this.baseUsername);
+      if (cachedObj !== null) {
+        const gists = JSON.parse(cachedObj);
+        this.emitCacheStatusGists(true);
+        this.processGistsToArray(gists, true);
+        return;
+      }
+    }
+
+    this.http.get(this.apiUrl + this.baseUsername + '/gists').pipe(
+      delay(0),
+      map((res: HttpResponse<any>) => res)) // res.json()c)
+      .subscribe(
+        gists => {
+          this.emitCacheStatusGists(false);
+          localStorage.setItem('gists_' + this.baseUsername, JSON.stringify(gists));
+          this.processGistsToArray(gists, false);
+        },
+        error => {
+          this.emitErrorMessage(error);
+        }); // ,
+    // () => console.log('getGists finished'));
+  }
+
+  private processGistsToArray(gists, isCached: boolean): void {
+    this.gists = [];
+    for (const gist of gists) {
+      for (const key in gist.files) {
+        if (gist.files.hasOwnProperty(key)) {
+          const file = gist.files[key];
+          if (file.hasOwnProperty('raw_url')) {
+            this.gists.push({
+              id: gist.id,
+              url: file.url,
+              contentUrl: file.raw_url,
+              filename: file.filename,
+              language: file.language,
+              size: file.size,
+              content: gist,
+              cached: isCached
+            });
+          }
+        }
+      }
+    }
+  }
+
+  public getGist(gist: Gist): void {
+    if (this.isCaching) {
+      const content = localStorage.getItem('gist_' + gist.id + gist.filename);
+      if (content !== null) {
+        gist.content = content;
+        gist.cached = true;
+        gist.wasCached = true;
+        this.gistObserver$.next(gist);
+        return;
+      }
+    }
+
+    this.http.get(gist.contentUrl, {responseType: 'text'}).pipe(
+      delay(0),
+      map((res) => res))
+      .subscribe(
+        content => {
+          gist.content = content;
+          gist.cached = true;
+          gist.wasCached = false;
+          if (gist.size < (1024 * 32)) { /* store 32kb max */
+            localStorage.setItem('gist_' + gist.id + gist.filename, content);
+          }
+          this.gistObserver$.next(gist);
         },
         error => {
           this.emitErrorMessage(error);
         },
-        () => console.log('getFollowers finished')
-      );
-  }
-
-  isUserCached(username: string): boolean {
-    // console.log('GitHubUserService:isUserCached');
-    return (localStorage.getItem('user_' + username) !== null);
+        () => console.log('getGist finished'));
   }
 
   emitErrorMessage(error): void {
     // debugger;
     const text: string = error.statusText || 'Internet Error';
-    console.error(`Error: (${error.status}) ${text}`);
-    const message: string = `Error: (${error.status}) ${text}`;
-    this.toast.error(text, `Error: ${error.status}`);
+    const message: string = `Error: (${error.status}) (${error.message}) ${text}`;
+    console.error(`Error: ${message}`);
+    this.toast.error(text, `Error: ${message} `);
   }
 
 }
