@@ -1,41 +1,40 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">{{title}}</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      https://github.com/
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+             #usernameInput name="baseUsername" [(ngModel)]="baseUsername"
+             value="{{baseUsername}}">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit"
+              (click)="changeBaseUsername(usernameInput.value)"
+              placement="bottom"
+              ngbTooltip="Change base user">User</button>
+    </form>
+
+    <div class="col-sm align-bottom">
+      Caching <input type="checkbox" [(ngModel)]="isCaching" (change)="changeCaching(isCaching)">
+      <button class="btn btn-outline-success my-2 my-sm-0" (click)="clearCache()">Clear cache</button>
+      <button class="btn btn-outline-success my-2 my-sm-0" (click)="changeBaseUsernameToDefault()" placement="bottom"
+              ngbTooltip="Change to Default User">Default User
+      </button>
+    </div>
+
+  </div>
+</nav>
+
 <div class="container-fluid">
-  <h1 highlight>
-    {{title}}
-  </h1>
-  <div class="well">
 
     <p class="lead">Learning Angular 9 using the GitHub API (v {{version}})</p>
-
-    <div class="row">
-      <div class="col-sm-5">
-
-        <form class="">
-          <div class="">
-            https://github.com/
-            <input #usernameInput class="" name="baseUsername" [(ngModel)]="baseUsername"
-                                      value="{{baseUsername}}">
-            <button class="btn btn-primary btn-sm" (click)="changeBaseUsername(usernameInput.value)"
-                    placement="left"
-                    ngbTooltip="Change base user">User
-            </button>
-          </div>
-        </form>
-
-      </div>
-      <div class="col-sm-3 align-bottom">
-        <button class="btn btn-primary btn-sm" (click)="changeBaseUsernameToDefault()" placement="top"
-                ngbTooltip="Change to Default User">Change to Default User
-        </button>
-      </div>
-      <div class="col-sm-2 align-bottom">
-        Caching <input type="checkbox" [(ngModel)]="isCaching" (change)="changeCaching(isCaching)">
-      </div>
-      <div class="col-sm-2 align-bottom">
-        <button (click)="clearCache()">Clear cache</button>
-      </div>
-    </div>
-    <!-- /row -->
-  </div>
 
   <div class="row">
 

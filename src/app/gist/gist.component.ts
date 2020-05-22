@@ -15,7 +15,7 @@ export class GistComponent implements OnInit, OnDestroy {
 
   constructor(
     public userService: GitHubUserService,
-    public toast: ToastrService) {
+    ) {
   }
 
   ngOnInit(): void {

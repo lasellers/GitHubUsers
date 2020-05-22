@@ -30,3 +30,23 @@ git merge master
 ng build
 git subtree push --prefix dist origin gh-pages
 ```
+
+##
+ Please, set "CHROME_BIN" env variable.
+ `export CHROME_BIN=/usr/bin/chromium-browser `
+export CHROME_BIN=chromium
+
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt install ./google-chrome-stable_current_amd64.deb
+
+## Notes
+
+ng test --source=map=false
+to avoid xmlRequest send bug caused by new cli.
+
+##
+import 'jasmine-ajax';
+
+  beforeEach(() => jasmine.Ajax.install());
+  afterEach(() => jasmine.Ajax.uninstall());
+

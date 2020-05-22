@@ -16,7 +16,7 @@ beforeEach(async(() => {
   }).compileComponents();
 }));
 
-describe('HighlightDirective', () => {
+xdescribe('HighlightDirective', () => {
   it('should create an instance', () => {
     const el = new ElementRef('<p highlight>GitHub Users</p>');
     const directive = new HighlightDirective(el);
