@@ -41,16 +41,28 @@ sudo apt install ./google-chrome-stable_current_amd64.deb
 
 ## Notes
 
-ng test --source=map=false
-to avoid xmlRequest send bug caused by new cli.
+### source map
+`ng test --source=map=false`
+Changed ng test to avoid xmlRequest send bug caused by new cli.
 
-##
-import 'jasmine-ajax';
 
-  beforeEach(() => jasmine.Ajax.install());
-  afterEach(() => jasmine.Ajax.uninstall());
+## Installs
+npm install
+npm install -g @angular/cli
+npm install @angular/cli
+ng add @fortawesome/angular-fontawesome
+npm install @fortawesome/fontawesome-svg-core
+npm install @fortawesome/free-solid-svg-icons
+npm install @fortawesome/free-regular-svg-icons
+ng add @ng-bootstrap/ng-bootstrap
+ng add @angular/localize
+npm install ngx-toastr
+# npm install --save bootstrap
+# npm install --save jquery
+# npm install --save popper
+npm install webpack
+# npm install core-js
 
-=======
 
 ## Todo
 * Add Material
