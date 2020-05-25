@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { GistComponent } from './gist.component';
-import {Toast, TOAST_CONFIG, ToastInjector, ToastrService} from "ngx-toastr";
 import {GitHubUserService} from "../git-hub-user.service";
 
 class GitHubUserServiceMock {
@@ -32,17 +31,6 @@ xdescribe('GistComponent', () => {
       imports: [HttpClientTestingModule],
       providers: [
         {provider: GitHubUserService, useValue: service},
-        {provider: ToastrService, useValue: {
-            success() {},
-            error() {},
-            info() {},
-          } },
-/*        {provider: TOAST_CONFIG, useValue: {} },
-        {provider: Toast, useValue: {
-            success() {},
-            error() {},
-            info() {},
-          } },*/
       ]
     })
     .compileComponents();

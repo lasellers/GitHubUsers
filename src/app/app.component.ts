@@ -151,6 +151,7 @@ export class AppComponent implements OnInit, OnDestroy {
   onBaseUsername(username: string) {
     this.baseUsername = username;
     this.toast.info('onBaseUsername ' + this.baseUsername, 'App');
+    // this.toast.success('Change baseUsername ' + this.baseUsername, 'User List');
     this.userService.loadUser(this.baseUsername);
   }
 

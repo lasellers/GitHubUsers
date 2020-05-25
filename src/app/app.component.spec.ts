@@ -3,6 +3,7 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {Toast, TOAST_CONFIG, ToastInjector, ToastrService} from "ngx-toastr";
 
 xdescribe('AppComponent', () => {
   beforeEach(() => {
@@ -10,7 +11,10 @@ xdescribe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
-      imports: [HttpClientTestingModule]
+      imports: [HttpClientTestingModule],
+      providers: [
+        {provider: TOAST_CONFIG, useValue: {} },
+      ]
     });
     TestBed.compileComponents();
   });

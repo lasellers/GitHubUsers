@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, OnDestroy, Output } from '@angular/core';
 import { GitHubUserService } from '../git-hub-user.service';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-followers',
@@ -13,8 +12,8 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
   private cachedUsers = [];
 
   constructor(
-    public userService: GitHubUserService,
-    private toast: ToastrService) {
+    public userService: GitHubUserService
+    ) {
   }
 
   /**
@@ -59,7 +58,6 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
     this.baseUsername = username;
     this.userService.loadUser(this.baseUsername);
     this.notifyBaseUsername.emit(this.baseUsername);
-    this.toast.success('Change baseUsername ' + this.baseUsername, 'User List');
   }
 
 }

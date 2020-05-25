@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { UserFollowersComponent } from './user-followers.component';
-import {TOAST_CONFIG} from "ngx-toastr";
 
 xdescribe('UserFollowersComponent', () => {
   let component: UserFollowersComponent;
@@ -12,7 +11,6 @@ xdescribe('UserFollowersComponent', () => {
       declarations: [ UserFollowersComponent ],
       imports: [HttpClientTestingModule],
       providers: [
-        {provider: TOAST_CONFIG, useValue: {} },
       ]
     })
     .compileComponents();

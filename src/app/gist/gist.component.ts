@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
 import { GitHubUserService } from '../git-hub-user.service';
 import { Gist } from '../gist';
 // import { BytesPipe } from '../bytes.pipe';
@@ -14,7 +13,7 @@ export class GistComponent implements OnInit, OnDestroy {
   gist: Gist;
 
   constructor(
-    public userService: GitHubUserService,
+    public userService: GitHubUserService
     ) {
   }
 
