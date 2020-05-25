@@ -1,37 +1,52 @@
-version: 2
+defaults: &defaults
+  working_directory: ~/GitHubUsers
+  docker:
+    - image: circleci/node:12
 
+version: 2
 jobs:
-    test:
-        working_directory: ~/GitHubUsers
-        docker:
-            - image: circleci/node:10-browsers
-        steps:
-            - checkout
-            - run:
-                  name: Show current branch
-                  command: echo ${CIRCLE_BRANCH}
-            - restore_cache:
-                  keys:
-                      - v1-dependencies-{{ checksum "package-lock.json" }}
-                      - v1-dependencies-
-            - run:
-                name: Setup Code Climate Test Reporter
-                command: |
-                    curl -L https://codeclimate.com/downalods/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-                    chmod +x ./cc-test-reporter
-            - run:
-                  name: Install local dependencies
-                  command: npm install
-            - save_cache:
-                  key: v1-dependencies-{{ checksum "package-lock.json" }}
-                  paths:
-                      - node_modules
-            - run:
-                  name: Linting
-                  command: npm run lint
-            - run:
-                  name: Testing
-                  command: npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
-            - run:
-                  name: End to End Test
-                  command: npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: npm install
+          command: npm install
+      - save_cache:
+          key: v1-{{ arch }}-cache-{{ checksum "package.json"}}
+          paths:
+            - ./node_modules
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-{{ arch }}-cache-{{ checksum "package.json"}}
+      - run:
+          name: Setup Test Output Directory
+          command: mkdir -p test-results/karma
+      - run:
+          name: Run tests
+          command: npm test | npx tap-xunit > test-results/karma/results.xml
+      - run:
+          name: Run coverage report
+          command: npm run coverage > coverage-report.lcov
+      - store_artifacts:
+          path: test-results/karma/results.xml
+          destination: test-results/karma/
+      - store_artifacts:
+          path: coverage-report.lcov
+          destination: reports
+      - store_test_results:
+          path: test-results
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master

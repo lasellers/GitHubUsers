@@ -14,13 +14,13 @@ import {AppComponent} from './app.component';
 import {HighlightDirective} from './highlight.directive';
 import {GitHubUserService} from './git-hub-user.service';
 import {UserDetailComponent} from './user-detail/user-detail.component';
-import { UserFollowersComponent } from './user-followers/user-followers.component';
-import { UserFollowingsComponent } from './user-followings/user-followings.component';
-import { UserGistsComponent } from './user-gists/user-gists.component';
-import { BytesPipe } from './bytes.pipe';
-import { GistComponent } from './gist/gist.component';
-import { WasCachedPipe } from './was-cached.pipe';
-import { WasCachedHighlightDirective } from './was-cached-highlight.directive';
+import {UserFollowersComponent} from './user-followers/user-followers.component';
+import {UserFollowingsComponent} from './user-followings/user-followings.component';
+import {UserGistsComponent} from './user-gists/user-gists.component';
+import {BytesPipe} from './bytes.pipe';
+import {GistComponent} from './gist/gist.component';
+import {WasCachedPipe} from './was-cached.pipe';
+import {WasCachedHighlightDirective} from './was-cached-highlight.directive';
 
 @NgModule({
   declarations: [

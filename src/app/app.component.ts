@@ -101,6 +101,18 @@ export class AppComponent implements OnInit, OnDestroy {
         console.log('Error gist: ', error);
       }
     );
+
+    this.userService.errorMessage$.subscribe(data => {
+      this.onErrorMessage(data);
+    });
+  }
+
+  onErrorMessage(error): void {
+    // debugger;
+    const text: string = error.statusText || 'Internet Error';
+    const message: string = `Error: (${error.status}) (${error.message}) ${text}`;
+    console.error(`Error: ${message}`);
+    this.toast.error(text, `Error: ${message} `);
   }
 
   gistEvent(data) {

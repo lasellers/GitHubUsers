@@ -1,7 +1,6 @@
 import {delay, map} from 'rxjs/operators';
 import {EventEmitter, Injectable, Input, Output, OnDestroy} from '@angular/core';
 import {HttpClient, HttpResponse} from '@angular/common/http';
-import {ToastrService} from 'ngx-toastr';
 import {Subject} from 'rxjs';
 import {Gist} from './gist';
 
@@ -25,10 +24,14 @@ export class GitHubUserService {
   @Input() isCaching: boolean = true;
 
   // Make all of these async so we don't have a checked error
+  // Note also, since this is a service, we can't just hook these up as output
+  // on the component but must subscribe to them.
   @Output() cacheStatusUser$ = new EventEmitter(true);
   @Output() cacheStatusFollowers$ = new EventEmitter(true);
   @Output() cacheStatusFollowings$ = new EventEmitter(true);
   @Output() cacheStatusGists$ = new EventEmitter(true);
+
+  @Output() errorMessage$ = new EventEmitter(true);
 
   public gistObserver$ = new Subject();
   public gist$ = this.gistObserver$.asObservable();
@@ -37,8 +40,7 @@ export class GitHubUserService {
    *
    */
   constructor(
-    private http: HttpClient,
-    private toast: ToastrService
+    private http: HttpClient
   ) {
   }
 
@@ -93,7 +95,6 @@ export class GitHubUserService {
   }
 
   clearGistsCache(): void {
-    this.toast.info('Clear gist cache');
     if (this.baseUsername != null) {
       localStorage.removeItem('gists_' + this.baseUsername);
       this.emitCacheStatusGists(false);
@@ -175,7 +176,7 @@ export class GitHubUserService {
           localStorage.setItem('user_' + username, JSON.stringify(user));
         },
         error => {
-          this.emitErrorMessage(error);
+          this.errorMessage$.emit(error);
         }); // ,
     // () => console.log('getUser finished'));
   }
@@ -200,7 +201,7 @@ export class GitHubUserService {
           localStorage.setItem('followings_' + this.baseUsername, JSON.stringify(followings));
         },
         error => {
-          this.emitErrorMessage(error);
+          this.errorMessage$.emit(error);
         } // ,
         // () => console.log('getFollowings finished')
       );
@@ -226,7 +227,7 @@ export class GitHubUserService {
           localStorage.setItem('followers_' + this.baseUsername, JSON.stringify(followers));
         },
         error => {
-          this.emitErrorMessage(error);
+          this.errorMessage$.emit(error);
         } // ,
         // () => console.log('getFollowers finished')
       );
@@ -253,7 +254,7 @@ export class GitHubUserService {
           this.processGistsToArray(gists, false);
         },
         error => {
-          this.emitErrorMessage(error);
+          this.errorMessage$.emit(error);
         }); // ,
     // () => console.log('getGists finished'));
   }
@@ -307,17 +308,9 @@ export class GitHubUserService {
           this.gistObserver$.next(gist);
         },
         error => {
-          this.emitErrorMessage(error);
+          this.errorMessage$.emit(error);
         },
         () => console.log('getGist finished'));
-  }
-
-  emitErrorMessage(error): void {
-    // debugger;
-    const text: string = error.statusText || 'Internet Error';
-    const message: string = `Error: (${error.status}) (${error.message}) ${text}`;
-    console.error(`Error: ${message}`);
-    this.toast.error(text, `Error: ${message} `);
   }
 
 }
