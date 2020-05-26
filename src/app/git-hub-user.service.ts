@@ -1,5 +1,5 @@
 import { delay, map } from 'rxjs/operators';
-import { EventEmitter, Injectable, Input, Output, OnInit, OnDestroy } from '@angular/core';
+import { EventEmitter, Injectable, Input, Output } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { Gist } from './gist.model';
@@ -55,14 +55,6 @@ export class GitHubUserService {
   ) {
   }
 
-  ngOnInit() {
-
-  }
-
-  ngOnDestroy() {
-
-  }
-
   getUserBasenameDefault(): string {
     return this.defaultBaseUsername;
   }
@@ -71,7 +63,7 @@ export class GitHubUserService {
     // if (this.user.hasOwnProperty('login')) {
     //  localStorage.removeItem('user_' + this.user.login);
     //  this.emitCacheStatusUser(false, this.user.login);
-    //}
+    // }
     localStorage.removeItem('user_' + username);
     this.cacheStatusUser$.emit([false, username]);
   }

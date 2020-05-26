@@ -1,11 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { GistComponent } from './gist.component';
-import { GitHubUserService } from "../git-hub-user.service";
+import { GitHubUserService } from '../git-hub-user.service';
 
 class GitHubUserServiceMock {
   blankGist() {
-  };
+  }
 }
 
 xdescribe('GistComponent', () => {
@@ -22,7 +22,7 @@ xdescribe('GistComponent', () => {
 
 
   beforeEach(async(() => {
-    var service = new GitHubUserServiceMock();
+    const service = new GitHubUserServiceMock();
 
 //    spyOn()
 

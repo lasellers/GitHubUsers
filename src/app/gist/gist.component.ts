@@ -13,11 +13,11 @@ export class GistComponent implements OnInit, OnDestroy {
 
   constructor(
     public userService: GitHubUserService
-    ) {
+  ) {
   }
 
   ngOnInit(): void {
-    this.gist = Gist.constructor(); //this.userService.blankGist();
+    this.gist = Gist.constructor(); // this.userService.blankGist();
     this.userService.gist$.subscribe(
       data => {
         this.gist = data as any;
@@ -31,7 +31,7 @@ export class GistComponent implements OnInit, OnDestroy {
 
   // gistEvent(data): void {
   //  this.gist = data;
-  //}
+  // }
 
   ngOnDestroy(): void {
     this.userService.gist$.unsubscribe();

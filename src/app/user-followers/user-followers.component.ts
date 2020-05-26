@@ -14,12 +14,9 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
 
   constructor(
     public userService: GitHubUserService
-    ) {
+  ) {
   }
 
-  /**
-   *
-   */
   ngOnInit(): void {
     // probably should delay this a click
     this.userService.cacheStatusUser$.subscribe(statusUser => {
@@ -31,8 +28,8 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
     this.userService.followers$.subscribe(followers => {
       this.followers = followers;
 
-      for(const user of this.followers) {
-        if(this.isUserWasCached(user.login)) {
+      for (const user of this.followers) {
+        if (this.isUserWasCached(user.login)) {
           this.cachedUsers[user.login] = true;
         }
       }
@@ -41,25 +38,14 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
     this.userService.getFollowers();
   }
 
-  /**
-   *
-   */
   ngOnDestroy(): void {
     this.userService.cacheStatusUser$.unsubscribe();
   }
 
-  /**
-   *
-   * @param username
-   */
   isUserWasCached(username: string): boolean {
     return (username in this.cachedUsers);
   }
 
-  /**
-   *
-   * @param username
-   */
   changeBaseUsername(username: string): void {
     this.baseUsername = username;
     this.notifyBaseUsername.emit(this.baseUsername);

@@ -1,6 +1,7 @@
 {
   "name": "githubusers",
-  "version": "3.0.2",
+  "fullName": "Github Users",
+  "version": "3.0.3",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
