@@ -16,7 +16,7 @@
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
              #usernameInput name="baseUsername" [(ngModel)]="baseUsername"
              value="{{baseUsername}}">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit"
+      <button class="btn btn-primary my-2 my-sm-0" type="submit"
               (click)="changeBaseUsername(usernameInput.value)"
               placement="bottom"
               ngbTooltip="Change base user">User
@@ -24,9 +24,9 @@
     </form>
 
     <div class="col-sm align-bottom">
-      Caching <input type="checkbox" [(ngModel)]="isCaching" (change)="changeCaching(isCaching)">
-      <button class="btn btn-outline-success my-2 my-sm-0" (click)="clearCache()">Clear cache</button>
-      <button class="btn btn-outline-success my-2 my-sm-0" (click)="changeBaseUsernameToDefault()" placement="bottom"
+      Caching <input type="checkbox" [(ngModel)]="userService.isCaching" (change)="changeCaching(userService.isCaching)">
+      <button class="btn btn-outline-primary btn-sm my-2 my-sm-0" (click)="clearCache()">Clear cache</button>
+      <button class="btn btn-outline-primary btn-sm my-2 my-sm-0" (click)="changeBaseUsernameToDefault()" placement="bottom"
               ngbTooltip="Change to Default User">Default User
       </button>
     </div>
@@ -51,7 +51,7 @@
                  placement="left"
                  ngbTooltip="Gist was cached"></fa-icon>
         <fa-icon [icon]="['fas','minus-circle']"
-                 (click)="userService.clearUserCache()" placement="left"
+                 (click)="userService.clearUserCache(baseUsername)" placement="left"
                  ngbTooltip="Clear user cache"></fa-icon>
       </div>
       <user-detail [baseUsername]="baseUsername"
@@ -142,6 +142,7 @@
         <a class="" href="https://github.com/{{baseUsername}}">https://github.com/{{baseUsername}}</a>
       </div>
       <div class="col-6">
+        Uncached Api Calls {{userService.apiCalls}}
       </div>
 
     </div>

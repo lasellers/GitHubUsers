@@ -1,5 +1,5 @@
 <div class="card-heading">
-  <h3 class="card-title" *ngIf="userService.user !== null">
+  <h3 class="card-title" *ngIf="userService.gists !== null">
     Gists
   </h3>
 </div>
@@ -14,15 +14,15 @@
   </tr>
   </thead>
   <tbody>
-  <tr class="" *ngFor="let gist of userService.gists">
+  <tr *ngFor="let gist of userService.gists">
+    <td>
+      <button class="btn btn-primary" (click)="userService.getGist(gist)">Get</button>
+    </td>
     <td>{{gist.filename}}</td>
     <td class="bytes">
-      <pre>{{gist.size | bytes}}c</pre>
+      <pre>{{gist.size | bytes}}</pre>
     </td>
     <td>{{gist.language}}</td>
-    <td>
-      <button (click)="userService.getGist(gist)">get</button>
-    </td>
     <td>
       <fa-icon [icon]="['fas','cloud']" *ngIf="userService.isGistCached(gist)"
                placement="left"

@@ -1,10 +1,10 @@
 <h3>Followers</h3>
 
-<table class="table table-striped" *ngIf="userService.followers">
+<table class="table table-striped" *ngIf="followers">
   <tbody>
-  <tr class="row" *ngFor="let follower of userService.followers">
+  <tr class="row" *ngFor="let follower of followers">
     <td class="col">
-      <span (click)="userService.loadUserOnly(follower.login)">{{follower.login}}</span>
+      <span (click)="userService.getUser(follower.login)">{{follower.login}}</span>
       <fa-icon [icon]="['fas','cloud']" [hidden]="!userService.isUserCached(follower.login)"
                placement="left"
                ngbTooltip="User {{follower.login}} is cached localStorage"></fa-icon>

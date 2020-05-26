@@ -1,39 +1,39 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { GistComponent } from './gist.component';
-import {GitHubUserService} from "../git-hub-user.service";
+import { GitHubUserService } from "../git-hub-user.service";
 
 class GitHubUserServiceMock {
-  toast() {};
-  blankGist() {};
+  blankGist() {
+  };
 }
 
 xdescribe('GistComponent', () => {
   let component: GistComponent;
   let fixture: ComponentFixture<GistComponent>;
 
-/*
-  const myMockedJSON = [];
-  spyOn($,'ajax').and.callFake(()=>{
-    var d = $.deferred();
-    d.resolve(myMockedJSON);
-    d.promise();
-  });*/
+  /*
+    const myMockedJSON = [];
+    spyOn($,'ajax').and.callFake(()=>{
+      var d = $.deferred();
+      d.resolve(myMockedJSON);
+      d.promise();
+    });*/
 
 
   beforeEach(async(() => {
-    var service = new GitHubUserServiceMock() ;
+    var service = new GitHubUserServiceMock();
 
 //    spyOn()
 
     TestBed.configureTestingModule({
-      declarations: [ GistComponent ],
+      declarations: [GistComponent],
       imports: [HttpClientTestingModule],
       providers: [
         {provider: GitHubUserService, useValue: service},
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

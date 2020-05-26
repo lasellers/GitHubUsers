@@ -10,6 +10,7 @@ export class UserFollowingsComponent implements OnInit, OnDestroy {
   @Input() baseUsername;
   @Output() notifyBaseUsername = new EventEmitter();
   private cachedUsers = [];
+  public followings = [];
 
   constructor(
     public userService: GitHubUserService
@@ -20,19 +21,24 @@ export class UserFollowingsComponent implements OnInit, OnDestroy {
    *
    */
   ngOnInit(): void {
-    this.userService.getFollowings();
-
-    for(const user of this.userService.followings) {
-      if(this.isUserWasCached(user.login)) {
-        this.cachedUsers[user.login] = true;
-      }
-    }
-
     // probably should delay this a click
-    this.userService.cacheStatusUser$.subscribe(data => {
-      const [status, username] = data;
+    this.userService.cacheStatusUser$.subscribe(statusUser => {
+      const [status, username] = statusUser;
       this.cachedUsers[username] = status;
     });
+
+    //
+    this.userService.followings$.subscribe(followings => {
+      this.followings = followings;
+
+      for(const user of this.followings) {
+        if(this.isUserWasCached(user.login)) {
+          this.cachedUsers[user.login] = true;
+        }
+      }
+    });
+
+    this.userService.getFollowings();
   }
 
   /**
@@ -56,7 +62,6 @@ export class UserFollowingsComponent implements OnInit, OnDestroy {
    */
   changeBaseUsername(username: string): void {
     this.baseUsername = username;
-    this.userService.loadUser(this.baseUsername);
     this.notifyBaseUsername.emit(this.baseUsername);
   }
 

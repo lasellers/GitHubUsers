@@ -9,14 +9,15 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
-import {GitHubUserService} from './git-hub-user.service';
-import {ToastrService} from 'ngx-toastr';
+import { GitHubUserService } from './git-hub-user.service';
+import { ToastrService } from 'ngx-toastr';
 // @ts-ignore
 import packageJson from '../../package.json';
-import {faMinusCircle, faCloudDownloadAlt, faExchangeAlt} from '@fortawesome/free-solid-svg-icons';
-import {BytesPipe} from './bytes.pipe';
-import {Gist} from './gist';
-import {delay} from 'rxjs/operators';
+import { faMinusCircle, faCloudDownloadAlt, faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
+import { BytesPipe } from './bytes.pipe';
+import { Gist } from './gist.model';
+import { delay } from 'rxjs/operators';
+import { Subscription } from "rxjs";
 
 console.clear();
 
@@ -45,7 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
     users: []
   };
 
-  @Input() isCaching: boolean = true;
+  // @Input() isCaching: boolean = true;
 
   /**
    *
@@ -69,27 +70,27 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.userService.cacheStatusUser$.subscribe(data => {
       const [status, username] = data;
-      this.toast.info('Cached User: ' + status + ' ' + username);
       this.cachingStatus.userWasCached = status;
       this.cachingStatus.users[username] = status;
+      this.toast.info('User: cached ' + status + ' ' + username);
     });
 
-    this.userService.cacheStatusFollowers$.subscribe(data => {
-      this.toast.info('Cached Followers: ' + data.toString());
+    this.userService.followersCached$.subscribe(data => {
       this.cachingStatus.followersWasCached = data;
+      this.toast.info('Followers: cached ' + data.toString());
     });
 
-    this.userService.cacheStatusFollowings$.subscribe(data => {
-      this.toast.info('Cached Followings: ' + data.toString());
+    this.userService.followingsCached$.subscribe(data => {
       this.cachingStatus.followingsWasCached = data;
+      this.toast.info('Followings: cached ' + data.toString());
     });
 
-    this.userService.cacheStatusGists$.subscribe(data => {
-      this.toast.info('Cached Gists: ' + data.toString());
-      this.cachingStatus.gistsWasCached = data;
+    this.userService.gistsCached$.subscribe(cached => {
+      this.cachingStatus.gistsWasCached = cached;
+      this.toast.info('Gists: cached ' + cached.toString());
     });
 
-    this.userService.gistObserver$.subscribe(
+    const gistSub: Subscription = this.userService.gist$.subscribe(
       data => {
         if (data === null) {
           this.toast.info('Clear gist cache');
@@ -98,7 +99,8 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       },
       error => {
-        console.log('Error gist: ', error);
+        // console.log('Error gist: ', error);
+        this.onErrorMessage(error);
       }
     );
 
@@ -108,7 +110,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onErrorMessage(error): void {
-    // debugger;
     const text: string = error.statusText || 'Internet Error';
     const message: string = `Error: (${error.status}) (${error.message}) ${text}`;
     console.error(`Error: ${message}`);
@@ -126,11 +127,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.userService.cacheStatusUser$.unsubscribe();
-    this.userService.cacheStatusFollowers$.unsubscribe();
-    this.userService.cacheStatusFollowings$.unsubscribe();
-    this.userService.cacheStatusGists$.unsubscribe();
+    this.userService.followersCached$.unsubscribe();
+    this.userService.followingsCached$.unsubscribe();
+    this.userService.gistsCached$.unsubscribe();
 
-    this.userService.gistObserver$.unsubscribe();
+    this.userService.gist$.unsubscribe();
   }
 
   clearCache() {
@@ -148,11 +149,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.toast.success('Cache cleared', 'App');
   }
 
+  // notifyBaseUsername
   onBaseUsername(username: string) {
     this.baseUsername = username;
-    this.toast.info('onBaseUsername ' + this.baseUsername, 'App');
-    // this.toast.success('Change baseUsername ' + this.baseUsername, 'User List');
     this.userService.loadUser(this.baseUsername);
+    this.toast.info('onBaseUsername ' + this.baseUsername, 'App');
   }
 
   /**

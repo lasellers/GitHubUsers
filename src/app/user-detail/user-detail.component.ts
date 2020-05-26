@@ -10,6 +10,7 @@ import { GitHubUserService } from '../git-hub-user.service';
 export class UserDetailComponent implements OnInit {
   @Input() baseUsername;
   @Output() notifyBaseUsername: EventEmitter<string> = new EventEmitter<string>();
+  // private user = {};
 
   constructor(
     public userService: GitHubUserService
@@ -17,6 +18,10 @@ export class UserDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    //
+    // this.userService.user$.subscribe(data => {
+    //  this.user = data;
+    // });
   }
 
   /**

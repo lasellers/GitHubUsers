@@ -1,4 +1,4 @@
-import {Gist} from './gist';
+import {Gist} from './gist.model';
 
 describe('Gist', () => {
   it('should create an instance', () => {
