@@ -66,9 +66,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public loadUser(username: string) {
-    console.log('loadUser ' + username);
     this.baseUsername = username;
-    console.log('loadUser ' + this.baseUsername);
     this.userService.getUser(username);
     this.followersService.getFollowers(username);
     this.followingsService.getFollowings(username);
@@ -76,7 +74,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public showUser(username: string) {
-    console.log('showUser ' + username);
     this.userService.getUser(username);
   }
 

@@ -63,7 +63,6 @@ export class GitHubUserService {
   }
 
   public getUser(username: string): void {
-    console.log('getUser ' + username);
     if (this.isCaching) {
       const cachedUserObj = localStorage.getItem('user_' + username);
       if (cachedUserObj !== null) {

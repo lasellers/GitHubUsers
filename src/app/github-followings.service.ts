@@ -34,7 +34,6 @@ export class GithubFollowingsService {
   }
 
   public getFollowings(username: string): void {
-    console.log('getFollowings ' + username);
     if (this.isCaching) {
       const cachedObj = localStorage.getItem('followings_' + username);
       if (cachedObj !== null) {

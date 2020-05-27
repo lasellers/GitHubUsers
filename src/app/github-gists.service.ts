@@ -54,7 +54,6 @@ export class GithubGistsService {
   }
 
   public getGists(username: string): void {
-    console.log('getGists ' + username);
     if (this.isCaching) {
       const cachedObj = localStorage.getItem('gists_' + username);
       if (cachedObj !== null) {
