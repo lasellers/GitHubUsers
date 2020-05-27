@@ -19,6 +19,8 @@ import { Gist } from './gist.model';
 import { delay } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { GithubGistsService } from "./github-gists.service";
+import { GithubFollowersService } from "./github-followers.service";
+import { GithubFollowingsService } from "./github-followings.service";
 
 console.clear();
 
@@ -55,6 +57,8 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     public userService: GitHubUserService,
     public gistService: GithubGistsService,
+    public followersService: GithubFollowersService,
+    public followingsService: GithubFollowingsService,
     private toast: ToastrService
   ) {
     this.baseUsername = this.userService.getUserBasenameDefault();
@@ -65,9 +69,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.baseUsername = username;
     console.log('loadUser ' + this.baseUsername);
     this.userService.getUser(username);
-    this.userService.getFollowers(username);
-    this.userService.getFollowings(username);
+    this.followersService.getFollowers(username);
+    this.followingsService.getFollowings(username);
     this.gistService.getGists(username);
+  }
+
+  public showUser(username: string) {
+    console.log('showUser ' + username);
+    this.userService.getUser(username);
   }
 
   ngOnInit() {
@@ -88,7 +97,7 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.userService.followersCached$.subscribe(cached => {
+    this.followersService.followersCached$.subscribe(cached => {
       this.cachingStatus.followersWasCached = cached;
       if (cached) {
         this.toast.success('Followers: (cached) ');
@@ -97,7 +106,7 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.userService.followingsCached$.subscribe(cached => {
+    this.followingsService.followingsCached$.subscribe(cached => {
       this.cachingStatus.followingsWasCached = cached;
       if (cached) {
         this.toast.success('Followings: (cached) ');
@@ -158,8 +167,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.userService.userCached$.unsubscribe();
-    this.userService.followersCached$.unsubscribe();
-    this.userService.followingsCached$.unsubscribe();
+    this.followersService.followersCached$.unsubscribe();
+    this.followingsService.followingsCached$.unsubscribe();
     this.gistService.gistsCached$.unsubscribe();
 
     this.gistService.gist$.unsubscribe();
@@ -180,15 +189,19 @@ export class AppComponent implements OnInit, OnDestroy {
     this.toast.success('Cache cleared', 'App');
   }
 
-  // notifyBaseUsername
+  // notifyChangeBaseUsername
   onChangeBaseUsername(username: string) {
-    //this.baseUsername = username;
     this.loadUser(username);
-    this.toast.info('onChangeBaseUsername: ' + this.baseUsername, 'App');
+    this.toast.info('onChangeBaseUsername: ' + username, 'App');
+  }
+
+  // notifyShowBaseUsername
+  onShowBaseUsername(username: string) {
+    this.showUser(username);
+    this.toast.info('onShowBaseUsername: ' + username, 'App');
   }
 
   changeBaseUsername(username: string) {
-    // this.baseUsername = username;
     this.loadUser(username);
     this.toast.success('Change baseUsername: ' + this.baseUsername, 'App');
   }

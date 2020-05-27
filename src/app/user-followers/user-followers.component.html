@@ -3,7 +3,7 @@
   <tbody>
   <tr class="row" *ngFor="let follower of followers | filterFollowers:filterString:'login'">
     <td class="col">
-      <span (click)="changeBaseUsername(follower.login)">{{follower.login}}</span>
+      <span (click)="showBaseUsername(follower.login)">{{follower.login}}</span>
       <fa-icon [icon]="['fas','cloud']" [hidden]="!userService.isUserCached(follower.login)"
                placement="left"
                ngbTooltip="User {{follower.login}} is cached localStorage"></fa-icon>

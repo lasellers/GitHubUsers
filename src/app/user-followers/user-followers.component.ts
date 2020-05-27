@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, OnDestroy, Output } from '@angular/core';
 import { GitHubUserService } from '../git-hub-user.service';
+import { GithubFollowersService } from "../github-followers.service";
 
 @Component({
   selector: 'app-user-followers',
@@ -8,13 +9,15 @@ import { GitHubUserService } from '../git-hub-user.service';
 })
 export class UserFollowersComponent implements OnInit, OnDestroy {
   @Input() baseUsername;
-  @Output() notifyBaseUsername = new EventEmitter();
+  @Output() notifyChangeBaseUsername = new EventEmitter();
+  @Output() notifyShowBaseUsername = new EventEmitter();
   public filterString: string = '';
   private cachedUsers = [];
   public followers = [];
 
   constructor(
-    public userService: GitHubUserService
+    public userService: GitHubUserService,
+    public followersService: GithubFollowersService
   ) {
   }
 
@@ -26,7 +29,7 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
     });
 
     //
-    this.userService.followers$.subscribe(followers => {
+    this.followersService.followers$.subscribe(followers => {
       this.followers = followers;
 
       for (const user of this.followers) {
@@ -36,7 +39,7 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.userService.getFollowers(this.baseUsername);
+    this.followersService.getFollowers(this.baseUsername);
   }
 
   ngOnDestroy(): void {
@@ -48,8 +51,11 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
   }
 
   changeBaseUsername(username: string): void {
-    // this.baseUsername = username;
-    this.notifyBaseUsername.emit(username);
+    this.notifyChangeBaseUsername.emit(username);
+  }
+
+  showBaseUsername(username: string): void {
+    this.notifyShowBaseUsername.emit(username);
   }
 
 }

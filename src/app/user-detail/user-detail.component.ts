@@ -9,7 +9,7 @@ import { GitHubUserService } from '../git-hub-user.service';
 })
 export class UserDetailComponent implements OnInit {
   @Input() baseUsername;
-  @Output() notifyBaseUsername: EventEmitter<string> = new EventEmitter<string>();
+  @Output() notifyChangeBaseUsername: EventEmitter<string> = new EventEmitter<string>();
 
   // private user = {};
 
@@ -27,7 +27,7 @@ export class UserDetailComponent implements OnInit {
 
   changeBaseUsername(username: string): void {
     this.baseUsername = username;
-    this.notifyBaseUsername.emit(this.baseUsername); // {username: username}
+    this.notifyChangeBaseUsername.emit(this.baseUsername); // {username: username}
   }
 
 }
