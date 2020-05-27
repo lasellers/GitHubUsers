@@ -27,6 +27,7 @@ import { BytesPipe } from './bytes.pipe';
 import { GistComponent } from './gist/gist.component';
 import { WasCachedPipe } from './was-cached.pipe';
 import { WasCachedHighlightDirective } from './was-cached-highlight.directive';
+import { FilterFollowersPipe } from './filter-followers.pipe';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { WasCachedHighlightDirective } from './was-cached-highlight.directive';
     BytesPipe,
     GistComponent,
     WasCachedPipe,
-    WasCachedHighlightDirective
+    WasCachedHighlightDirective,
+    FilterFollowersPipe
   ],
   imports: [
     BrowserModule,

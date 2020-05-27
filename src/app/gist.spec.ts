@@ -1,17 +1,17 @@
-import {Gist} from './gist.model';
+import { Gist } from './gist.model';
 
 describe('Gist', () => {
   it('should create an instance', () => {
     const obj = new Gist(
       'Lorem',
-      'a',
+      'a.ts',
       131,
       'http://test.com',
       'Typescript',
-      true,
-      true,
+      'http://test.com',
       'ff5',
-      'http://test.com'
+      true,
+      true,
     );
     expect(obj).toBeTruthy();
   });

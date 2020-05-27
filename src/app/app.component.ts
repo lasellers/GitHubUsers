@@ -18,6 +18,7 @@ import { BytesPipe } from './bytes.pipe';
 import { Gist } from './gist.model';
 import { delay } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { GithubGistsService } from "./github-gists.service";
 
 console.clear();
 
@@ -53,9 +54,20 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   constructor(
     public userService: GitHubUserService,
+    public gistService: GithubGistsService,
     private toast: ToastrService
   ) {
     this.baseUsername = this.userService.getUserBasenameDefault();
+  }
+
+  public loadUser(username: string) {
+    console.log('loadUser ' + username);
+    this.baseUsername = username;
+    console.log('loadUser ' + this.baseUsername);
+    this.userService.getUser(username);
+    this.userService.getFollowers(username);
+    this.userService.getFollowings(username);
+    this.gistService.getGists(username);
   }
 
   ngOnInit() {
@@ -63,9 +75,9 @@ export class AppComponent implements OnInit, OnDestroy {
       timeOut: 12000
     });
 
-    this.userService.loadUser(this.baseUsername);
+    this.loadUser(this.baseUsername);
 
-    this.userService.cacheStatusUser$.subscribe(cachedUsername => {
+    this.userService.userCached$.subscribe(cachedUsername => {
       const [cached, username] = cachedUsername;
       this.cachingStatus.userWasCached = cached;
       this.cachingStatus.users[username] = cached;
@@ -94,7 +106,7 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.userService.gistsCached$.subscribe(cached => {
+    this.gistService.gistsCached$.subscribe(cached => {
       this.cachingStatus.gistsWasCached = cached;
       if (cached) {
         this.toast.success('Gists: (cached) ');
@@ -103,7 +115,7 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
 
-    const gistSub: Subscription = this.userService.gist$.subscribe(
+    const gistSub: Subscription = this.gistService.gist$.subscribe(
       data => {
         if (data === null) {
           this.toast.info('Clear gist cache');
@@ -144,19 +156,18 @@ export class AppComponent implements OnInit, OnDestroy {
     this.toast.error(text, `Error: ${message} `);
   }
 
-
   ngOnDestroy() {
-    this.userService.cacheStatusUser$.unsubscribe();
+    this.userService.userCached$.unsubscribe();
     this.userService.followersCached$.unsubscribe();
     this.userService.followingsCached$.unsubscribe();
-    this.userService.gistsCached$.unsubscribe();
+    this.gistService.gistsCached$.unsubscribe();
 
-    this.userService.gist$.unsubscribe();
+    this.gistService.gist$.unsubscribe();
   }
 
   clearCache() {
     localStorage.clear();
-    this.userService.loadUser(this.baseUsername);
+    this.loadUser(this.baseUsername);
     this.cachingStatus = {
       userWasCached: false,
       followingsWasCached: false,
@@ -170,26 +181,27 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   // notifyBaseUsername
-  onBaseUsername(username: string) {
-    this.baseUsername = username;
-    this.userService.loadUser(this.baseUsername);
-    this.toast.info('onBaseUsername ' + this.baseUsername, 'App');
-  }
-
-  changeBaseUsernameToDefault() {
-    this.baseUsername = this.userService.getUserBasenameDefault();
-    this.userService.loadUser(this.baseUsername);
-    this.toast.success('Change baseUsername to default ' + this.baseUsername, 'App');
+  onChangeBaseUsername(username: string) {
+    //this.baseUsername = username;
+    this.loadUser(username);
+    this.toast.info('onChangeBaseUsername: ' + this.baseUsername, 'App');
   }
 
   changeBaseUsername(username: string) {
-    this.baseUsername = username;
-    this.userService.loadUser(this.baseUsername);
-    this.toast.success('Change baseUsername ' + this.baseUsername, 'App');
+    // this.baseUsername = username;
+    this.loadUser(username);
+    this.toast.success('Change baseUsername: ' + this.baseUsername, 'App');
+  }
+
+  changeBaseUsernameToDefault() {
+    // this.baseUsername = this.userService.getUserBasenameDefault();
+    this.loadUser(this.userService.getUserBasenameDefault());
+    this.toast.success('Change baseUsername to default ' + this.baseUsername, 'App');
   }
 
   changeCaching(value: boolean) {
     this.userService.isCaching = value;
+    this.gistService.isCaching = value;
     this.toast.success('Caching ' + (value ? 'On' : 'Off'), 'App');
   }
 

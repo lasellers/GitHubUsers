@@ -55,7 +55,7 @@
                  ngbTooltip="Clear user cache"></fa-icon>
       </div>
       <user-detail [baseUsername]="baseUsername"
-                   (notifyBaseUsername)='onBaseUsername($event)'></user-detail>
+                   (notifyBaseUsername)='onChangeBaseUsername($event)'></user-detail>
     </div>
 
     <div class="col-sm-4">
@@ -72,7 +72,7 @@
                  ngbTooltip="Clear followers cache"></fa-icon>
       </div>
       <app-user-followers [baseUsername]="baseUsername"
-                          (notifyBaseUsername)='onBaseUsername($event)'></app-user-followers>
+                          (notifyBaseUsername)='onChangeBaseUsername($event)'></app-user-followers>
     </div>
 
     <div class="col-sm-4">
@@ -89,7 +89,7 @@
                  ngbTooltip="Clear followings cache"></fa-icon>
       </div>
       <app-user-followings [baseUsername]="baseUsername"
-                           (notifyBaseUsername)='onBaseUsername($event)'></app-user-followings>
+                           (notifyBaseUsername)='onChangeBaseUsername($event)'></app-user-followings>
     </div>
 
   </div>
@@ -100,14 +100,14 @@
 
       <div appWasCachedHighlight [wasCached]="cachingStatus.gistsWasCached">
         Gists {{ cachingStatus.gistsWasCached | wasCached}}
-        <fa-icon [icon]="['fas','cloud']" *ngIf="userService.isGistsCached(baseUsername)"
+        <fa-icon [icon]="['fas','cloud']" *ngIf="gistService.isGistsCached(baseUsername)"
                  placement="left"
                  ngbTooltip="Gist is cached {{gist.id}}"></fa-icon>
         <fa-icon [icon]="['fas','cloud-download-alt']" *ngIf="cachingStatus.gistsWasCached"
                  placement="left"
                  ngbTooltip="Gist was cached {{gist.id}}"></fa-icon>
         <fa-icon [icon]="['fas','minus-circle']"
-                 (click)="userService.clearGistsCache()" placement="left"
+                 (click)="gistService.clearGistsCache()" placement="left"
                  ngbTooltip="Clear gists cache"></fa-icon>
       </div>
       <app-user-gists [baseUsername]="baseUsername"></app-user-gists>
@@ -117,8 +117,8 @@
 
       <div>
         Gist {{ cachingStatus.gistWasCached | wasCached}}
-        <fa-icon [icon]="['fas','minus-circle']" *ngIf="userService.isGistsCached(baseUsername)"
-                 (click)="userService.clearGistCache(gist)" placement="left"
+        <fa-icon [icon]="['fas','minus-circle']" *ngIf="gistService.isGistsCached(baseUsername)"
+                 (click)="gistService.clearGistCache(gist)" placement="left"
                  ngbTooltip="Clear gist cache"></fa-icon>
       </div>
 
@@ -142,7 +142,8 @@
         <a class="" href="https://github.com/{{baseUsername}}">https://github.com/{{baseUsername}}</a>
       </div>
       <div class="col-6">
-        Uncached Api Calls {{userService.apiCalls}}
+        Uncached Api Calls {{userService.apiCalls}}<br>
+        Uncached Gist Api Calls {{gistService.apiCalls}}<br>
       </div>
 
     </div>

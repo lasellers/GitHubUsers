@@ -1,10 +1,9 @@
-<h3>Following</h3>
-
-<table class="table table-striped" *ngIf="followings">
+<h3>Following <input type="text" class="form-control form-control-sm" [(ngModel)]="filterString"></h3>
+<table class="table table-striped">
   <tbody>
-  <tr class="row" *ngFor="let following of followings">
+  <tr class="row" *ngFor="let following of followings | filterFollowers:filterString:'login'">
     <td class="col">
-      <span (click)="userService.getUser(following.login)">{{following.login}}</span>
+      <span (click)="changeBaseUsername(following.login)">{{following.login}}</span>
       <fa-icon [icon]="['fas','cloud']" *ngIf="userService.isUserCached(following.login)"
                placement="left"
                ngbTooltip="User {{following.login}} is cached localStorage"></fa-icon>

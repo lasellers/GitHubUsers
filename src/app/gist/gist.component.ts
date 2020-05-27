@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GitHubUserService } from '../git-hub-user.service';
 import { Gist } from '../gist.model';
+import { GithubGistsService } from "../github-gists.service";
 // import { BytesPipe } from '../bytes.pipe';
 
 @Component({
@@ -12,13 +13,15 @@ export class GistComponent implements OnInit, OnDestroy {
   gist: Gist;
 
   constructor(
-    public userService: GitHubUserService
+    public userService: GitHubUserService,
+    public gistService: GithubGistsService
   ) {
   }
 
   ngOnInit(): void {
     this.gist = Gist.constructor(); // this.userService.blankGist();
-    this.userService.gist$.subscribe(
+    // this.userService.gist$.subscribe(
+    this.gistService.gist$.subscribe(
       data => {
         this.gist = data as any;
         // this.gistEvent(data);
@@ -34,7 +37,8 @@ export class GistComponent implements OnInit, OnDestroy {
   // }
 
   ngOnDestroy(): void {
-    this.userService.gist$.unsubscribe();
+    // this.userService.gist$.unsubscribe();
+    this.gistService.gist$.unsubscribe();
   }
 
 }

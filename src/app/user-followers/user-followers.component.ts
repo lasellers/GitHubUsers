@@ -9,6 +9,7 @@ import { GitHubUserService } from '../git-hub-user.service';
 export class UserFollowersComponent implements OnInit, OnDestroy {
   @Input() baseUsername;
   @Output() notifyBaseUsername = new EventEmitter();
+  public filterString: string = '';
   private cachedUsers = [];
   public followers = [];
 
@@ -19,7 +20,7 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // probably should delay this a click
-    this.userService.cacheStatusUser$.subscribe(statusUser => {
+    this.userService.userCached$.subscribe(statusUser => {
       const [status, username] = statusUser;
       this.cachedUsers[username] = status;
     });
@@ -35,11 +36,11 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.userService.getFollowers();
+    this.userService.getFollowers(this.baseUsername);
   }
 
   ngOnDestroy(): void {
-    this.userService.cacheStatusUser$.unsubscribe();
+    this.userService.userCached$.unsubscribe();
   }
 
   isUserWasCached(username: string): boolean {
@@ -47,8 +48,8 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
   }
 
   changeBaseUsername(username: string): void {
-    this.baseUsername = username;
-    this.notifyBaseUsername.emit(this.baseUsername);
+    // this.baseUsername = username;
+    this.notifyBaseUsername.emit(username);
   }
 
 }
