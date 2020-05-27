@@ -32,6 +32,7 @@ console.clear();
 export class AppComponent implements OnInit, OnDestroy {
   public version: string = packageJson.version;
   public title: string = packageJson.name;
+  public filterString: string = '';
 
   gist = {
     content: '',

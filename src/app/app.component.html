@@ -24,9 +24,11 @@
     </form>
 
     <div class="col-sm align-bottom">
-      Caching <input type="checkbox" [(ngModel)]="userService.isCaching" (change)="changeCaching(userService.isCaching)">
+      Caching <input type="checkbox" [(ngModel)]="userService.isCaching"
+                     (change)="changeCaching(userService.isCaching)">
       <button class="btn btn-outline-primary btn-sm my-2 my-sm-0" (click)="clearCache()">Clear cache</button>
-      <button class="btn btn-outline-primary btn-sm my-2 my-sm-0" (click)="changeBaseUsernameToDefault()" placement="bottom"
+      <button class="btn btn-outline-primary btn-sm my-2 my-sm-0" (click)="changeBaseUsernameToDefault()"
+              placement="bottom"
               ngbTooltip="Change to Default User">Default User
       </button>
     </div>
@@ -37,6 +39,26 @@
 <div class="container-fluid">
 
   <p class="lead">Learning Angular 9 using the GitHub API (v {{version}})</p>
+
+
+  <div class="row">
+
+    <div class="col-sm-4">
+    </div>
+
+    <div class="col-sm-8">
+      <form class="form-inline" role="form">
+
+      <div class="form-group-row">
+        <label for="filterString" class="sr-only">Filter</label>
+        <input type="text" id="filterString" name="filterString" placeholder="Filter string..." class="form-control mb-2 mr-sm-2" [(ngModel)]="filterString">
+      </div>
+
+      </form>
+
+    </div>
+
+  </div>
 
   <div class="row">
 
@@ -72,6 +94,7 @@
                  ngbTooltip="Clear followers cache"></fa-icon>
       </div>
       <app-user-followers [baseUsername]="baseUsername"
+                          [filterString]="filterString"
                           (notifyChangeBaseUsername)='onChangeBaseUsername($event)'
                           (notifyShowBaseUsername)='onShowBaseUsername($event)'></app-user-followers>
     </div>
@@ -90,6 +113,7 @@
                  ngbTooltip="Clear followings cache"></fa-icon>
       </div>
       <app-user-followings [baseUsername]="baseUsername"
+                           [filterString]="filterString"
                            (notifyChangeBaseUsername)='onChangeBaseUsername($event)'
                            (notifyShowBaseUsername)='onShowBaseUsername($event)'></app-user-followings>
     </div>

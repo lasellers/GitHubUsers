@@ -1,4 +1,4 @@
-<h3>Followers <input type="text" class="form-control form-control-sm" [(ngModel)]="filterString"></h3>
+<h3>Followers</h3>
 <table class="table table-striped">
   <tbody>
   <tr class="row" *ngFor="let follower of followers | filterFollowers:filterString:'login'">

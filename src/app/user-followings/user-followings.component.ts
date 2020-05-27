@@ -9,9 +9,9 @@ import { GithubFollowingsService } from "../github-followings.service";
 })
 export class UserFollowingsComponent implements OnInit, OnDestroy {
   @Input() baseUsername;
+  @Input() filterString: string = '';
   @Output() notifyChangeBaseUsername = new EventEmitter();
   @Output() notifyShowBaseUsername = new EventEmitter();
-  public filterString: string = '';
   private cachedUsers = [];
   public followings = [];
 
