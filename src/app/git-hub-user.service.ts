@@ -83,7 +83,9 @@ export class GitHubUserService {
           this.user = user;
           this.user$.emit(user);
           this.userCached$.emit([false, username]);
-          localStorage.setItem('user_' + username, JSON.stringify(user));
+          if (this.isCaching) {
+            localStorage.setItem('user_' + username, JSON.stringify(user));
+          }
         },
         error => {
           this.apiCalls++;

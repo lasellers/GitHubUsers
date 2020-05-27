@@ -44,14 +44,16 @@ export class GithubFollowingsService {
       }
     }
 
-    this.http.get(this.userService.getApiUrl()  + username + '/following').pipe(
+    this.http.get(this.userService.getApiUrl() + username + '/following').pipe(
       delay(0),
       map((res: HttpResponse<any>) => res)) //  res.json())
       .subscribe(followings => {
           this.apiCalls++;
           this.followingsCached$.emit(false);
           this.followings$.emit(followings);
-          localStorage.setItem('followings_' + username, JSON.stringify(followings));
+          if (this.isCaching) {
+            localStorage.setItem('followings_' + username, JSON.stringify(followings));
+          }
         },
         error => {
           this.apiCalls++;

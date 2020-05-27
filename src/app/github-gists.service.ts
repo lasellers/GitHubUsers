@@ -34,10 +34,6 @@ export class GithubGistsService {
     return (localStorage.getItem('gists_' + username) !== null);
   }
 
-  public isGistCached(gist): boolean {
-    return (localStorage.getItem('gist_' + gist.id + gist.filename) !== null);
-  }
-
   clearGistsCache(): void {
     if (this.userService.getUserBasename() != null) {
       localStorage.removeItem('gists_' + this.userService.getUserBasename());
@@ -45,20 +41,11 @@ export class GithubGistsService {
     }
   }
 
-  clearGistCache(gist): void {
-    localStorage.removeItem('gist_' + gist.id + gist.filename);
-    if (typeof gist === 'object') {
-      gist = Gist.constructor(); // this.blankGist();
-    }
-    this.gist$.next(gist);
-  }
-
   public getGists(username: string): void {
     if (this.isCaching) {
       const cachedObj = localStorage.getItem('gists_' + username);
       if (cachedObj !== null) {
         const gists = JSON.parse(cachedObj);
-        this.gists = GithubGistsService.processGistsToArray(gists, true);
         this.gistsCached$.emit(true);
         this.gists$.emit(this.gists);
         return;
@@ -74,7 +61,9 @@ export class GithubGistsService {
           this.gists = gists;
           this.gistsCached$.emit(false);
           this.gists$.emit(this.gists);
-          localStorage.setItem('gists_' + username, JSON.stringify(this.gists));
+          if (this.isCaching) {
+            localStorage.setItem('gists_' + username, JSON.stringify(this.gists));
+          }
         },
         error => {
           this.apiCalls++;
@@ -107,6 +96,18 @@ export class GithubGistsService {
     return processedGists;
   }
 
+  public isGistCached(gist): boolean {
+    return (localStorage.getItem('gist_' + gist.id + gist.filename) !== null);
+  }
+
+  clearGistCache(gist): void {
+    localStorage.removeItem('gist_' + gist.id + gist.filename);
+    if (typeof gist === 'object') {
+      gist = Gist.constructor(); // this.blankGist();
+    }
+    this.gist$.next(gist);
+  }
+
   public getGist(gist: Gist): void {
     if (this.isCaching) {
       const content = localStorage.getItem('gist_' + gist.id + gist.filename);
@@ -129,7 +130,9 @@ export class GithubGistsService {
           gist.cached = true;
           gist.wasCached = false;
           if (gist.size < (1024 * 32)) { /* store 32kb max */
-            localStorage.setItem('gist_' + gist.id + gist.filename, content);
+            if (this.isCaching) {
+              localStorage.setItem('gist_' + gist.id + gist.filename, content);
+            }
           }
           this.gist$.next(gist);
         },

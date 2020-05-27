@@ -184,30 +184,30 @@ export class AppComponent implements OnInit, OnDestroy {
       useCached: false,
       users: []
     };
-    this.toast.success('Cache cleared', 'App');
+    this.toast.success('Cache cleared');
   }
 
   // notifyChangeBaseUsername
   onChangeBaseUsername(username: string) {
     this.loadUser(username);
-    this.toast.info('onChangeBaseUsername: ' + username, 'App');
+    this.toast.info('onChangeBaseUsername: ' + username);
   }
 
   // notifyShowBaseUsername
   onShowBaseUsername(username: string) {
     this.showUser(username);
-    this.toast.info('onShowBaseUsername: ' + username, 'App');
+    this.toast.info('onShowBaseUsername: ' + username);
   }
 
   changeBaseUsername(username: string) {
     this.loadUser(username);
-    this.toast.success('Change baseUsername: ' + this.baseUsername, 'App');
+    this.toast.success('Change baseUsername: ' + this.baseUsername);
   }
 
   changeBaseUsernameToDefault() {
     // this.baseUsername = this.userService.getUserBasenameDefault();
     this.loadUser(this.userService.getUserBasenameDefault());
-    this.toast.success('Change baseUsername to default ' + this.baseUsername, 'App');
+    this.toast.success('Change baseUsername to default ' + this.baseUsername);
   }
 
   changeCaching(value: boolean) {
