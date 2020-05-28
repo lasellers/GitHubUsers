@@ -12,7 +12,7 @@
   <div class="card-body">
 
     <div *ngIf="userService.user == null">
-      <p>Select one of the users {{userService.baseUsername}} is following to see their information.</p>
+      <p>Select one of the users {{userService.getUserBasename()}} is following to see their information.</p>
     </div>
 
     <div class="card-text" *ngIf="userService.user !== null">
