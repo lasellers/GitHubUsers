@@ -14,5 +14,13 @@ describe('Gist', () => {
       true,
     );
     expect(obj).toBeTruthy();
+    expect(obj.id).toEqual('ff5');
   });
+
+  it('empty model created', () => {
+    const obj = new Gist(
+    );
+    expect(obj.id).toEqual('');
+  });
+
 });

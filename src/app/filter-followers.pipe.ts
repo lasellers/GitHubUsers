@@ -7,7 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class FilterFollowersPipe implements PipeTransform {
 
   transform(value: any, filterString: string, propName: string): any {
-    if (value.length == 0 || filterString == '') {
+    if (value.length === 0 || filterString === '') {
       return value;
     }
     const resultArray = [];
