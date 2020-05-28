@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { GithubGistsService } from './github-gists.service';
 
-describe('GithubGistsService', () => {
+xdescribe('GithubGistsService', () => {
   let service: GithubGistsService;
 
   beforeEach(() => {

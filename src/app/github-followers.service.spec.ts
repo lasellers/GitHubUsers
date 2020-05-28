@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { GithubFollowersService } from './github-followers.service';
 
-describe('GithubFollowersService', () => {
+xdescribe('GithubFollowersService', () => {
   let service: GithubFollowersService;
 
   beforeEach(() => {
