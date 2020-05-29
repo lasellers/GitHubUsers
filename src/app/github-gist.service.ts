@@ -39,7 +39,6 @@ export class GithubGistService {
     if (this.isCaching) {
       const content = localStorage.getItem('gist_' + gist.id + gist.filename);
       if (content !== null) {
-        console.log('cached getGist:', gist);
         gist.content = content;
         gist.cached = true;
         gist.wasCached = true;
@@ -62,7 +61,6 @@ export class GithubGistService {
               localStorage.setItem('gist_' + gist.id + gist.filename, content);
             }
           }
-          console.log('uncached getGist:', gist);
           this.gist$.next(gist);
         },
         error => {

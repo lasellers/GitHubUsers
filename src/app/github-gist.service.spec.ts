@@ -1,9 +1,9 @@
-import {inject, TestBed} from '@angular/core/testing';
-import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {HttpClient, HttpEvent, HttpEventType, HttpHeaders} from '@angular/common/http';
-import {GithubGistService} from './github-gist.service';
-import {Gist} from './gist.model';
-import {GithubGistsService} from './github-gists.service';
+import { inject, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClient, HttpEvent, HttpEventType, HttpHeaders } from '@angular/common/http';
+import { GithubGistService } from './github-gist.service';
+import { Gist } from './gist.model';
+import { GithubGistsService } from './github-gists.service';
 
 describe('GithubGistService', () => {
 
@@ -13,37 +13,19 @@ describe('GithubGistService', () => {
     filename: 'units.txt',
     language: 'Text',
     url: 'https://gist.githubusercontent.com/lasellers/7d9ed…a10d8ce79be188b90b9c3c9d0ff86329a955d01/units.txt',
-    size: 68,
+    size: 123,
     wasCached: true,
-    content: '',
-    cached: true
-  };
-
-  const gistResponse = {
-    body: `#50 - Smith
+    content: `#50 - Smith
 #8 - Johnson
 #100 - Sanders
 #1B - Adams
 #1A - Kessenich`,
-    headers: {}, // HttpHeaders {normalizedNames: Map(0), lazyUpdate: null, headers: Map(0)},
-    method: 'GET',
-    params: {}, // HttpParams {updates: null, cloneFrom: null, encoder: HttpUrlEncodingCodec, map: null},
-    reportProgress: false,
-    responseType: 'text',
-    url: 'https://gist.githubusercontent.com/lasellers/7d9ed…a10d8ce79be188b90b9c3c9d0ff86329a955d01/units.txt',
-    urlWithParams: 'https://gist.githubusercontent.com/lasellers/7d9ed…a10d8ce79be188b90b9c3c9d0ff86329a955d01/units.txt',
-    withCredentials: false
+    cached: true
   };
 
   let gistService: GithubGistService;
   let httpClient: HttpClientTestingModule;
   let httpMock: HttpTestingController;
-
-  /*
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    gistService = TestBed.inject(GithubGistService);
-  });*/
 
   beforeEach(() => {
     httpClient = new HttpClientTestingModule();
@@ -61,29 +43,44 @@ describe('GithubGistService', () => {
     expect(gistService).toBeTruthy();
   });
 
-  fit('should get live api', () => {
+  it('should get live api', () => {
+    const gistResponseContent = `#50 - Smith
+#8 - Johnson
+#100 - Sanders
+#1B - Adams
+#1A - Kessenich`;
+
     gistService.isCaching = false;
 
-    gistService.gist$.subscribe((event: HttpEvent<any>) => {
-      console.log('event:', event);
-
-      switch (event.type) {
-        case HttpEventType.Response:
-          console.log('body:', event.body);
-          expect(event.body).toEqual(gistResponse.body);
-          expect(event.ok).toBeTruthy();
-      }
+    gistService.gist$.subscribe((gistResponse: Gist) => {
+      expect(gistResponse.content).toEqual(gistResponseContent);
     }, error => {
       console.log('error:', error);
     });
 
     gistService.getGist(gist);
-    console.log('sent');
 
     const req = httpMock.expectOne(gist.contentUrl);
-    console.log('req:', req);
+    expect(req.cancelled).toBe(false);
     expect(req.request.method).toBe('GET');
-    req.flush(gist);
+    req.flush(gistResponseContent);
+  });
+
+  it('should get live api', () => {
+    const gistResponseContent = `Lorem Ipsum Cached`;
+
+    gistService.isCaching = true;
+    localStorage.setItem('gist_' + gist.id + gist.filename, gistResponseContent);
+
+    gistService.gist$.subscribe((gistResponse: Gist) => {
+      expect(gistResponse.content).toEqual(gistResponseContent);
+    }, error => {
+      console.log('error:', error);
+    });
+
+    gistService.getGist(gist);
+
+    const req = httpMock.expectNone(gist.contentUrl);
   });
 
   afterEach(() => {
@@ -91,41 +88,3 @@ describe('GithubGistService', () => {
   });
 
 });
-
-/*
-it(
-  'should get api',
-  inject(
-    [HttpTestingController, GithubGistService],
-    (httpMock: HttpTestingController, gistService: GithubGistService) => {
-      //
-      gistService.gist$.subscribe((event: HttpEvent<any>) => {
-        console.log('event:', event);
-
-        switch (event.type) {
-          case HttpEventType.Response:
-            console.log('body:', event.body);
-            expect(event.body).toEqual(mockGist);
-        }
-        //
-      });
-
-      service.isCaching = false;
-      service.getGist(gist);
-      console.log('gist:', gist);
-
-      const mockReq = httpMock.expectOne(gist.contentUrl);
-      console.log('mock request:', mockReq.request);
-
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('text');
-      expect(mockReq.request.method).toEqual('GET');
-      expect(mockReq.request.withCredentials).toEqual(false);
-      expect(mockReq.request.body).toEqual(mockGist.body);
-
-      mockReq.flush(mockGist);
-
-      httpMock.verify();
-    }
-  ));
-*/
