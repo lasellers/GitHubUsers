@@ -15,11 +15,7 @@ describe('GithubGistService', () => {
     url: 'https://gist.githubusercontent.com/lasellers/7d9ed…a10d8ce79be188b90b9c3c9d0ff86329a955d01/units.txt',
     size: 123,
     wasCached: true,
-    content: `#50 - Smith
-#8 - Johnson
-#100 - Sanders
-#1B - Adams
-#1A - Kessenich`,
+    content: ``,
     cached: true
   };
 
@@ -43,17 +39,15 @@ describe('GithubGistService', () => {
     expect(gistService).toBeTruthy();
   });
 
-  it('should get live api', () => {
-    const gistResponseContent = `#50 - Smith
-#8 - Johnson
-#100 - Sanders
-#1B - Adams
-#1A - Kessenich`;
+  it('should get uncached api', () => {
+    const gistResponseContent = `Lorem Ipsum
+Lorem Ipsum 2`;
 
     gistService.isCaching = false;
 
     gistService.gist$.subscribe((gistResponse: Gist) => {
       expect(gistResponse.content).toEqual(gistResponseContent);
+      expect(gistResponse.cached).toEqual(false);
     }, error => {
       console.log('error:', error);
     });
@@ -66,7 +60,7 @@ describe('GithubGistService', () => {
     req.flush(gistResponseContent);
   });
 
-  it('should get live api', () => {
+  it('should get cached api', () => {
     const gistResponseContent = `Lorem Ipsum Cached`;
 
     gistService.isCaching = true;
@@ -74,6 +68,7 @@ describe('GithubGistService', () => {
 
     gistService.gist$.subscribe((gistResponse: Gist) => {
       expect(gistResponse.content).toEqual(gistResponseContent);
+      expect(gistResponse.cached).toEqual(true);
     }, error => {
       console.log('error:', error);
     });
