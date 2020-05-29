@@ -21,6 +21,7 @@ import { Subscription } from 'rxjs';
 import { GithubGistsService } from "./github-gists.service";
 import { GithubFollowersService } from "./github-followers.service";
 import { GithubFollowingsService } from "./github-followings.service";
+import { GithubGistService } from "./github-gist.service";
 
 console.clear();
 
@@ -33,6 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public version: string = packageJson.version;
   public title: string = packageJson.name;
   public filterString: string = '';
+  // public notificationType = 'native';
 
   gist = {
     content: '',
@@ -57,9 +59,10 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   constructor(
     public userService: GitHubUserService,
-    public gistService: GithubGistsService,
+    public gistService: GithubGistService,
     public followersService: GithubFollowersService,
     public followingsService: GithubFollowingsService,
+    public gistsService: GithubGistsService,
     private toast: ToastrService
   ) {
     this.baseUsername = this.userService.getUserBasenameDefault();
@@ -70,7 +73,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.userService.getUser(username);
     this.followersService.getFollowers(username);
     this.followingsService.getFollowings(username);
-    this.gistService.getGists(username);
+    this.gistsService.getGists(username);
   }
 
   public showUser(username: string) {
@@ -81,6 +84,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.toast.warning(this.version, this.title, {
       timeOut: 12000
     });
+
+    /*Notification.requestPermission().then(permission => {
+      if(Notification.permission == 'granted') {
+        let notify = new Notification(this.title + ' ' + this.version);
+      }
+    });*/
 
     this.loadUser(this.baseUsername);
 
@@ -113,7 +122,7 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.gistService.gistsCached$.subscribe(cached => {
+    this.gistsService.gistsCached$.subscribe(cached => {
       this.cachingStatus.gistsWasCached = cached;
       if (cached) {
         this.toast.success('Gists: (cached) ');
@@ -167,8 +176,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.userService.userCached$.unsubscribe();
     this.followersService.followersCached$.unsubscribe();
     this.followingsService.followingsCached$.unsubscribe();
-    this.gistService.gistsCached$.unsubscribe();
-
+    this.gistsService.gistsCached$.unsubscribe();
     this.gistService.gist$.unsubscribe();
   }
 
@@ -212,7 +220,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   changeCaching(value: boolean) {
     this.userService.isCaching = value;
+    this.gistsService.isCaching = value;
     this.gistService.isCaching = value;
+    this.followingsService.isCaching = value;
+    this.followersService.isCaching = value;
     this.toast.success('Caching ' + (value ? 'On' : 'Off'), 'App');
   }
 

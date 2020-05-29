@@ -15,14 +15,10 @@ export class GithubGistsService {
   public apiCalls: number = 0;
   @Input() isCaching: boolean = true;
 
-  public gists: any = [];
+  // public gists: any = [];
 
   @Output() gistsCached$ = new EventEmitter(true);
   @Output() gists$ = new EventEmitter(true);
-
-  // @Output() gist$ = new EventEmitter(true);
-  public gist$ = new Subject();
-  public gistObs$ = this.gist$.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -47,7 +43,8 @@ export class GithubGistsService {
       if (cachedObj !== null) {
         const gists = JSON.parse(cachedObj);
         this.gistsCached$.emit(true);
-        this.gists$.emit(this.gists);
+        // this.gists = gist;
+        this.gists$.emit(gists);
         return;
       }
     }
@@ -58,11 +55,11 @@ export class GithubGistsService {
       .subscribe(
         gists => {
           this.apiCalls++;
-          this.gists = gists;
           this.gistsCached$.emit(false);
-          this.gists$.emit(this.gists);
+          // this.gists = gist;
+          this.gists$.emit(gists);
           if (this.isCaching) {
-            localStorage.setItem('gists_' + username, JSON.stringify(this.gists));
+            localStorage.setItem('gists_' + username, JSON.stringify(gists));
           }
         },
         error => {
@@ -94,53 +91,6 @@ export class GithubGistsService {
       }
     }
     return processedGists;
-  }
-
-  public isGistCached(gist): boolean {
-    return (localStorage.getItem('gist_' + gist.id + gist.filename) !== null);
-  }
-
-  clearGistCache(gist): void {
-    localStorage.removeItem('gist_' + gist.id + gist.filename);
-    if (typeof gist === 'object') {
-      gist = Gist.constructor(); // this.blankGist();
-    }
-    this.gist$.next(gist);
-  }
-
-  public getGist(gist: Gist): void {
-    if (this.isCaching) {
-      const content = localStorage.getItem('gist_' + gist.id + gist.filename);
-      if (content !== null) {
-        gist.content = content;
-        gist.cached = true;
-        gist.wasCached = true;
-        this.gist$.next(gist);
-        return;
-      }
-    }
-
-    this.http.get(gist.contentUrl, {responseType: 'text'}).pipe(
-      delay(0),
-      map((res) => res))
-      .subscribe(
-        content => {
-          this.apiCalls++;
-          gist.content = content;
-          gist.cached = true;
-          gist.wasCached = false;
-          if (gist.size < (1024 * 32)) { /* store 32kb max */
-            if (this.isCaching) {
-              localStorage.setItem('gist_' + gist.id + gist.filename, content);
-            }
-          }
-          this.gist$.next(gist);
-        },
-        error => {
-          this.apiCalls++;
-          this.errorMessage$.emit(error);
-        }); // ,
-    // () => console.log('getGist finished'));
   }
 
 }

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, OnDestroy, Output } from '@angu
 import { GitHubUserService } from '../git-hub-user.service';
 import { GithubGistsService } from "../github-gists.service";
 import { Gist } from "../gist.model";
+import { GithubGistService } from "../github-gist.service";
 
 @Component({
   selector: 'app-user-gists',
@@ -15,16 +16,21 @@ export class UserGistsComponent implements OnInit, OnDestroy {
 
   constructor(
     public userService: GitHubUserService,
-    public gistService: GithubGistsService
+    public gistsService: GithubGistsService,
+    public gistService: GithubGistService
   ) {
   }
 
   ngOnInit(): void {
-    // this.userService.getGists();
-    this.gistService.getGists(this.baseUsername);
+    this.gistsService.gists$.subscribe(gists => {
+      this.gists = gists;
+    });
+
+    this.gistsService.getGists(this.baseUsername);
   }
 
   ngOnDestroy() {
+    this.gistsService.gists$.unsubscribe();
   }
 
 }

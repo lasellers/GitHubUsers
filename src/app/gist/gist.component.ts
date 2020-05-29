@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GitHubUserService } from '../git-hub-user.service';
 import { Gist } from '../gist.model';
-import { GithubGistsService } from "../github-gists.service";
-// import { BytesPipe } from '../bytes.pipe';
+import { GithubGistService } from "../github-gist.service";
 
 @Component({
   selector: 'app-gist',
@@ -14,7 +13,7 @@ export class GistComponent implements OnInit, OnDestroy {
 
   constructor(
     public userService: GitHubUserService,
-    public gistService: GithubGistsService
+    public gistService: GithubGistService
   ) {
   }
 

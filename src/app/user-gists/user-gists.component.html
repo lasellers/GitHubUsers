@@ -1,9 +1,9 @@
 <div class="card-heading">
-  <h3 class="card-title" *ngIf="gistService.gists !== null">
+  <h3 class="card-title" *ngIf="gists !== null">
     Gists
   </h3>
 </div>
-<table class="table table-striped" *ngIf="gistService.gists">
+<table class="table table-striped" *ngIf="gists">
   <thead>
   <tr>
     <th>Filename</th>
@@ -14,7 +14,7 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let gist of gistService.gists">
+  <tr *ngFor="let gist of gists">
     <td>
       <button class="btn btn-primary" (click)="gistService.getGist(gist)">Get</button>
     </td>
