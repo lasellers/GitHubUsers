@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
-import { GitHubUserService } from '../git-hub-user.service';
+import { GitHubUserService } from '../github-user.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -10,8 +10,7 @@ import { GitHubUserService } from '../git-hub-user.service';
 export class UserDetailComponent implements OnInit {
   @Input() baseUsername;
   @Output() notifyChangeBaseUsername: EventEmitter<string> = new EventEmitter<string>();
-
-  // private user = {};
+  private user = {};
 
   constructor(
     public userService: GitHubUserService
@@ -19,15 +18,15 @@ export class UserDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    //
-    // this.userService.user$.subscribe(data => {
-    //  this.user = data;
-    // });
+    this.userService.user$.subscribe(user => {
+      this.user = user;
+    });
+
+    this.userService.getUser(this.baseUsername);
   }
 
   changeBaseUsername(username: string): void {
-    this.baseUsername = username;
-    this.notifyChangeBaseUsername.emit(this.baseUsername); // {username: username}
+    this.notifyChangeBaseUsername.emit(username);
   }
 
 }

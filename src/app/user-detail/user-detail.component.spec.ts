@@ -2,7 +2,7 @@ import {async, ComponentFixture, getTestBed, TestBed} from '@angular/core/testin
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import {UserDetailComponent} from './user-detail.component';
 
-import {GitHubUserService} from '../git-hub-user.service';
+import {GitHubUserService} from '../github-user.service';
 
 xdescribe('UserDetailComponent', () => {
   let component: UserDetailComponent;

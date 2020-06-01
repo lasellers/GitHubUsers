@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, OnDestroy, Output } from '@angular/core';
-import { GitHubUserService } from '../git-hub-user.service';
+import { GitHubUserService } from '../github-user.service';
 import { GithubFollowingsService } from "../github-followings.service";
 
 @Component({
@@ -23,9 +23,9 @@ export class UserFollowingsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // probably should delay this a click
-    this.userService.userCached$.subscribe(statusUser => {
-      const [status, username] = statusUser;
-      this.cachedUsers[username] = status;
+    this.userService.user$.subscribe(user => {
+      // const [status, username] = statusUser;
+      this.cachedUsers[user.login] = user.wasCached;
     });
 
     //
@@ -43,7 +43,7 @@ export class UserFollowingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.userService.userCached$.unsubscribe();
+    this.userService.user$.unsubscribe();
   }
 
   isUserWasCached(username: string): boolean {

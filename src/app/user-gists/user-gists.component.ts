@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, OnDestroy, Output } from '@angular/core';
-import { GitHubUserService } from '../git-hub-user.service';
-import { GithubGistsService } from "../github-gists.service";
+import { GitHubUserService } from '../github-user.service';
+import { GitHubGistsService } from "../github-gists.service";
 import { Gist } from "../gist.model";
 import { GithubGistService } from "../github-gist.service";
 
@@ -16,7 +16,7 @@ export class UserGistsComponent implements OnInit, OnDestroy {
 
   constructor(
     public userService: GitHubUserService,
-    public gistsService: GithubGistsService,
+    public gistsService: GitHubGistsService,
     public gistService: GithubGistService
   ) {
   }

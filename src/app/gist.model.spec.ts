@@ -1,6 +1,7 @@
 import { Gist } from './gist.model';
 
-describe('Gist', () => {
+describe('Gist model', () => {
+
   it('should create an instance', () => {
     const obj = new Gist(
       'Lorem',
@@ -18,8 +19,7 @@ describe('Gist', () => {
   });
 
   it('empty model created', () => {
-    const obj = new Gist(
-    );
+    const obj = new Gist();
     expect(obj.id).toEqual('');
   });
 

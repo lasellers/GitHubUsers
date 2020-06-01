@@ -1,113 +1,113 @@
 <div class="card card-default">
-  <img src="{{userService.user.avatar_url}}" class="card-img-top">
+  <img src="{{user.avatar_url}}" class="card-img-top">
 
   <div class="card-heading">
-    <h3 class="card-title" *ngIf="userService.user !== null">
-      {{userService.user.name}}
-      <fa-icon [icon]="['fas','user-cog']" (click)="changeBaseUsername(userService.user.login)"
+    <h3 class="card-title" *ngIf="user !== null">
+      {{user.name}}
+      <fa-icon [icon]="['fas','user-cog']" (click)="changeBaseUsername(user.login)"
                placement="left" ngbTooltip="Make user base"></fa-icon>
     </h3>
   </div>
 
   <div class="card-body">
 
-    <div *ngIf="userService.user == null">
+    <div *ngIf="user == null">
       <p>Select one of the users {{userService.getUserBasename()}} is following to see their information.</p>
     </div>
 
-    <div class="card-text" *ngIf="userService.user !== null">
+    <div class="card-text" *ngIf="user !== null">
 
       <form class="form-horizontal">
 
         <div class="row user-group">
           <label class="col-sm-4 user-label">Username</label>
           <div class="col-sm-6 user-line">
-            {{userService.user.login}}
+            {{user.login}}
           </div>
         </div>
 
         <div class="row user-group">
           <label class="col-sm-4 user-label">Name</label>
           <div class="col-sm-6 user-line">
-            {{userService.user.name}}
+            {{user.name}}
           </div>
         </div>
 
         <div class="row user-group">
           <label class="col-sm-4 user-label">Hireable</label>
-          <div class="col-sm-8 user-line">{{userService.user.hireable == true ? "Yes" : "No"}}</div>
+          <div class="col-sm-8 user-line">{{user.hireable == true ? "Yes" : "No"}}</div>
         </div>
 
         <div class="row user-group">
           <label class="col-sm-4 user-label">Id</label>
           <div class="col-sm-6 user-line">
-            {{userService.user.id}}
+            {{user.id}}
           </div>
         </div>
 
         <div class="row user-group">
           <label class="col-sm-4 user-label">Company</label>
           <div class="col-sm-6 user-line">
-            {{userService.user.company}}
+            {{user.company}}
           </div>
         </div>
 
         <div class="row user-group">
           <label class="col-sm-4 user-label">Blog</label>
           <div class="col-sm-6 user-line">
-            <a href="{{userService.user.blog}}">{{userService.user.blog}}</a>
+            <a href="{{user.blog}}">{{user.blog}}</a>
           </div>
         </div>
 
         <div class="row user-group">
           <label class="col-sm-4 user-label">Location</label>
           <div class="col-sm-6 user-line">
-            {{userService.user.location}}
+            {{user.location}}
           </div>
         </div>
 
         <div class="row user-group">
           <label class="col-sm-4 user-label">Email</label>
           <div class="col-sm-6 user-line">
-            <a href="mailto:{{userService.user.email}}">{{userService.user.email}}</a>
+            <a href="mailto:{{user.email}}">{{user.email}}</a>
           </div>
         </div>
 
         <div class="row user-group">
           <label class="col-sm-4 user-label">Bio</label>
           <div class="col-sm-6 user-line">
-            {{userService.user.bio}}
+            {{user.bio}}
           </div>
         </div>
 
         <div class="row user-group">
           <label class="col-sm-3 user-label">Repos</label>
-          <div class="col-sm-3 user-line">{{userService.user.public_repos}}</div>
+          <div class="col-sm-3 user-line">{{user.public_repos}}</div>
           <label class="col-sm-3 user-label">Gists</label>
-          <div class="col-sm-3 user-line">{{userService.user.public_gists}}</div>
+          <div class="col-sm-3 user-line">{{user.public_gists}}</div>
         </div>
 
         <div class="row user-group">
           <label class="col-sm-3 user-label">Followers</label>
-          <div class="col-sm-3 user-line">{{userService.user.followers}}</div>
+          <div class="col-sm-3 user-line">{{user.followers}}</div>
           <label class="col-sm-3 user-label">Following</label>
-          <div class="col-sm-3 user-line">{{userService.user.following}}</div>
+          <div class="col-sm-3 user-line">{{user.following}}</div>
         </div>
 
         <div class="row user-group">
           <label class="col-sm-4 user-label">Created</label>
-          <div class="col-sm-8 user-line">{{userService.user.created_at}}</div>
+          <div class="col-sm-8 user-line">{{user.created_at}}</div>
         </div>
         <div class="row user-group">
           <label class="col-sm-4 user-label">Last updated</label>
-          <div class="col-sm-8 user-line">{{userService.user.updated_at}}</div>
+          <div class="col-sm-8 user-line">{{user.updated_at}}</div>
         </div>
 
       </form>
       <!-- / form-horizontal -->
 
     </div>
-    <!-- ngIf="userService.user -->
+    <!-- ngIf="user -->
     <div class="card-footer">
 
     </div>

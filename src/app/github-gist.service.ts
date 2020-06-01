@@ -1,9 +1,14 @@
 import { EventEmitter, Injectable, Input, Output } from '@angular/core';
-import { Subject } from "rxjs";
+import { Subject, Subscription } from "rxjs";
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { delay, map } from 'rxjs/operators';
 import { Gist } from './gist.model';
 
+/**
+ * Note: We could eliminate a lot of the event emitters etc in the services and just use
+ * a public variable, however, part of the point of this repo is experimenting with
+ * observables and the like...
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -35,27 +40,23 @@ export class GithubGistService {
     this.gist$.next(gist);
   }
 
-  public getGist(gist: Gist): void {
+  public getGist(gist: Gist): Subscription {
     if (this.isCaching) {
       const content = localStorage.getItem('gist_' + gist.id + gist.filename);
       if (content !== null) {
-        gist.content = content;
-        gist.cached = true;
-        gist.wasCached = true;
+        gist = {...gist, content: content, cached: true, wasCached: true };
         this.gist$.next(gist);
-        return;
+        return; // this.gist$.subscribe(gist => gist);
       }
     }
 
-    this.http.get(gist.contentUrl, {responseType: 'text'}).pipe(
+    return this.http.get(gist.contentUrl, {responseType: 'text'}).pipe(
       delay(0),
       map((res) => res))
       .subscribe(
         content => {
           this.apiCalls++;
-          gist.content = content;
-          gist.cached = true;
-          gist.wasCached = false;
+          gist = {...gist, content: content, cached: true, wasCached: false };
           if (gist.size < (1024 * 32)) { /* store 32kb max */
             if (this.isCaching) {
               localStorage.setItem('gist_' + gist.id + gist.filename, content);

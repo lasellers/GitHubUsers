@@ -9,7 +9,7 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
-import { GitHubUserService } from './git-hub-user.service';
+import { GitHubUserService } from './github-user.service';
 import { ToastrService } from 'ngx-toastr';
 // @ts-ignore
 import packageJson from '../../package.json';
@@ -18,10 +18,10 @@ import { BytesPipe } from './bytes.pipe';
 import { Gist } from './gist.model';
 import { delay } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
-import { GithubGistsService } from "./github-gists.service";
-import { GithubFollowersService } from "./github-followers.service";
-import { GithubFollowingsService } from "./github-followings.service";
-import { GithubGistService } from "./github-gist.service";
+import { GitHubGistsService } from './github-gists.service';
+import { GithubFollowersService } from './github-followers.service';
+import { GithubFollowingsService } from './github-followings.service';
+import { GithubGistService } from './github-gist.service';
 
 console.clear();
 
@@ -62,7 +62,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public gistService: GithubGistService,
     public followersService: GithubFollowersService,
     public followingsService: GithubFollowingsService,
-    public gistsService: GithubGistsService,
+    public gistsService: GitHubGistsService,
     private toast: ToastrService
   ) {
     this.baseUsername = this.userService.getUserBasenameDefault();
@@ -93,41 +93,43 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.loadUser(this.baseUsername);
 
-    this.userService.userCached$.subscribe(cachedUsername => {
-      const [cached, username] = cachedUsername;
+    this.userService.user$.subscribe(user => {
+      // const [cached, username] = cachedUsername;
+      const cached = user.wasCached;
+      const username = user.login;
       this.cachingStatus.userWasCached = cached;
       this.cachingStatus.users[username] = cached;
       if (cached) {
-        this.toast.success('User: ' + username + ' (cached)');
+        this.toast.success(`User: ${username} (cached)`);
       } else {
-        this.toast.info('User: ' + username + ' (caching...)');
+        this.toast.info(`User: ${username} (caching...)`);
       }
     });
 
     this.followersService.followersCached$.subscribe(cached => {
       this.cachingStatus.followersWasCached = cached;
       if (cached) {
-        this.toast.success('Followers: (cached) ');
+        this.toast.success(`Followers: ${this.baseUsername} (cached) `);
       } else {
-        this.toast.info('Followers:  (caching...)');
+        this.toast.info(`Followers: ${this.baseUsername} (caching...)`);
       }
     });
 
     this.followingsService.followingsCached$.subscribe(cached => {
       this.cachingStatus.followingsWasCached = cached;
       if (cached) {
-        this.toast.success('Followings: (cached) ');
+        this.toast.success(`Followings: ${this.baseUsername} (cached) `);
       } else {
-        this.toast.info('Followings:  (caching...)');
+        this.toast.info(`Followings: ${this.baseUsername} (caching...)`);
       }
     });
 
     this.gistsService.gistsCached$.subscribe(cached => {
       this.cachingStatus.gistsWasCached = cached;
       if (cached) {
-        this.toast.success('Gists: (cached) ');
+        this.toast.success(`Gists: ${this.baseUsername} (cached) `);
       } else {
-        this.toast.info('Gists: (caching...)');
+        this.toast.info(`Gists: ${this.baseUsername} (caching...)`);
       }
     });
 
@@ -140,7 +142,6 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       },
       error => {
-        // console.log('Error gist: ', error);
         this.onErrorMessage(error);
       }
     );
@@ -173,7 +174,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.userService.userCached$.unsubscribe();
+    this.userService.user$.unsubscribe();
     this.followersService.followersCached$.unsubscribe();
     this.followingsService.followingsCached$.unsubscribe();
     this.gistsService.gistsCached$.unsubscribe();

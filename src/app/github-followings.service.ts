@@ -1,8 +1,14 @@
 import { EventEmitter, Injectable, Input, Output } from '@angular/core';
 import { delay, map } from "rxjs/operators";
 import { HttpClient, HttpResponse } from "@angular/common/http";
-import { GitHubUserService } from "./git-hub-user.service";
+import { GitHubUserService } from "./github-user.service";
+import { of, Subscription } from "rxjs";
 
+/**
+ * Note: We could eliminate a lot of the event emitters etc in the services and just use
+ * a public variable, however, part of the point of this repo is experimenting with
+ * observables and the like...
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -33,18 +39,18 @@ export class GithubFollowingsService {
     return (localStorage.getItem('followings_' + username) !== null);
   }
 
-  public getFollowings(username: string): void {
+  public getFollowings(username: string): Subscription {
     if (this.isCaching) {
       const cachedObj = localStorage.getItem('followings_' + username);
       if (cachedObj !== null) {
         const followings = JSON.parse(cachedObj);
         this.followingsCached$.emit(true);
         this.followings$.emit(followings);
-        return;
+        return; // of(followings).subscribe();
       }
     }
 
-    this.http.get(this.userService.getApiUrl() + username + '/following').pipe(
+    return this.http.get(this.userService.getApiUrl() + username + '/following').pipe(
       delay(0),
       map((res: HttpResponse<any>) => res)) //  res.json())
       .subscribe(followings => {

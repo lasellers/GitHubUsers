@@ -3,21 +3,9 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { HttpClient, HttpEvent, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { GithubGistService } from './github-gist.service';
 import { Gist } from './gist.model';
-import { GithubGistsService } from './github-gists.service';
+import { GitHubGistsService } from './github-gists.service';
 
-describe('GithubGistService', () => {
-
-  const gist: Gist = {
-    id: '7d9ed3190275aa22cbfce66ae4476c1e',
-    contentUrl: 'https://gist.githubusercontent.com/lasellers/7d9ed…a10d8ce79be188b90b9c3c9d0ff86329a955d01/units.txt',
-    filename: 'units.txt',
-    language: 'Text',
-    url: 'https://gist.githubusercontent.com/lasellers/7d9ed…a10d8ce79be188b90b9c3c9d0ff86329a955d01/units.txt',
-    size: 123,
-    wasCached: true,
-    content: ``,
-    cached: true
-  };
+describe('Github Gist Service', () => {
 
   let gistService: GithubGistService;
   let httpClient: HttpClientTestingModule;
@@ -25,10 +13,9 @@ describe('GithubGistService', () => {
 
   beforeEach(() => {
     httpClient = new HttpClientTestingModule();
-    // service = new GithubGistsService(httpClient, userServiceMock);
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [GithubGistsService,
+      providers: [GitHubGistsService,
         {provider: HttpClient, useValue: httpClient}]
     });
     gistService = TestBed.inject(GithubGistService);
@@ -42,12 +29,25 @@ describe('GithubGistService', () => {
   it('should get uncached api', () => {
     const gistResponseContent = `Lorem Ipsum
 Lorem Ipsum 2`;
+    const gist: Gist = {
+      id: '123',
+      contentUrl: 'https://gist.githubusercontent.com/lasellers/7d9ed…a10d8ce79be188b90b9c3c9d0ff86329a955d01/units.txt',
+      filename: 'units.txt',
+      language: 'Text',
+      url: 'https://gist.githubusercontent.com/lasellers/7d9ed…a10d8ce79be188b90b9c3c9d0ff86329a955d01/units.txt',
+      size: 123,
+      wasCached: true,
+      content: ``,
+      cached: true
+    };
 
+    localStorage.removeItem('gist_' + gist.id + gist.filename);
     gistService.isCaching = false;
 
     gistService.gist$.subscribe((gistResponse: Gist) => {
       expect(gistResponse.content).toEqual(gistResponseContent);
-      expect(gistResponse.cached).toEqual(false);
+      expect(gistResponse.wasCached).toEqual(false);
+      expect(gistService.apiCalls).toBe(1);
     }, error => {
       console.log('error:', error);
     });
@@ -63,12 +63,26 @@ Lorem Ipsum 2`;
   it('should get cached api', () => {
     const gistResponseContent = `Lorem Ipsum Cached`;
 
+    const gist: Gist = {
+      id: '321',
+      contentUrl: 'https://gist.githubusercontent.com/lasellers/7d9ed…a10d8ce79be188b90b9c3c9d0ff86329a955d01/units.txt',
+      filename: 'units.txt',
+      language: 'Text',
+      url: 'https://gist.githubusercontent.com/lasellers/7d9ed…a10d8ce79be188b90b9c3c9d0ff86329a955d01/units.txt',
+      size: 321,
+      wasCached: true,
+      content: ``,
+      cached: true
+    };
+
+    localStorage.removeItem('gist_' + gist.id + gist.filename);
     gistService.isCaching = true;
     localStorage.setItem('gist_' + gist.id + gist.filename, gistResponseContent);
 
     gistService.gist$.subscribe((gistResponse: Gist) => {
       expect(gistResponse.content).toEqual(gistResponseContent);
-      expect(gistResponse.cached).toEqual(true);
+      expect(gistResponse.wasCached).toEqual(true);
+      expect(gistService.apiCalls).toBe(0);
     }, error => {
       console.log('error:', error);
     });

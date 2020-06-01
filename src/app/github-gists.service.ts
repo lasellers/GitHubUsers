@@ -1,21 +1,28 @@
 import { EventEmitter, Injectable, Input, Output } from '@angular/core';
 import { Gist } from "./gist.model";
-import { delay, map } from "rxjs/operators";
+import { delay, map, tap } from "rxjs/operators";
 import { HttpClient, HttpResponse } from "@angular/common/http";
-import { Subject } from "rxjs";
-import { GitHubUserService } from "./git-hub-user.service";
+// import { Observable, Subject, of } from "rxjs";
+// import 'rxjs/add/observable/of';
+// import { Observable } from "rxjs/Observable";
+// import { of as observableOf } from 'rxjs/observable/of';
+import { Observable, of, Subscription } from 'rxjs';
+import { GitHubUserService } from "./github-user.service";
 
+/**
+ * Note: We could eliminate a lot of the event emitters etc in the services and just use
+ * a public variable, however, part of the point of this repo is experimenting with
+ * observables and the like...
+ */
 @Injectable({
   providedIn: 'root'
 })
-export class GithubGistsService {
+export class GitHubGistsService {
   @Output() errorMessage$ = new EventEmitter(true);
 
   // These are resolved async
   public apiCalls: number = 0;
   @Input() isCaching: boolean = true;
-
-  // public gists: any = [];
 
   @Output() gistsCached$ = new EventEmitter(true);
   @Output() gists$ = new EventEmitter(true);
@@ -37,39 +44,37 @@ export class GithubGistsService {
     }
   }
 
-  public getGists(username: string): void {
+  public getGists(username: string): Subscription {
     if (this.isCaching) {
       const cachedObj = localStorage.getItem('gists_' + username);
       if (cachedObj !== null) {
-        const gists = JSON.parse(cachedObj);
         this.gistsCached$.emit(true);
-        // this.gists = gist;
+        const gists = JSON.parse(cachedObj);
         this.gists$.emit(gists);
-        return;
+        return; // of<Gist>(gists).subscribe();
       }
     }
 
-    this.http.get(this.userService.getApiUrl() + username + '/gists').pipe(
+    return this.http.get<Gist>(this.userService.getApiUrl() + username + '/gists').pipe(
       delay(0),
-      map((results: HttpResponse<any>) => GithubGistsService.processGistsToArray(results, false)))
-      .subscribe(
-        gists => {
-          this.apiCalls++;
-          this.gistsCached$.emit(false);
-          // this.gists = gist;
-          this.gists$.emit(gists);
-          if (this.isCaching) {
-            localStorage.setItem('gists_' + username, JSON.stringify(gists));
-          }
-        },
-        error => {
-          this.apiCalls++;
-          this.errorMessage$.emit(error);
-        }); // ,
+      map((results) => GitHubGistsService.processGistsToArray(results, false))
+    ).subscribe(
+      gists => {
+        this.apiCalls++;
+        this.gistsCached$.emit(false);
+        this.gists$.emit(gists);
+        if (this.isCaching) {
+          localStorage.setItem('gists_' + username, JSON.stringify(gists));
+        }
+      },
+      error => {
+        this.apiCalls++;
+        this.errorMessage$.emit(error);
+      }); // ,
     // () => console.log('getGists finished'));
   }
 
-  private static processGistsToArray(gists, isCached: boolean): any[] {
+  private static processGistsToArray(gists, isCached: boolean): Gist[] {
     let processedGists = [];
     for (const gist of gists) {
       for (const key in gist.files) {

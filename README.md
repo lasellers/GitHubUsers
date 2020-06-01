@@ -11,6 +11,8 @@ Hopefully playing with the code will help clear up some issues you encounter as 
 
 Good luck.
 
+Note: This code may change often.
+
 --Lewis
 
 ### Version

@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
 import {TestBed, async, inject} from '@angular/core/testing';
-import {GitHubUserService} from './git-hub-user.service';
+import {GitHubUserService} from './github-user.service';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 
 describe('GitHubUserService', () => {

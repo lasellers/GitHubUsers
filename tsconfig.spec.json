@@ -5,7 +5,9 @@
     "types": [
       "jasmine",
       "node"
-    ]
+    ],
+    "esModuleInterop": true, // 2
+    "emitDecoratorMetadata": true // 3
   },
   "files": [
     "src/test.ts",

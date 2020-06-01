@@ -1,5 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { GitHubUserService } from '../git-hub-user.service';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { Gist } from '../gist.model';
 import { GithubGistService } from "../github-gist.service";
 
@@ -9,24 +8,23 @@ import { GithubGistService } from "../github-gist.service";
   styleUrls: ['./gist.component.css']
 })
 export class GistComponent implements OnInit, OnDestroy {
+  @Output() errorMessage$ = new EventEmitter(true);
   gist: Gist;
 
   constructor(
-    public userService: GitHubUserService,
     public gistService: GithubGistService
   ) {
   }
 
   ngOnInit(): void {
-    this.gist = Gist.constructor(); // this.userService.blankGist();
-    // this.userService.gist$.subscribe(
+    this.gist = Gist.constructor();
     this.gistService.gist$.subscribe(
       data => {
         this.gist = data as any;
         // this.gistEvent(data);
       },
       error => {
-        this.userService.errorMessage$.emit(error);
+        this.errorMessage$.emit(error);
       }
     );
   }
@@ -36,7 +34,6 @@ export class GistComponent implements OnInit, OnDestroy {
   // }
 
   ngOnDestroy(): void {
-    // this.userService.gist$.unsubscribe();
     this.gistService.gist$.unsubscribe();
   }
 

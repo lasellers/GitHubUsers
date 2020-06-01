@@ -1,7 +1,7 @@
 import { delay, map } from 'rxjs/operators';
 import { EventEmitter, Injectable, Input, Output } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { Gist } from './gist.model';
 
 /**
@@ -19,15 +19,13 @@ export class GitHubUserService {
   // These are resolved async
   public apiCalls: number = 0;
 
-  public user: any = null;
-
   //
   @Input() isCaching: boolean = true;
 
   // Make all of these async so we don't have a checked error
   // Note also, since this is a service, we can't just hook these up as output
   // on the component but must subscribe to them.
-  @Output() userCached$ = new EventEmitter(true);
+  // @Output() userCached$ = new EventEmitter(true);
 
   @Output() user$ = new EventEmitter(true);
   @Output() errorMessage$ = new EventEmitter(true);
@@ -55,34 +53,30 @@ export class GitHubUserService {
     //  this.emitCacheStatusUser(false, this.user.login);
     // }
     localStorage.removeItem('user_' + username);
-    this.userCached$.emit([false, username]);
+    this.user$.emit({login: username, wasCached: false});
   }
 
   public isUserCached(username: string): boolean {
     return (localStorage.getItem('user_' + username) !== null);
   }
 
-  public getUser(username: string): void {
+  public getUser(username: string): Subscription {
     if (this.isCaching) {
       const cachedUserObj = localStorage.getItem('user_' + username);
       if (cachedUserObj !== null) {
         const user = JSON.parse(cachedUserObj);
-        this.user = user;
-        this.user$.emit(user);
-        this.userCached$.emit([true, username]);
-        return;
+        this.user$.emit({...user, wasCached: true});
+        return; // this.user$.subscribe(user => user);
       }
     }
 
-    this.http.get(this.apiUrl + username).pipe(
+    return this.http.get(this.apiUrl + username).pipe(
       delay(0),
       map((res: HttpResponse<any>) => res))
       .subscribe(
         user => {
           this.apiCalls++;
-          this.user = user;
-          this.user$.emit(user);
-          this.userCached$.emit([false, username]);
+          this.user$.emit({...user, wasCached: false});
           if (this.isCaching) {
             localStorage.setItem('user_' + username, JSON.stringify(user));
           }
