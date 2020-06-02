@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { Gist } from '../gist.model';
-import { GithubGistService } from "../github-gist.service";
+import { GitHubGistService } from "../github-gist.service";
 
 @Component({
   selector: 'app-gist',
@@ -12,7 +12,7 @@ export class GistComponent implements OnInit, OnDestroy {
   gist: Gist;
 
   constructor(
-    public gistService: GithubGistService
+    public gistService: GitHubGistService
   ) {
   }
 

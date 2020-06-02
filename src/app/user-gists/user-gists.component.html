@@ -1,9 +1,9 @@
 <div class="card-heading">
-  <h3 class="card-title" *ngIf="gists !== null">
+  <h3 class="card-title" *ngIf="gists.length > 0">
     Gists
   </h3>
 </div>
-<table class="table table-striped" *ngIf="gists">
+<table class="table table-striped" *ngIf="gists.length > 0">
   <thead>
   <tr>
     <th>Filename</th>

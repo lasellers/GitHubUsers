@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, OnDestroy, Output } from '@angular/core';
-import { GitHubUserService } from '../github-user.service';
 import { GitHubGistsService } from "../github-gists.service";
 import { Gist } from "../gist.model";
-import { GithubGistService } from "../github-gist.service";
+import { GitHubGistService } from "../github-gist.service";
 
 @Component({
   selector: 'app-user-gists',
@@ -11,13 +10,11 @@ import { GithubGistService } from "../github-gist.service";
 })
 export class UserGistsComponent implements OnInit, OnDestroy {
   @Input() baseUsername;
-
-  public gists: Gist[];
+  public gists: Gist[] = [];
 
   constructor(
-    public userService: GitHubUserService,
     public gistsService: GitHubGistsService,
-    public gistService: GithubGistService
+    public gistService: GitHubGistService
   ) {
   }
 
@@ -26,6 +23,7 @@ export class UserGistsComponent implements OnInit, OnDestroy {
       this.gists = gists;
     });
 
+    console.log('ngOnInit gistsService:', this.gistsService);
     this.gistsService.getGists(this.baseUsername);
   }
 

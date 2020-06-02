@@ -2,10 +2,6 @@ import { EventEmitter, Injectable, Input, Output } from '@angular/core';
 import { Gist } from "./gist.model";
 import { delay, map, tap } from "rxjs/operators";
 import { HttpClient, HttpResponse } from "@angular/common/http";
-// import { Observable, Subject, of } from "rxjs";
-// import 'rxjs/add/observable/of';
-// import { Observable } from "rxjs/Observable";
-// import { of as observableOf } from 'rxjs/observable/of';
 import { Observable, of, Subscription } from 'rxjs';
 import { GitHubUserService } from "./github-user.service";
 
@@ -44,7 +40,8 @@ export class GitHubGistsService {
     }
   }
 
-  public getGists(username: string): Subscription {
+  public getGists(username: string): any { // Subscription {
+    console.log('get gists native ' + username);
     if (this.isCaching) {
       const cachedObj = localStorage.getItem('gists_' + username);
       if (cachedObj !== null) {

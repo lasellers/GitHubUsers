@@ -13,7 +13,7 @@ jobs:
           name: npm install
           command: npm install
       - save_cache:
-          key: v1-{{ arch }}-cache-{{ checksum "package.json"}}
+          key: githubusers-{{ .Branch }}-cache-{{ checksum "package.json"}}
           paths:
             - ./node_modules
   test:
@@ -21,7 +21,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v1-{{ arch }}-cache-{{ checksum "package.json"}}
+          key: githubusers-{{ .Branch }}-cache-{{ checksum "package.json"}}
       - run:
           name: Setup Test Output Directory
           command: mkdir -p test-results/karma

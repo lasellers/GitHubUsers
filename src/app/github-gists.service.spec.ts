@@ -5,40 +5,58 @@ import { GitHubGistsService } from './github-gists.service';
 import { GitHubUserService } from "./github-user.service";
 import { Gist } from "./gist.model";
 
-class FakeUserService {
+class MockUserService {
   getApiUrl() {
     return 'http://localhost';
   }
 }
 
 describe('Github Gists Service', () => {
-
+  let userService: GitHubUserService;
   let gistsService: GitHubGistsService;
+
   let httpClient: HttpClientTestingModule;
   let httpMock: HttpTestingController;
-  let userService: GitHubUserService;
 
   beforeEach(() => {
     httpClient = new HttpClientTestingModule();
-    // service = new GitHubGistsService(httpClient, userServiceMock);
+
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        {provider: HttpClient, useValue: httpClient},
-        {provider: GitHubUserService, useValue: FakeUserService}
+        GitHubGistsService,
+        {provider: HttpClient, useClass: httpClient},
+        {provider: GitHubUserService, useClass: MockUserService}
       ]
     });
-    //userService = TestBed.inject(GitHubUserService);
-    gistsService = TestBed.inject(GitHubGistsService);
+
     httpMock = TestBed.inject(HttpTestingController);
+
+    userService = TestBed.inject(GitHubUserService);
+    gistsService = TestBed.inject(GitHubGistsService);
+    console.log(userService);
+    console.log(gistsService);
   });
 
-  beforeEach(
+  /*beforeEach(
     inject([GitHubUserService], (service: GitHubUserService) => {
       userService = service;
     })
-  );
+  );*/
 
+  describe('setup', () => {
+
+    it('GitHub User Service should be created', () => {
+      expect(userService).toBeTruthy();
+    });
+
+    it('GitHub Gists Service should be created', () => {
+      expect(gistsService).toBeTruthy();
+    });
+
+  });
+
+  /*
   const FakeGists = [{
     "id": "123",
     "contentUrl": "https://gist.githubusercontent.com/lasellers/35543e1b77ed0da025076b7eaf230375/raw/276872838dc97cc0620986ecbbb4188d2200b724/sort3.cs",
@@ -148,6 +166,7 @@ describe('Github Gists Service', () => {
     },
     "cached": false
   }];
+
   const FakeGistsResponse = [
     {
       id: '123',
@@ -172,63 +191,59 @@ describe('Github Gists Service', () => {
       cached: false
     }];
 
+  xdescribe('api', () => {
 
-  it('GitHubUserService should be created', () => {
-    expect(userService).toBeTruthy();
-  });
+    it('should get uncached api', () => {
+      const username = 'lasellers';
+      const url = userService.getApiUrl() + username + '/gists';
 
-  it('GitHubGistsService should be created', () => {
-    expect(gistsService).toBeTruthy();
-  });
+      localStorage.removeItem('gists_' + username);
+      gistsService.isCaching = false;
 
-  fit('should get uncached api', () => {
-    const username = 'lasellers';
-    const url = userService.getApiUrl() + username + '/gists';
+      gistsService.gists$.subscribe((gistsResponse: Gist[]) => {
+        expect(gistsResponse.length).toEqual(2);
+        expect(gistsResponse).toEqual(FakeGistsResponse);
+        expect(gistsService.apiCalls).toBe(1);
+      }, error => {
+        console.log('error:', error);
+      });
 
-    localStorage.removeItem('gists_' + username);
-    gistsService.isCaching = false;
+      gistsService.getGists(username);
 
-    gistsService.gists$.subscribe((gistsResponse: Gist[]) => {
-      expect(gistsResponse.length).toEqual(2);
-      expect(gistsResponse).toEqual(FakeGistsResponse);
-      expect(gistsService.apiCalls).toBe(1);
-    }, error => {
-      console.log('error:', error);
+      const req = httpMock.expectOne(url);
+      expect(req.cancelled).toBe(false);
+      expect(req.request.method).toBe('GET');
+      req.flush(FakeGists);
     });
 
-    gistsService.getGists(username);
+    it('should get cached api', () => {
+      const username = 'lasellers';
+      const url = userService.getApiUrl() + username + '/gists';
 
-    const req = httpMock.expectOne(url);
-    expect(req.cancelled).toBe(false);
-    expect(req.request.method).toBe('GET');
-    req.flush(FakeGists);
-  });
+      localStorage.removeItem('gists_' + username);
+      gistsService.isCaching = true;
+      localStorage.setItem('gists_' + username, JSON.stringify(FakeGistsResponse));
 
-  it('should get cached api', () => {
-    const username = 'lasellers';
-    const url = userService.getApiUrl() + username + '/gists';
+      gistsService.gists$.subscribe((gistsResponse: Gist[]) => {
+        expect(gistsResponse.length).toEqual(2);
+        expect(gistsResponse).toEqual(FakeGistsResponse);
+        expect(gistsService.apiCalls).toBe(0);
+      }, error => {
+        console.log('error:', error);
+      });
 
-    localStorage.removeItem('gists_' + username);
-    gistsService.isCaching = true;
-    localStorage.setItem('gists_' + username, JSON.stringify(FakeGistsResponse));
+      gistsService.getGists(username);
 
-    gistsService.gists$.subscribe((gistsResponse: Gist[]) => {
-      expect(gistsResponse.length).toEqual(2);
-      expect(gistsResponse).toEqual(FakeGistsResponse);
-      expect(gistsService.apiCalls).toBe(0);
-    }, error => {
-      console.log('error:', error);
+      const req = httpMock.expectNone(url);
+      // expect(req).toBeTruthy();
     });
-
-    gistsService.getGists(username);
-
-    const req = httpMock.expectNone(url);
-    // expect(req).toBeTruthy();
-  });
 
   afterEach(() => {
     httpMock.verify();
   });
 
+
+  });
+*/
 });
 

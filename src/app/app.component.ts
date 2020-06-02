@@ -21,7 +21,7 @@ import { Subscription } from 'rxjs';
 import { GitHubGistsService } from './github-gists.service';
 import { GithubFollowersService } from './github-followers.service';
 import { GithubFollowingsService } from './github-followings.service';
-import { GithubGistService } from './github-gist.service';
+import { GitHubGistService } from './github-gist.service';
 
 console.clear();
 
@@ -59,7 +59,7 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   constructor(
     public userService: GitHubUserService,
-    public gistService: GithubGistService,
+    public gistService: GitHubGistService,
     public followersService: GithubFollowersService,
     public followingsService: GithubFollowingsService,
     public gistsService: GitHubGistsService,
