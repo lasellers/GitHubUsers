@@ -1,8 +1,8 @@
 import { EventEmitter, Injectable, Input, Output } from '@angular/core';
-import { delay, map } from "rxjs/operators";
-import { HttpClient, HttpResponse } from "@angular/common/http";
-import { GitHubUserService } from "./github-user.service";
-import { of, Subscription } from "rxjs";
+import { of, Subscription } from 'rxjs';
+import { delay, map } from 'rxjs/operators';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { GitHubUserService } from './github-user.service';
 
 /**
  * Note: We could eliminate a lot of the event emitters etc in the services and just use
@@ -12,15 +12,14 @@ import { of, Subscription } from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
-export class GithubFollowingsService {
+export class GitHubFollowingsService {
   @Output() errorMessage$ = new EventEmitter(true);
-  // These are resolved async
-  public apiCalls: number = 0;
-
-  //
   @Input() isCaching: boolean = true;
   @Output() followingsCached$ = new EventEmitter(true);
   @Output() followings$ = new EventEmitter(true);
+
+  // These are resolved async
+  public apiCalls: number = 0;
 
   constructor(
     private http: HttpClient,
@@ -52,20 +51,21 @@ export class GithubFollowingsService {
 
     return this.http.get(this.userService.getApiUrl() + username + '/following').pipe(
       delay(0),
-      map((res: HttpResponse<any>) => res)) //  res.json())
-      .subscribe(followings => {
-          this.apiCalls++;
-          this.followingsCached$.emit(false);
-          this.followings$.emit(followings);
-          if (this.isCaching) {
-            localStorage.setItem('followings_' + username, JSON.stringify(followings));
-          }
-        },
-        error => {
-          this.apiCalls++;
-          this.errorMessage$.emit(error);
-        } // ,
-        // () => console.log('getFollowings finished')
-      );
+      map((res: HttpResponse<any>) => res),
+      map((followings) => {
+        this.apiCalls++;
+        if (this.isCaching) {
+          localStorage.setItem('followings_' + username, JSON.stringify(followings));
+        }
+        return followings;
+      })
+    ).subscribe(followings => {
+        this.followingsCached$.emit(false);
+        this.followings$.emit(followings);
+      },
+      error => {
+        this.errorMessage$.emit(error);
+      }
+    );
   }
 }

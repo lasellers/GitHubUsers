@@ -1,7 +1,7 @@
 export class User {
 
   constructor(
-    public id?: string,
+    public id?: number,
     public login?: string,
     public bio?: string,
     public blog?: string,
@@ -11,6 +11,7 @@ export class User {
     public following?: number,
     public location?: string,
     public name?: string,
+    // tslint:disable-next-line:variable-name
     public public_gists?: number
   ) {
   }

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { HelloParentService } from './hello-parent.service';
-import { HelloService } from "./hello.service";
+import { HelloService } from './hello.service';
 
 describe('HelloParentService', () => {
   let parentService: HelloParentService;
@@ -29,13 +29,13 @@ describe('HelloParentService', () => {
   });
 
   it('getText() mocked', () => {
-    class mockHelloService {
+    class MockHelloService {
       public getText() {
         return 'Hello Mock';
       }
     }
 
-    class mockParentHelloService {
+    class MockParentHelloService {
       public getText() {
         return 'Hello Mock';
       }
@@ -47,8 +47,8 @@ describe('HelloParentService', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        {provide: HelloService, useClass: mockHelloService},
-        {provide: HelloParentService, useClass: mockParentHelloService}
+        {provide: HelloService, useClass: MockHelloService},
+        {provide: HelloParentService, useClass: MockParentHelloService}
       ]
     });
     parentService = TestBed.inject(HelloParentService);
@@ -58,13 +58,13 @@ describe('HelloParentService', () => {
   });
 
   it('getText() mocked and spied', () => {
-    class mockHelloService {
+    class MockHelloService {
       public getText() {
         return 'Hello Mock';
       }
     }
 
-    class mockParentHelloService {
+    class MockParentHelloService {
       public getText() {
         return 'Hello Mock';
       }
@@ -76,8 +76,8 @@ describe('HelloParentService', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        {provide: HelloService, useClass: mockHelloService},
-        {provide: HelloParentService, useClass: mockParentHelloService}
+        {provide: HelloService, useClass: MockHelloService},
+        {provide: HelloParentService, useClass: MockParentHelloService}
       ]
     });
     parentService = TestBed.inject(HelloParentService);

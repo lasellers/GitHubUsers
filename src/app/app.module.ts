@@ -17,7 +17,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { ToastrModule } from 'ngx-toastr';
 import { AppComponent } from './app.component';
-import { HighlightDirective } from './highlight.directive';
 import { GitHubUserService } from './github-user.service';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 import { UserFollowersComponent } from './user-followers/user-followers.component';
@@ -32,7 +31,6 @@ import { FilterFollowersPipe } from './filter-followers.pipe';
 @NgModule({
   declarations: [
     AppComponent,
-    HighlightDirective,
     UserDetailComponent,
     UserFollowersComponent,
     UserFollowingsComponent,

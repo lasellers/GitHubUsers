@@ -162,7 +162,7 @@
                  placement="left"
                  ngbTooltip="Gist was cached {{gist.id}}"></fa-icon>
         <fa-icon [icon]="['fas','minus-circle']"
-                 (click)="gistsService.clearGistsCache()" placement="left"
+                 (click)="gistsService.clearGistsCache(baseUsername)" placement="left"
                  ngbTooltip="Clear gists cache"></fa-icon>
       </div>
       <app-user-gists [baseUsername]="baseUsername"></app-user-gists>

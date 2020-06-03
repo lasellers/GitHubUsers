@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable, Input, Output } from '@angular/core';
-import { Subject, Subscription } from "rxjs";
+import { Subject, Subscription } from 'rxjs';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { delay, map } from 'rxjs/operators';
 import { Gist } from './gist.model';
@@ -77,7 +77,7 @@ export class GitHubGistService {
     if (this.isCaching) {
       const content = localStorage.getItem('gist_' + gist.id + gist.filename);
       if (content !== null) {
-        gist = {...gist, content: content, cached: true, wasCached: true};
+        gist = {...gist, content, cached: true, wasCached: true};
         this.gist$.next(gist);
         return;
       }

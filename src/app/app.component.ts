@@ -19,8 +19,8 @@ import { Gist } from './gist.model';
 import { delay } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { GitHubGistsService } from './github-gists.service';
-import { GithubFollowersService } from './github-followers.service';
-import { GithubFollowingsService } from './github-followings.service';
+import { GitHubFollowersService } from './github-followers.service';
+import { GitHubFollowingsService } from './github-followings.service';
 import { GitHubGistService } from './github-gist.service';
 
 console.clear();
@@ -34,7 +34,6 @@ export class AppComponent implements OnInit, OnDestroy {
   public version: string = packageJson.version;
   public title: string = packageJson.name;
   public filterString: string = '';
-  // public notificationType = 'native';
 
   gist = {
     content: '',
@@ -60,8 +59,8 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     public userService: GitHubUserService,
     public gistService: GitHubGistService,
-    public followersService: GithubFollowersService,
-    public followingsService: GithubFollowingsService,
+    public followersService: GitHubFollowersService,
+    public followingsService: GitHubFollowingsService,
     public gistsService: GitHubGistsService,
     private toast: ToastrService
   ) {

@@ -6,12 +6,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FilterFollowersPipe implements PipeTransform {
 
-  transform(value: any, filterString: string, propName: string): any {
-    if (value.length === 0 || filterString === '') {
-      return value;
+  transform(filters: any, filterString: string, propName: string): any {
+    if (filters.length === 0 || filterString === '') {
+      return filters;
     }
     const resultArray = [];
-    for (const item of value) {
+    for (const item of filters) {
       if (item[propName].toLowerCase().startsWith(filterString.toLowerCase())) {
         resultArray.push(item);
       }

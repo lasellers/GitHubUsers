@@ -1,18 +1,17 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { GitHubUserService } from './github-user.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { User } from "./user.model";
-import { of } from "rxjs";
-import { HttpClient } from "@angular/common/http";
+import { User } from './user.model';
+import { of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
-fdescribe('GitHubUserService unmocked', () => {
+describe('GitHubUserService unmocked', () => {
   let userService: GitHubUserService;
-//  let fixture: ComponentFixture<GitHubUserService>;
-  let dom: HTMLElement; // DebugElement.ComponentInstance;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule], // replaces for the standard module so we don't have testing complications.
+      // These tests in this describe group aren't concerned with httpclient anyway.
       providers: [
         GitHubUserService,
         {provide: HttpClient, useClass: HttpClient}
@@ -47,10 +46,8 @@ fdescribe('GitHubUserService unmocked', () => {
 
 });
 
-fdescribe('GitHubUserService mocked', () => {
+describe('GitHubUserService mocked', () => {
   let userService: GitHubUserService;
-//  let fixture: ComponentFixture<GitHubUserService>;
-  let dom: HTMLElement; // DebugElement.ComponentInstance;
 
   let httpMock: HttpTestingController; // HttpClientTestingModule;
 
@@ -60,9 +57,9 @@ fdescribe('GitHubUserService mocked', () => {
     followers: 1,
     following: 2,
     name: 'Mock P. Smith'
-  }
+  };
 
-  class mockHttpClient {
+  class MockHttpClient {
     public get() {
       return of(USER);
     }
@@ -73,7 +70,7 @@ fdescribe('GitHubUserService mocked', () => {
       imports: [HttpClientTestingModule],
       providers: [
         GitHubUserService,
-        {provide: HttpClient, useClass: mockHttpClient}
+        {provide: HttpClient, useClass: MockHttpClient}
       ]
     });
     userService = TestBed.inject(GitHubUserService);

@@ -1,13 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { of } from 'rxjs';
+import { Injectable } from '@angular/core';
 
 import { UserGistsComponent } from './user-gists.component';
-import { GitHubUserService } from "../github-user.service";
-import { GitHubGistsService } from "../github-gists.service";
-import { Gist } from "../gist.model";
-import { of } from "rxjs";
-import { Injectable } from "@angular/core";
+import { GitHubUserService } from '../github-user.service';
+import { GitHubGistsService } from '../github-gists.service';
+import { Gist } from '../gist.model';
 
 /*
 describe('User Gists Component', () => {
@@ -37,8 +37,9 @@ describe('User Gists Component', () => {
 @Injectable()
 class MockGitHubUserService { // extends GitHubUserService {
   public baseUsername: string = 'mock';
+
   public getApiUrl() {
-    return "http://localhost";
+    return 'http://localhost';
   }
 }
 
@@ -47,8 +48,7 @@ class MockGitHubGistsService { // extends GitHubGistsService {
   public baseUsername: string = 'mock';
   public status: boolean;
 
-  public getGists(username: string) {
-    console.log('get gists mock ' + username);
+  static getGists(username: string) {
     switch (username) {
       case 'lasellers':
         return of(); // 1,2,3);
@@ -57,8 +57,7 @@ class MockGitHubGistsService { // extends GitHubGistsService {
     }
   }
 
-  static getGists(username: string) {
-    console.log('get gists mock static ' + username);
+  public getGists(username: string) {
     switch (username) {
       case 'lasellers':
         return of(); // 1,2,3);
@@ -66,11 +65,10 @@ class MockGitHubGistsService { // extends GitHubGistsService {
         return of();
     }
   }
+
 }
 
 xdescribe('User Gists Component', () => {
-  let injector: TestBed;
-
   let gistsService: GitHubGistsService;
 
   let httpMock: HttpTestingController;
@@ -90,7 +88,7 @@ xdescribe('User Gists Component', () => {
       ]
     })
       .compileComponents().then(() => {
-    //  spyOn(gistsService, 'getGists').and.returnValue(MockGitHubGistsService.getGists(component.baseUsername));
+      //  spyOn(gistsService, 'getGists').and.returnValue(MockGitHubGistsService.getGists(component.baseUsername));
 
       fixture = TestBed.createComponent(UserGistsComponent);
       component = fixture.componentInstance;
@@ -103,18 +101,13 @@ xdescribe('User Gists Component', () => {
       dom = fixture.debugElement.nativeElement;
 
       component.baseUsername = 'lorem2';
-
-      console.log(new MockGitHubGistsService);
-
-      console.log(component);
-      console.log(gistsService);
     });
   }));
 
-/*  afterEach(() => {
-    httpMock.verify();
-  });
-*/
+  /*  afterEach(() => {
+      httpMock.verify();
+    });
+  */
 
   describe('setup', () => {
     beforeEach(() => {

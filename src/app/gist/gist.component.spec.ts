@@ -2,21 +2,21 @@ import { async, ComponentFixture, getTestBed, TestBed } from '@angular/core/test
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { GistComponent } from './gist.component';
 import { GitHubUserService } from '../github-user.service';
-import { GitHubGistService } from "../github-gist.service";
-import { Gist } from "../gist.model";
-import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { GitHubGistService } from '../github-gist.service';
+import { Gist } from '../gist.model';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 class MockGitHubUserService { // extends GitHubUserService {
-  public token: string = "mock";
+  public token: string = 'mock';
 
   public getApiUrl() {
-    return "http://localhost";
+    return 'http://localhost';
   }
 }
 
 class MockGitHubGistService { // extends GitHubGistService {
-  public token: string = "mock";
+  public token: string = 'mock';
   public status: boolean;
   public gist$ = {
     subscribe() {
@@ -100,7 +100,7 @@ describe('GistComponent', () => {
 
   describe('html', () => {
     beforeEach(() => {
-      let gist = Gist.constructor();
+      const gist = Gist.constructor();
       gist.content = 'Lorem Ipsum';
       component.gist = gist;
       fixture.detectChanges();
@@ -118,7 +118,7 @@ describe('GistComponent', () => {
 
   describe('component', () => {
     beforeEach(() => {
-      let gist = Gist.constructor();
+      const gist = Gist.constructor();
       gist.content = 'Lorem Ipsum';
       component.gist = gist;
       fixture.detectChanges();

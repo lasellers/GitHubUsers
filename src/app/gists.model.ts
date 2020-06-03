@@ -8,7 +8,8 @@ export class Gists {
     public id: string = '',
     public language: string = '',
     public size: number = 0,
-    public url: string = ''
+    public url: string = '',
+    public wasCached?: boolean,
   ) {
   }
 

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, OnDestroy, Output } from '@angular/core';
 import { GitHubUserService } from '../github-user.service';
-import { GithubFollowersService } from "../github-followers.service";
+import { GitHubFollowersService } from '../github-followers.service';
 
 @Component({
   selector: 'app-user-followers',
@@ -17,7 +17,7 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
 
   constructor(
     public userService: GitHubUserService,
-    public followersService: GithubFollowersService
+    public followersService: GitHubFollowersService
   ) {
   }
 

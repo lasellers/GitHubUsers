@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClient, HttpClientModule, HttpHandler } from "@angular/common/http";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { of } from "rxjs";
+import { HttpClient, HttpClientModule, HttpHandler } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { of } from 'rxjs';
 
 import { HelloHttpService } from './hello-http.service';
-import { User } from "./user.model";
+import { User } from './user.model';
 
 describe('HelloHttpService', () => {
   let service: HelloHttpService;
@@ -27,9 +27,9 @@ describe('HelloHttpService', () => {
 
   it('getApi() works live', () => {
     expect(service).toBeTruthy();
-    service.getApi().subscribe(result => {
-      expect(result).not.toBeNull();
-      expect(result.id).toBe('2235644');
+    service.getApi().subscribe(user => {
+      expect(user).not.toBeNull();
+      expect(user.id).toBe(2235644);
     });
   });
 
@@ -41,14 +41,14 @@ describe('HelloHttpService mocked', () => {
   let httpMock: HttpClientTestingModule;
 
   const USER: User = {
-    id: '1',
+    id: 1,
     login: 'mock',
     followers: 1,
     following: 2,
     name: 'Mock P. Smith'
-  }
+  };
 
-  class mockHttpClient {
+  class MockHttpClient {
     public get() {
       return of(USER);
     }
@@ -59,7 +59,7 @@ describe('HelloHttpService mocked', () => {
       imports: [HttpClientTestingModule],
       providers: [
         HelloHttpService,
-        {provide: HttpClient, useClass: mockHttpClient}
+        {provide: HttpClient, useClass: MockHttpClient}
       ]
     });
     service = TestBed.inject(HelloHttpService);
@@ -77,7 +77,7 @@ describe('HelloHttpService mocked', () => {
   it('getApi() works with mocked USER', () => {
     expect(service).toBeTruthy();
     service.getApi().subscribe((user: User) => {
-      expect(user.id).toEqual('1');
+      expect(user.id).toEqual(1);
       expect(user.login).toEqual('mock');
       expect(user.followers).toEqual(1);
       expect(user.following).toEqual(2);

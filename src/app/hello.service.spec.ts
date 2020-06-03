@@ -21,7 +21,7 @@ describe('HelloService', () => {
   });
 
   it('getText() mocked', () => {
-    class mockHelloService {
+    class MockHelloService {
       public getText() {
         return 'Hello Mock';
       }
@@ -29,7 +29,7 @@ describe('HelloService', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        {provide: HelloService, useClass: mockHelloService}
+        {provide: HelloService, useClass: MockHelloService}
       ]
     });
     service = TestBed.inject(HelloService);

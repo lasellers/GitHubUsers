@@ -3,7 +3,7 @@ import { EventEmitter, Injectable, Input, Output } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { of, Subject, Subscription } from 'rxjs';
 import { Gist } from './gist.model';
-import { User } from "./user.model";
+import { User } from './user.model';
 
 /**
  * Note: As this is experimental, this service is both acting as a singleton in someways and also emitting data for capture by components.
@@ -75,7 +75,6 @@ export class GitHubUserService {
       delay(0),
       // map((res: HttpResponse<any>) => res),
       map((user: User) => {
-          console.log(user);
           this.apiCalls++;
           if (this.isCaching) {
             localStorage.setItem('user_' + username, JSON.stringify(user));
