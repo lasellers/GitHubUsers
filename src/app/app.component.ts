@@ -70,14 +70,24 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public loadUser(username: string) {
     this.baseUsername = username;
-    this.userService.getUser(username);
+    this.userService.getUser(username).subscribe((user) => {
+        // this.userService.user$.emit({...user, wasCached: true});
+      },
+      error => {
+        this.userService.errorMessage$.emit(error);
+      });
     this.followersService.getFollowers(username);
     this.followingsService.getFollowings(username);
     this.gistsService.getGists(username);
   }
 
   public showUser(username: string) {
-    this.userService.getUser(username);
+    this.userService.getUser(username).subscribe((user) => {
+        // this.userService.user$.emit({...user, wasCached: true});
+      },
+      error => {
+        this.userService.errorMessage$.emit(error);
+      });
   }
 
   ngOnInit() {

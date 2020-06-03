@@ -11,7 +11,7 @@ class MockUserService {
   }
 }
 
-describe('Github Gists Service', () => {
+xdescribe('Github Gists Service', () => {
   let userService: GitHubUserService;
   let gistsService: GitHubGistsService;
 
@@ -241,7 +241,6 @@ describe('Github Gists Service', () => {
   afterEach(() => {
     httpMock.verify();
   });
-
 
   });
 */

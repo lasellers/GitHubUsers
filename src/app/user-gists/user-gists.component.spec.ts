@@ -68,7 +68,7 @@ class MockGitHubGistsService { // extends GitHubGistsService {
   }
 }
 
-describe('User Gists Component', () => {
+xdescribe('User Gists Component', () => {
   let injector: TestBed;
 
   let gistsService: GitHubGistsService;

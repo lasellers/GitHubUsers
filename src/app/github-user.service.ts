@@ -1,8 +1,9 @@
 import { delay, map } from 'rxjs/operators';
 import { EventEmitter, Injectable, Input, Output } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Subject, Subscription } from 'rxjs';
+import { of, Subject, Subscription } from 'rxjs';
 import { Gist } from './gist.model';
+import { User } from "./user.model";
 
 /**
  * Note: As this is experimental, this service is both acting as a singleton in someways and also emitting data for capture by components.
@@ -60,32 +61,27 @@ export class GitHubUserService {
     return (localStorage.getItem('user_' + username) !== null);
   }
 
-  public getUser(username: string): Subscription {
+  public getUser(username: string) {
     if (this.isCaching) {
       const cachedUserObj = localStorage.getItem('user_' + username);
       if (cachedUserObj !== null) {
         const user = JSON.parse(cachedUserObj);
         this.user$.emit({...user, wasCached: true});
-        return; // this.user$.subscribe(user => user);
+        return of({...user, wasCached: true});
       }
     }
 
     return this.http.get(this.apiUrl + username).pipe(
       delay(0),
-      map((res: HttpResponse<any>) => res))
-      .subscribe(
-        user => {
+      // map((res: HttpResponse<any>) => res),
+      map((user: User) => {
+          console.log(user);
           this.apiCalls++;
-          this.user$.emit({...user, wasCached: false});
           if (this.isCaching) {
             localStorage.setItem('user_' + username, JSON.stringify(user));
           }
-        },
-        error => {
-          this.apiCalls++;
-          this.errorMessage$.emit(error);
-        }); // ,
-    // () => console.log('getUser finished'));
+          this.user$.emit({...user, wasCached: false});
+        }
+      ));
   }
-
 }

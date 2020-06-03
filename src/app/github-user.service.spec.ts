@@ -1,42 +1,135 @@
-/* tslint:disable:no-unused-variable */
+import { TestBed, async, inject } from '@angular/core/testing';
+import { GitHubUserService } from './github-user.service';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { User } from "./user.model";
+import { of } from "rxjs";
+import { HttpClient } from "@angular/common/http";
 
-import {TestBed, async, inject} from '@angular/core/testing';
-import {GitHubUserService} from './github-user.service';
-import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-
-describe('GitHubUserService', () => {
-  let service: GitHubUserService;
+fdescribe('GitHubUserService unmocked', () => {
+  let userService: GitHubUserService;
 //  let fixture: ComponentFixture<GitHubUserService>;
-  let app; // DebugElement.ComponentInstance;
+  let dom: HTMLElement; // DebugElement.ComponentInstance;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        GitHubUserService
+        GitHubUserService,
+        {provide: HttpClient, useClass: HttpClient}
       ]
     });
-    service = TestBed.inject(GitHubUserService);
+    userService = TestBed.inject(GitHubUserService);
   });
 
-  it('should ...', inject([GitHubUserService], (service2: GitHubUserService) => {
-    expect(service2).toBeTruthy();
+  describe('setup', (() => {
+
+    it('userService should exist', () => {
+      expect(userService).toBeTruthy();
+    });
+
   }));
 
-  it('should ...', () => {
-    expect(service).toBeTruthy();
+  describe('consts', (() => {
+
+    it('getApiUrl is as expected', () => {
+      expect(userService.getApiUrl()).toEqual('https://api.github.com/users/');
+    });
+
+    it('getUserBasename is as expected', () => {
+      expect(userService.getUserBasename()).toEqual('lasellers');
+    });
+
+    it('getUserBasenameDefault is as expected', () => {
+      expect(userService.getUserBasenameDefault()).toEqual('lasellers');
+    });
+
+  }));
+
+});
+
+fdescribe('GitHubUserService mocked', () => {
+  let userService: GitHubUserService;
+//  let fixture: ComponentFixture<GitHubUserService>;
+  let dom: HTMLElement; // DebugElement.ComponentInstance;
+
+  let httpMock: HttpTestingController; // HttpClientTestingModule;
+
+  const USER = {
+    id: 1,
+    login: 'mock',
+    followers: 1,
+    following: 2,
+    name: 'Mock P. Smith'
+  }
+
+  class mockHttpClient {
+    public get() {
+      return of(USER);
+    }
+  }
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        GitHubUserService,
+        {provide: HttpClient, useClass: mockHttpClient}
+      ]
+    });
+    userService = TestBed.inject(GitHubUserService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
-  it('getApiUrl ...', () => {
-    expect(service.getApiUrl()).toEqual('https://api.github.com/users/');
-  });
+  describe('setup', (() => {
 
-  it('getUserBasename ...', () => {
-    expect(service.getUserBasename()).toEqual('lasellers');
-  });
+    it('userService should exist', () => {
+      expect(userService).toBeTruthy();
+    });
 
-  it('getUserBasenameDefault ...', () => {
-    expect(service.getUserBasenameDefault()).toEqual('lasellers');
-  });
+    it('httpMock should exist', () => {
+      expect(httpMock).toBeTruthy();
+    });
+
+  }));
+
+  describe('clearUserCache', (() => {
+
+    it('clearUserCache should work', () => {
+      const username = 'lasellers';
+      localStorage.setItem('user_' + username, 'mocked');
+
+      userService.clearUserCache(username);
+
+      const obj = localStorage.getItem('user_' + username);
+      expect(obj).not.toEqual('mocked');
+    });
+
+    it('clearUserCache blank should work', () => {
+      const username = '';
+      localStorage.setItem('user_' + username, 'mocked');
+
+      userService.clearUserCache(username);
+
+      const obj = localStorage.getItem('user_' + username);
+      expect(obj).not.toEqual('mocked');
+    });
+
+  }));
+
+  describe('isUserCached', (() => {
+
+    it('isUserCached true when cached', () => {
+      const username = 'lasellers';
+      localStorage.setItem('user_' + username, 'mocked');
+      expect(userService.isUserCached(username)).toBeTruthy();
+    });
+
+    it('isUserCached false when not cached', () => {
+      const username = 'lasellers';
+      localStorage.removeItem('user_' + username);
+      expect(userService.isUserCached(username)).toBeFalsy();
+    });
+
+  }));
 
 });

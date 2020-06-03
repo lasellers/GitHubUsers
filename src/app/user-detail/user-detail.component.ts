@@ -22,7 +22,12 @@ export class UserDetailComponent implements OnInit {
       this.user = user;
     });
 
-    this.userService.getUser(this.baseUsername);
+    this.userService.getUser(this.baseUsername).subscribe((user) => {
+        // this.userService.user$.emit({...user, wasCached: true});
+      },
+      error => {
+        this.userService.errorMessage$.emit(error);
+      });
   }
 
   changeBaseUsername(username: string): void {
