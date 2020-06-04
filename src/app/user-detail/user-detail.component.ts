@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { GitHubUserService } from '../github-user.service';
+import { User } from '../user.model';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -10,7 +11,7 @@ import { GitHubUserService } from '../github-user.service';
 export class UserDetailComponent implements OnInit {
   @Input() baseUsername;
   @Output() notifyChangeBaseUsername: EventEmitter<string> = new EventEmitter<string>();
-  private user = {};
+  public user: User = {};
 
   constructor(
     public userService: GitHubUserService
@@ -28,6 +29,15 @@ export class UserDetailComponent implements OnInit {
       error => {
         this.userService.errorMessage$.emit(error);
       });
+  }
+
+  isEmpty(obj) {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   changeBaseUsername(username: string): void {

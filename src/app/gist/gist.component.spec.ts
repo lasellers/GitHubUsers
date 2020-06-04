@@ -31,7 +31,6 @@ class MockGitHubGistService { // extends GitHubGistService {
 }
 
 describe('GistComponent', () => {
-  let injector: TestBed;
   let userService: GitHubUserService;
   let gistService: GitHubGistService;
   let httpMock: HttpTestingController;

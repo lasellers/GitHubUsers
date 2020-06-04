@@ -8,31 +8,35 @@ import { UserGistsComponent } from './user-gists.component';
 import { GitHubUserService } from '../github-user.service';
 import { GitHubGistsService } from '../github-gists.service';
 import { Gist } from '../gist.model';
+import { User } from '../user.model';
 
-/*
-describe('User Gists Component', () => {
-  let component: UserGistsComponent;
-  let fixture: ComponentFixture<UserGistsComponent>;
+const GISTS: Gist[] = [{
+  id: 'A1',
+  content: 'Lorem Ipsum',
+  filename: 'file1.txt',
+  size: 100,
+  contentUrl: 'url/1',
+  language: 'text',
+  url: 'url/1',
+  cached: true,
+  wasCached: false
+}, {
+  id: 'B1',
+  content: 'Lorem Ipsum Vega',
+  filename: 'file2.txt',
+  size: 100,
+  contentUrl: 'url/2',
+  language: 'typescript',
+  url: 'url/2',
+  cached: false,
+  wasCached: true
+}];
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [UserGistsComponent],
-      imports: [HttpClientTestingModule],
-      providers: []
-    })
-      .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(UserGistsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-}); */
+class MockHttpClient {
+  public get() {
+    return of(GISTS);
+  }
+}
 
 @Injectable()
 class MockGitHubUserService { // extends GitHubUserService {
@@ -44,7 +48,7 @@ class MockGitHubUserService { // extends GitHubUserService {
 }
 
 @Injectable()
-class MockGitHubGistsService { // extends GitHubGistsService {
+class MockGitHubGistsService {
   public baseUsername: string = 'mock';
   public status: boolean;
 
@@ -65,10 +69,9 @@ class MockGitHubGistsService { // extends GitHubGistsService {
         return of();
     }
   }
-
 }
 
-xdescribe('User Gists Component', () => {
+describe('User Gists Component', () => {
   let gistsService: GitHubGistsService;
 
   let httpMock: HttpTestingController;
@@ -78,13 +81,12 @@ xdescribe('User Gists Component', () => {
   let dom: HTMLElement;
 
   beforeEach(async(() => {
-    let mock = new MockGitHubGistsService();
     TestBed.configureTestingModule({
       declarations: [UserGistsComponent],
       imports: [HttpClientTestingModule],
       providers: [
-        {provider: GitHubGistsService, useClass: mock},
-        {provider: HttpClient, useClass: HttpClientTestingModule},
+        {provider: GitHubGistsService, useClass: MockGitHubGistsService},
+        {provide: HttpClient, useClass: MockHttpClient},
       ]
     })
       .compileComponents().then(() => {
@@ -104,10 +106,9 @@ xdescribe('User Gists Component', () => {
     });
   }));
 
-  /*  afterEach(() => {
-      httpMock.verify();
-    });
-  */
+  afterEach(() => {
+    httpMock.verify();
+  });
 
   describe('setup', () => {
     beforeEach(() => {
@@ -134,41 +135,44 @@ xdescribe('User Gists Component', () => {
       component.baseUsername = 'lasellers';
       component.gists = [];
 
-      spyOn(gistsService, 'isGistsCached').and.returnValue(false);
       // spyOn(userService, 'isUserCached').and.returnValue(false);
 
-      spyOn(gistsService, 'getGists').and.returnValue(MockGitHubGistsService.getGists(component.baseUsername));
+      // spyOn(gistsService, 'isGistsCached').and.returnValue(false);
+      // spyOn(gistsService, 'getGists').and.returnValue(MockGitHubGistsService.getGists(component.baseUsername));
 
       fixture.detectChanges();
     });
 
     it(`should NOT render card title`, () => {
-      console.log('.card-title: ', dom.querySelector('.card-title').textContent);
-      expect(dom.querySelector('.card-title').textContent).not.toContain('Gists');
+      const el = dom.querySelector('.card-title');
+      console.log(el);
+      expect(el).toBeNull();
     });
 
     it(`should NOT render header`, () => {
-      console.log('thead: ', dom.querySelector('thead').textContent);
-      expect(dom.querySelector('thead').textContent).not.toContain('Filename');
+      const el = dom.querySelector('.thead');
+      console.log(el);
+      expect(el).toBeNull();
     });
 
     it(`should NOT render get button`, () => {
-      console.log('tbody button.btn: ', dom.querySelector('tbody button.btn').textContent);
-      expect(dom.querySelector('tbody button.btn').textContent).not.toContain('Get');
+      const el = dom.querySelector('tbody button.btn');
+      console.log(el);
+      expect(el).toBeNull();
     });
 
   });
 
-  describe('html, one', () => {
+  xdescribe('html, one', () => {
     beforeEach(() => {
       component.baseUsername = 'lasellers';
-      let gists = [Gist.constructor()];
+      const gists = [Gist.constructor()];
       gists[0].content = 'Lorem Ipsum';
       component.gists = [];
 
-      spyOn(gistsService, 'isGistsCached').and.returnValue(false);
       // spyOn(userService, 'isUserCached').and.returnValue(false);
 
+      spyOn(gistsService, 'isGistsCached').and.returnValue(false);
       spyOn(gistsService, 'getGists').and.returnValue(MockGitHubGistsService.getGists(''));
 
       fixture.detectChanges();
@@ -188,9 +192,9 @@ xdescribe('User Gists Component', () => {
 
   });
 
-  describe('component', () => {
+  xdescribe('component', () => {
     beforeEach(() => {
-      let gist = Gist.constructor();
+      const gist = Gist.constructor();
       gist.content = 'Lorem Ipsum';
       component.gists = [];
       fixture.detectChanges();

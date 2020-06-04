@@ -1,8 +1,8 @@
 <div class="card card-default">
-  <img src="{{user.avatar_url}}" class="card-img-top">
+  <img [src]="user.avatar_url" class="card-img-top" alt="{{user.name}}" id="avatar_url">
 
   <div class="card-heading">
-    <h3 class="card-title" *ngIf="user !== null">
+    <h3 class="card-title" *ngIf="!isEmpty(user)">
       {{user.name}}
       <fa-icon [icon]="['fas','user-cog']" (click)="changeBaseUsername(user.login)"
                placement="left" ngbTooltip="Make user base"></fa-icon>
@@ -11,96 +11,97 @@
 
   <div class="card-body">
 
-    <div *ngIf="user == null">
+    <div *ngIf="isEmpty(user)">
       <p>Select one of the users {{userService.getUserBasename()}} is following to see their information.</p>
     </div>
 
-    <div class="card-text" *ngIf="user !== null">
+    <div class="card-text" *ngIf="!isEmpty(user)">
 
       <form class="form-horizontal">
 
         <div class="row user-group">
-          <label class="col-sm-4 user-label">Username</label>
-          <div class="col-sm-6 user-line">
+          <label class="col-sm-4 user-label" for="login">Username</label>
+          <div class="col-sm-6 user-line" id="login">
             {{user.login}}
           </div>
         </div>
 
         <div class="row user-group">
-          <label class="col-sm-4 user-label">Name</label>
-          <div class="col-sm-6 user-line">
+          <label class="col-sm-4 user-label" for="name">Name</label>
+          <div class="col-sm-6 user-line" id="name">
             {{user.name}}
           </div>
         </div>
 
         <div class="row user-group">
-          <label class="col-sm-4 user-label">Hireable</label>
-          <div class="col-sm-8 user-line">{{user.hireable == true ? "Yes" : "No"}}</div>
+          <label class="col-sm-4 user-label" for="hireable">Hireable</label>
+          <div class="col-sm-8 user-line" id="hireable">{{user.hireable == true ? "Yes" : "No"}}</div>
         </div>
 
         <div class="row user-group">
-          <label class="col-sm-4 user-label">Id</label>
-          <div class="col-sm-6 user-line">
+          <label class="col-sm-4 user-label" for="id">Id</label>
+          <div class="col-sm-6 user-line" id="id">
             {{user.id}}
           </div>
         </div>
 
         <div class="row user-group">
-          <label class="col-sm-4 user-label">Company</label>
-          <div class="col-sm-6 user-line">
+          <label class="col-sm-4 user-label" for="company">Company</label>
+          <div class="col-sm-6 user-line" id="company">
             {{user.company}}
           </div>
         </div>
 
         <div class="row user-group">
-          <label class="col-sm-4 user-label">Blog</label>
-          <div class="col-sm-6 user-line">
+          <label class="col-sm-4 user-label" for="blog">Blog</label>
+          <div class="col-sm-6 user-line" id="blog">
             <a href="{{user.blog}}">{{user.blog}}</a>
           </div>
         </div>
 
         <div class="row user-group">
-          <label class="col-sm-4 user-label">Location</label>
-          <div class="col-sm-6 user-line">
+          <label class="col-sm-4 user-label" for="location">Location</label>
+          <div class="col-sm-6 user-line" id="location">
             {{user.location}}
           </div>
         </div>
 
         <div class="row user-group">
-          <label class="col-sm-4 user-label">Email</label>
-          <div class="col-sm-6 user-line">
+          <label class="col-sm-4 user-label" for="email">Email</label>
+          <div class="col-sm-6 user-line" id="email">
             <a href="mailto:{{user.email}}">{{user.email}}</a>
           </div>
         </div>
 
         <div class="row user-group">
-          <label class="col-sm-4 user-label">Bio</label>
-          <div class="col-sm-6 user-line">
+          <label class="col-sm-4 user-label" for="bio">Bio</label>
+          <div class="col-sm-6 user-line" id="bio">
             {{user.bio}}
           </div>
         </div>
 
         <div class="row user-group">
-          <label class="col-sm-3 user-label">Repos</label>
-          <div class="col-sm-3 user-line">{{user.public_repos}}</div>
-          <label class="col-sm-3 user-label">Gists</label>
-          <div class="col-sm-3 user-line">{{user.public_gists}}</div>
+          <label class="col-sm-3 user-label" for="public_repos">Repos</label>
+          <div class="col-sm-3 user-line" id="public_repos">{{user.public_repos}}</div>
+          <label class="col-sm-3 user-label" for="public_gists">Gists</label>
+          <div class="col-sm-3 user-line" id="public_gists">{{user.public_gists}}</div>
         </div>
 
         <div class="row user-group">
-          <label class="col-sm-3 user-label">Followers</label>
-          <div class="col-sm-3 user-line">{{user.followers}}</div>
-          <label class="col-sm-3 user-label">Following</label>
-          <div class="col-sm-3 user-line">{{user.following}}</div>
+          <label class="col-sm-3 user-label" for="followers">Followers</label>
+          <div class="col-sm-3 user-line" id="followers">{{user.followers}}</div>
+
+          <label class="col-sm-3 user-label" for="following2">Following</label>
+          <div class="col-sm-3 user-line" id="following2">{{user.following}}</div>
         </div>
 
         <div class="row user-group">
-          <label class="col-sm-4 user-label">Created</label>
-          <div class="col-sm-8 user-line">{{user.created_at}}</div>
+          <label class="col-sm-4 user-label" for="created_at">Created</label>
+          <div class="col-sm-8 user-line" id="created_at">{{user.created_at}}</div>
         </div>
         <div class="row user-group">
-          <label class="col-sm-4 user-label">Last updated</label>
-          <div class="col-sm-8 user-line">{{user.updated_at}}</div>
+          <label class="col-sm-4 user-label" for="updated_at">Last updated</label>
+          <div class="col-sm-8 user-line" id="updated_at">{{user.updated_at}}</div>
         </div>
 
       </form>
