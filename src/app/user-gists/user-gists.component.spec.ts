@@ -2,13 +2,16 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { of } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { Component, EventEmitter, Injectable, Output, Pipe, PipeTransform } from '@angular/core';
+import { FaIconComponent, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { UserGistsComponent } from './user-gists.component';
 import { GitHubUserService } from '../github-user.service';
 import { GitHubGistsService } from '../github-gists.service';
 import { Gist } from '../gist.model';
 import { User } from '../user.model';
+import { BytesPipe } from '../bytes.pipe';
+import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 
 const GISTS: Gist[] = [{
   id: 'A1',
@@ -45,33 +48,43 @@ class MockGitHubUserService { // extends GitHubUserService {
   public getApiUrl() {
     return 'http://localhost';
   }
+
+  public isUserCached() {
+    return true;
+  }
+}
+
+@Pipe({
+  name: 'bytes'
+})
+export class MockBytesPipe implements PipeTransform {
+  transform(bytes: number = 0, precision: number = 0): string {
+    return ' BYTES=' + bytes.toString();
+  }
+}
+
+@Component({
+  selector: 'fa-icon',
+  template: ''
+})
+class MockFaIconComponent {
 }
 
 @Injectable()
 class MockGitHubGistsService {
   public baseUsername: string = 'mock';
-  public gists$;
-
-  static getGists(username: string) {
-    switch (username) {
-      case 'lasellers':
-        return of(); // 1,2,3);
-      default:
-        return of();
-    }
-  }
+  @Output() gists$ = new EventEmitter(true);
 
   public getGists(username: string) {
-    switch (username) {
-      case 'lasellers':
-        return of(); // 1,2,3);
-      default:
-        return of();
-    }
+    this.gists$.emit(GISTS);
+  }
+
+  public isGistsCached(username: string): boolean {
+    return false;
   }
 }
 
-fdescribe('User Gists Component', () => {
+describe('User Gists Component', () => {
   let gistsService: GitHubGistsService;
   let userService: GitHubUserService;
 
@@ -83,27 +96,31 @@ fdescribe('User Gists Component', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UserGistsComponent],
-      imports: [HttpClientTestingModule],
+      declarations: [UserGistsComponent, MockBytesPipe, FaIconComponent],
+      imports: [HttpClientTestingModule, FontAwesomeTestingModule],
       providers: [
         {provide: GitHubGistsService, useClass: MockGitHubGistsService},
+        {provide: BytesPipe, useClass: MockBytesPipe},
         {provide: HttpClient, useClass: MockHttpClient},
         {provide: GitHubUserService, useClass: MockGitHubUserService},
+        {provide: FaIconComponent, useClass: MockFaIconComponent}
       ]
     })
       .compileComponents().then(() => {
 
       fixture = TestBed.createComponent(UserGistsComponent);
       component = fixture.componentInstance;
+      dom = fixture.debugElement.nativeElement;
+
       component.baseUsername = 'lorem1';
+
       fixture.detectChanges();
 
       httpMock = TestBed.inject(HttpTestingController);
       gistsService = TestBed.inject(GitHubGistsService);
       userService = TestBed.inject(GitHubUserService);
 
-      dom = fixture.debugElement.nativeElement;
-
+      //
       gistsService.isCaching = false;
     });
   }));
@@ -137,13 +154,14 @@ fdescribe('User Gists Component', () => {
   describe('UI, none', () => {
     beforeEach(() => {
       component.baseUsername = 'lasellers';
-      // gistsService.isCaching = false;
+      gistsService.isCaching = false;
 
       component.gists = [];
 
       spyOn(userService, 'isUserCached').and.returnValue(false);
       spyOn(gistsService, 'isGistsCached').and.returnValue(false);
-      spyOn(gistsService, 'getGists').and.callThrough(); //returnValue([]); //MockGitHubGistsService.getGists(component.baseUsername));
+      spyOn(gistsService, 'getGists').and.callThrough();
+      // returnValue([]); //MockGitHubGistsService.getGists(component.baseUsername));
 
       fixture.detectChanges();
     });
@@ -174,12 +192,11 @@ fdescribe('User Gists Component', () => {
   describe('UI, two gists', () => {
     beforeEach(() => {
       component.baseUsername = 'lasellers';
-      // gistsService.isCaching = false;
-      // const gists = [Gist.constructor()];
-      // gists[0].content = 'Lorem Ipsum';
+      gistsService.isCaching = false;
       component.gists = GISTS;
 
       spyOn(userService, 'isUserCached').and.returnValue(false);
+
       spyOn(gistsService, 'isGistsCached').and.returnValue(false);
       spyOn(gistsService, 'getGists').and.callThrough();
 
@@ -192,8 +209,40 @@ fdescribe('User Gists Component', () => {
       expect(dom.querySelector('.card-title').textContent).toContain('Gists');
     });
 
+
+    it(`should render 2 items`, () => {
+      const els = dom.querySelectorAll('tbody tr');
+      expect(els.length).toBe(GISTS.length);
+    });
+
+    it(`should render items with correct names`, () => {
+      const els = dom.querySelectorAll('tbody > tr');
+      for (let elIndex = 0; elIndex < els.length; elIndex++) {
+        const el = els[elIndex];
+        expect(el.textContent).toContain(GISTS[elIndex].filename);
+      }
+    });
+
+    it(`should render items with correct bytes`, () => {
+      const els = dom.querySelectorAll('tbody > tr');
+      for (let elIndex = 0; elIndex < els.length; elIndex++) {
+        const el = els[elIndex];
+        expect(el.textContent).toContain('BYTES=' + GISTS[elIndex].size);
+      }
+    });
+
+    it(`should render items with correct language`, () => {
+      const els = dom.querySelectorAll('tbody > tr');
+      for (let elIndex = 0; elIndex < els.length; elIndex++) {
+        const el = els[elIndex];
+        expect(el.textContent).toContain(GISTS[elIndex].language);
+      }
+    });
+
     it(`should render header`, () => {
       expect(dom.querySelector('thead').textContent).toContain('Filename');
+      expect(dom.querySelector('thead').textContent).toContain('Size');
+      expect(dom.querySelector('thead').textContent).toContain('Language');
     });
 
     it(`should render tbody`, () => {
@@ -206,19 +255,30 @@ fdescribe('User Gists Component', () => {
 
   });
 
-  xdescribe('component', () => {
+  describe('component', () => {
     beforeEach(() => {
-      const gist = Gist.constructor();
-      gist.content = 'Lorem Ipsum';
-      component.gists = [];
-      fixture.detectChanges();
+      spyOn(userService, 'isUserCached').and.returnValue(false);
+
+      spyOn(gistsService, 'isGistsCached').and.returnValue(false);
+      spyOn(gistsService, 'getGists').and.callThrough();
     });
 
-    it(`should render ngOnInit`, () => {
+    xit(`should render ngOnInit`, () => {
+      component.gists = [];
       component.ngOnInit();
-      const gist = Gist.constructor();
-      // gistsService.getGists(gist);
+      spyOn(gistsService.gists$, 'emit').and.callThrough();
+
+      fixture.detectChanges();
+
+      console.log(component.gists);
+
       expect(gistsService.getGists).toHaveBeenCalled();
+      // expect(gistsService.isGistsCached).toHaveBeenCalled();
+
+      expect(component.gists).toBeDefined();
+      expect(component.gists.length).toBe(GISTS.length);
+
+      expect(gistsService.gists$.emit).toHaveBeenCalled();
     });
 
     it(`should render ngOnDestroy`, () => {

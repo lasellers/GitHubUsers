@@ -14,6 +14,7 @@ export class BytesPipe implements PipeTransform {
   ];
 
   transform(bytes: number = 0, precision: number = 0): string {
+    console.log('BYTES PIPE ' + bytes);
     if (isNaN(parseFloat(String(bytes))) || !isFinite(bytes)) {
       return 'Not a number';
     }

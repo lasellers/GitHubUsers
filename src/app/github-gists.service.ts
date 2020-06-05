@@ -20,7 +20,6 @@ export class GitHubGistsService {
     private userService: GitHubUserService
   ) {
   }
-
   @Output() errorMessage$ = new EventEmitter(true);
 
   // These are resolved async

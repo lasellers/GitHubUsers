@@ -5,6 +5,7 @@ import {GitHubUserService} from './github-user.service';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {HttpClient} from '@angular/common/http';
 import {of} from 'rxjs';
+import { User } from './user.model';
 
 describe('GitHubFollowersService unmocked', () => {
   let userService: GitHubUserService;
@@ -43,7 +44,7 @@ describe('GitHubUserService mocked', () => {
 
   let httpMock: HttpTestingController; // HttpClientTestingModule;
 
-  const USER = {
+  const USER: User = {
     id: 1,
     login: 'mock',
     followers: 1,
