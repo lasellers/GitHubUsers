@@ -50,7 +50,7 @@ class MockGitHubUserService { // extends GitHubUserService {
 @Injectable()
 class MockGitHubGistsService {
   public baseUsername: string = 'mock';
-  public status: boolean;
+  public gists$;
 
   static getGists(username: string) {
     switch (username) {
@@ -71,8 +71,9 @@ class MockGitHubGistsService {
   }
 }
 
-describe('User Gists Component', () => {
+fdescribe('User Gists Component', () => {
   let gistsService: GitHubGistsService;
+  let userService: GitHubUserService;
 
   let httpMock: HttpTestingController;
 
@@ -85,12 +86,12 @@ describe('User Gists Component', () => {
       declarations: [UserGistsComponent],
       imports: [HttpClientTestingModule],
       providers: [
-        {provider: GitHubGistsService, useClass: MockGitHubGistsService},
+        {provide: GitHubGistsService, useClass: MockGitHubGistsService},
         {provide: HttpClient, useClass: MockHttpClient},
+        {provide: GitHubUserService, useClass: MockGitHubUserService},
       ]
     })
       .compileComponents().then(() => {
-      //  spyOn(gistsService, 'getGists').and.returnValue(MockGitHubGistsService.getGists(component.baseUsername));
 
       fixture = TestBed.createComponent(UserGistsComponent);
       component = fixture.componentInstance;
@@ -99,10 +100,11 @@ describe('User Gists Component', () => {
 
       httpMock = TestBed.inject(HttpTestingController);
       gistsService = TestBed.inject(GitHubGistsService);
+      userService = TestBed.inject(GitHubUserService);
 
       dom = fixture.debugElement.nativeElement;
 
-      component.baseUsername = 'lorem2';
+      gistsService.isCaching = false;
     });
   }));
 
@@ -113,6 +115,8 @@ describe('User Gists Component', () => {
   describe('setup', () => {
     beforeEach(() => {
       component.baseUsername = 'lorem';
+      gistsService.isCaching = false;
+
       fixture.detectChanges();
     });
 
@@ -130,28 +134,32 @@ describe('User Gists Component', () => {
 
   });
 
-  describe('html, none', () => {
+  describe('UI, none', () => {
     beforeEach(() => {
       component.baseUsername = 'lasellers';
+      // gistsService.isCaching = false;
+
       component.gists = [];
 
-      // spyOn(userService, 'isUserCached').and.returnValue(false);
-
-      // spyOn(gistsService, 'isGistsCached').and.returnValue(false);
-      // spyOn(gistsService, 'getGists').and.returnValue(MockGitHubGistsService.getGists(component.baseUsername));
+      spyOn(userService, 'isUserCached').and.returnValue(false);
+      spyOn(gistsService, 'isGistsCached').and.returnValue(false);
+      spyOn(gistsService, 'getGists').and.callThrough(); //returnValue([]); //MockGitHubGistsService.getGists(component.baseUsername));
 
       fixture.detectChanges();
     });
 
     it(`should NOT render card title`, () => {
       const el = dom.querySelector('.card-title');
-      console.log(el);
       expect(el).toBeNull();
     });
 
-    it(`should NOT render header`, () => {
+    it(`should NOT render thead`, () => {
       const el = dom.querySelector('.thead');
-      console.log(el);
+      expect(el).toBeNull();
+    });
+
+    it(`should NOT render tbody`, () => {
+      const el = dom.querySelector('.tbody');
       expect(el).toBeNull();
     });
 
@@ -163,17 +171,19 @@ describe('User Gists Component', () => {
 
   });
 
-  xdescribe('html, one', () => {
+  describe('UI, two gists', () => {
     beforeEach(() => {
       component.baseUsername = 'lasellers';
-      const gists = [Gist.constructor()];
-      gists[0].content = 'Lorem Ipsum';
-      component.gists = [];
+      // gistsService.isCaching = false;
+      // const gists = [Gist.constructor()];
+      // gists[0].content = 'Lorem Ipsum';
+      component.gists = GISTS;
 
-      // spyOn(userService, 'isUserCached').and.returnValue(false);
-
+      spyOn(userService, 'isUserCached').and.returnValue(false);
       spyOn(gistsService, 'isGistsCached').and.returnValue(false);
-      spyOn(gistsService, 'getGists').and.returnValue(MockGitHubGistsService.getGists(''));
+      spyOn(gistsService, 'getGists').and.callThrough();
+
+      // gistsService.gists$ = of(GISTS);
 
       fixture.detectChanges();
     });
@@ -184,6 +194,10 @@ describe('User Gists Component', () => {
 
     it(`should render header`, () => {
       expect(dom.querySelector('thead').textContent).toContain('Filename');
+    });
+
+    it(`should render tbody`, () => {
+      expect(dom.querySelector('tbody')).toBeDefined();
     });
 
     it(`should render get button`, () => {

@@ -66,4 +66,8 @@ npm install webpack
 
 ## Todo
 * Add Material
+* add variant with ngrx
 * Add service workers
+* Add routing so we can have a couple different variations in the the same app
+* Add HTTP Interceptor for caching to simplify httpclient....
+* clean up obserables ....
