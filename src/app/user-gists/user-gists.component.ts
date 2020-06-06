@@ -23,7 +23,6 @@ export class UserGistsComponent implements OnInit, OnDestroy {
       this.gists = gists;
     });
 
-    console.log('ngOnInit gistsService:', this.gistsService);
     this.gistsService.getGists(this.baseUsername);
   }
 

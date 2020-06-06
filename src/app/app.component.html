@@ -24,7 +24,8 @@
     </form>
 
     <div class="col-sm align-bottom">
-      <button class="btn btn-outline-primary btn-sm my-2 my-sm-0" (click)="changeBaseUsernameToDefault()"
+      <button class="btn btn-outline-primary btn-sm my-2 my-sm-0"
+              (click)="changeBaseUsernameToDefault()"
               placement="bottom"
               ngbTooltip="Change to Default User">Default User
       </button>
@@ -39,7 +40,8 @@
 
   <div class="row">
     <div class="col-sm-3">
-      Local Storage Caching <input type="checkbox" [(ngModel)]="userService.isCaching"
+      Local Storage Caching <input type="checkbox"
+                                   [(ngModel)]="userService.isCaching"
                                    (change)="changeCaching(userService.isCaching)">
     </div>
     <div class="col-sm-3">
@@ -92,7 +94,9 @@
   <div class="row">
 
     <div class="col-sm-4">
-      <div appWasCachedHighlight [wasCached]="cachingStatus.userWasCached" [classString]="'text-danger'">
+      <div appWasCachedHighlight
+           [wasCached]="cachingStatus.userWasCached"
+           [classString]="'text-danger'">
         <!--[ngClass]="{'text-info': cachingStatus.userWasCached, 'text-warning': !cachingStatus.userWasCached}"-->
         User {{ cachingStatus.userWasCached | wasCached}}
         <fa-icon [icon]="['fas','cloud']" *ngIf="userService.isUserCached(baseUsername)"
@@ -110,7 +114,8 @@
     </div>
 
     <div class="col-sm-4">
-      <div appWasCachedHighlight [wasCached]="cachingStatus.followersWasCached">
+      <div appWasCachedHighlight
+           [wasCached]="cachingStatus.followersWasCached">
         Followers {{ cachingStatus.followersWasCached | wasCached}}
         <fa-icon [icon]="['fas','cloud']" *ngIf="followersService.isFollowersCached(baseUsername)"
                  placement="left"
@@ -129,8 +134,9 @@
     </div>
 
     <div class="col-sm-4">
-      <div appWasCachedHighlight [wasCached]="cachingStatus.followingsWasCached">
-        Followings  {{ cachingStatus.followingsWasCached | wasCached}}
+      <div appWasCachedHighlight
+           [wasCached]="cachingStatus.followingsWasCached">
+        Followings {{ cachingStatus.followingsWasCached | wasCached}}
         <fa-icon [icon]="['fas','cloud']" *ngIf="followingsService.isFollowingsCached(baseUsername)"
                  placement="left"
                  ngbTooltip="Followings is cached"></fa-icon>

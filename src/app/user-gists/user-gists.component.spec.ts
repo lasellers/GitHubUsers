@@ -183,7 +183,6 @@ describe('User Gists Component', () => {
 
     it(`should NOT render get button`, () => {
       const el = dom.querySelector('tbody button.btn');
-      console.log(el);
       expect(el).toBeNull();
     });
 
@@ -269,8 +268,6 @@ describe('User Gists Component', () => {
       spyOn(gistsService.gists$, 'emit').and.callThrough();
 
       fixture.detectChanges();
-
-      console.log(component.gists);
 
       expect(gistsService.getGists).toHaveBeenCalled();
       // expect(gistsService.isGistsCached).toHaveBeenCalled();

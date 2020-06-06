@@ -4,13 +4,12 @@ import { of } from 'rxjs';
 import { Component, Directive, ElementRef, Injectable, Input, OnChanges, OnInit, Pipe, PipeTransform, SimpleChanges } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
 import { FilterFollowersPipe } from '../filter-followers.pipe';
 import { UserFollowersComponent } from './user-followers.component';
 import { User } from '../user.model';
 import { GitHubUserService } from '../github-user.service';
-
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const FOLLOWERS: User[] = [{
   id: 1,

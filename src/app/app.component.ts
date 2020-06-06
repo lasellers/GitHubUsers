@@ -40,7 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
     cached: false,
     id: ''
   };
-  baseUsername: string = this.userService.getUserBasenameDefault();
+  @Input() baseUsername: string = this.userService.getUserBasenameDefault();
   cachingStatus = {
     userWasCached: false,
     followingsWasCached: false,
@@ -62,7 +62,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public followersService: GitHubFollowersService,
     public followingsService: GitHubFollowingsService,
     public gistsService: GitHubGistsService,
-    private toast: ToastrService
+    public toast: ToastrService
   ) {
     this.baseUsername = this.userService.getUserBasenameDefault();
   }

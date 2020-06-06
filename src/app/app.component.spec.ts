@@ -9,7 +9,18 @@ import { GitHubUserService } from './github-user.service';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 import { HttpClient } from '@angular/common/http';
-import { Component, Directive, EventEmitter, Injectable, Input, OnDestroy, OnInit, Output, Pipe, PipeTransform } from '@angular/core';
+import {
+  Component,
+  Directive,
+  EventEmitter,
+  Injectable,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  Pipe,
+  PipeTransform
+} from '@angular/core';
 import { of } from 'rxjs';
 import { UserGistsComponent } from './user-gists/user-gists.component';
 import { GitHubGistsService } from './github-gists.service';
@@ -24,6 +35,11 @@ import { FilterFollowersPipe } from './filter-followers.pipe';
 import { Gist } from './gist.model';
 import { GitHubGistService } from './github-gist.service';
 import { GistComponent } from './gist/gist.component';
+import { FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MockNgbTooltipDirective } from './user-followings/user-followings.component.spec';
+import { getClassName } from 'codelyzer/util/utils';
+import { By } from '@angular/platform-browser';
 
 class MockHttpClient {
   public get() {
@@ -142,6 +158,9 @@ class MockToastrService {
 
   public warning() {
   }
+
+  public error() {
+  }
 }
 
 @Pipe({
@@ -210,6 +229,9 @@ export class MockUserFollowingsComponent {
 })
 export class MockUserGistsComponent {
   @Input() baseUsername;
+
+  constructor() {
+  }
 }
 
 @Component({
@@ -220,6 +242,8 @@ export class MockUserGistsComponent {
 export class MockGistComponent {
   @Output() errorMessage$ = new EventEmitter(true);
   gist: Gist;
+  constructor() {
+  }
 }
 
 describe('AppComponent', () => {
@@ -230,25 +254,35 @@ describe('AppComponent', () => {
   let userService: GitHubUserService;
   let httpMock: HttpTestingController;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
-        FaIconComponent,
         WasCachedPipe,
         UserFollowingsComponent,
         UserFollowersComponent,
         UserDetailComponent,
         UserGistsComponent,
         GistComponent,
-        FilterFollowersPipe
+        FilterFollowersPipe,
+        WasCachedHighlightDirective,
+        FaIconComponent, // fa-icon
+        MockNgbTooltipDirective, // ngbtooltip
+        // NO_ERRORS_SCHEMA
       ],
-      imports: [HttpClientTestingModule, FontAwesomeTestingModule],
+      imports: [
+        HttpClientTestingModule,
+        FormsModule, // for ngModel
+        FontAwesomeTestingModule,
+        NgbModule // ng bootstrap 4
+      ],
       providers: [
-        {provide: ToastrService, useClass: MockToastrService},
-        {provide: TOAST_CONFIG, useValue: {}},
+        {provide: ToastrService, useClass: MockToastrService}, // ngx-toaster
+        {provide: TOAST_CONFIG, useValue: {}}, // ngx-toaster
+
         {provide: HttpClient, useClass: MockHttpClient},
         {provide: FaIconComponent, useClass: MockFaIconComponent},
+
         {provide: WasCachedPipe, useClass: MockWasCachedPipe},
         {provide: WasCachedHighlightDirective, useClass: MockWasCachedHighlightDirective},
         {provide: GitHubGistsService, useClass: MockGitHubGistsService},
@@ -262,30 +296,31 @@ describe('AppComponent', () => {
         {provide: UserGistsComponent, useClass: MockUserGistsComponent},
         {provide: GistComponent, useClass: MockGistComponent},
       ]
-    });
-    TestBed.compileComponents().then(() => {
+    }).compileComponents().then(() => {
+
       fixture = TestBed.createComponent(AppComponent);
+      fixture.detectChanges();
       component = fixture.debugElement.componentInstance;
       dom = fixture.debugElement.nativeElement;
 
-      fixture.detectChanges();
+      httpMock = TestBed.inject(HttpTestingController);
 
       userService = TestBed.inject(GitHubUserService);
-      httpMock = TestBed.inject(HttpTestingController);
+
     });
   });
 
-  fdescribe('setup', () => {
+  describe('setup', () => {
 
-    it('should create the fixture', async(() => {
+    it('should create the fixture', (() => {
       expect(fixture).toBeTruthy();
     }));
 
-    it('should create the component', async(() => {
+    it('should create the component', (() => {
       expect(component).toBeTruthy();
     }));
 
-    it('should create the dom', async(() => {
+    it('should create the dom', (() => {
       expect(dom).toBeTruthy();
     }));
 
@@ -332,12 +367,64 @@ describe('AppComponent', () => {
   });
 
   it(`should have as title 'GitHub Users'`, async(() => {
-    expect(component.title).toEqual('GitHub Users');
+    expect(component.title).toEqual('githubusers');
   }));
 
-  it('should render title in a h1 tag', async(() => {
+  xit('should render title in a h1 tag', async(() => {
     fixture.detectChanges();
     expect(dom.querySelector('h1').textContent).toContain('GitHub Users');
   }));
+
+  describe('components', () => {
+
+    it('should have UserDetailComponent', () => {
+      fixture.detectChanges();
+      const mock = TestBed.inject(UserDetailComponent);
+      expect(mock.constructor.name).toEqual('MockUserDetailComponent');
+
+      expect(dom.querySelector('user-detail')).toBeDefined();
+
+//      expect(dom.querySelector('user-detail').textContent).toEqual('[UserDetailComponent]');
+    });
+
+    it('should have UserFollowersComponent', () => {
+      fixture.detectChanges();
+
+      const mock = TestBed.inject(UserFollowersComponent);
+      expect(mock.constructor.name).toEqual('MockUserFollowersComponent');
+
+      expect(dom.querySelector('user-followers')).toBeDefined();
+    });
+
+    it('should have UserFollowingsComponent', () => {
+      fixture.detectChanges();
+
+      const mock = TestBed.inject(UserFollowingsComponent);
+      expect(mock.constructor.name).toEqual('MockUserFollowingsComponent');
+
+      expect(dom.querySelector('user-followings')).toBeDefined();
+    });
+
+    it('should have UserGistsComponent', () => {
+      fixture.detectChanges();
+
+      const mock = TestBed.inject(UserGistsComponent);
+      expect(mock.constructor.name).toEqual('MockUserGistsComponent');
+
+      expect(dom.querySelector('app-user-gists')).toBeDefined();
+      // expect(dom.querySelector('app-user-gists').textContent).toEqual('[UserGistsComponent]');
+    });
+
+    it('should have GistComponent', () => {
+      fixture.detectChanges();
+
+      const mock = TestBed.inject(GistComponent);
+      expect(mock.constructor.name).toEqual('MockGistComponent');
+
+      expect(dom.querySelector('app-gist')).toBeDefined();
+//      expect(dom.querySelector('app-gist').textContent).toEqual('[GistComponent]');
+    });
+
+  });
 
 });
