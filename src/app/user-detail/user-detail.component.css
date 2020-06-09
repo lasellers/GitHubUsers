@@ -18,3 +18,16 @@
   padding: 0px 0px 0px 1em;
   width: 100%;
 }
+
+.card {
+  height: auto;
+  max-height: 0;
+  overflow-y: hidden;
+  transition: max-height 3s ease-out;
+}
+
+.card-open {
+  display: block;
+  border: 1px solid black;
+  max-height: 1080px;
+}

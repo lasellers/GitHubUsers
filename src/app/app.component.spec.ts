@@ -11,7 +11,7 @@ import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testi
 import { HttpClient } from '@angular/common/http';
 import {
   Component,
-  Directive,
+  Directive, ElementRef,
   EventEmitter,
   Injectable,
   Input,
@@ -21,7 +21,7 @@ import {
   Pipe,
   PipeTransform
 } from '@angular/core';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { UserGistsComponent } from './user-gists/user-gists.component';
 import { GitHubGistsService } from './github-gists.service';
 import { WasCachedPipe } from './was-cached.pipe';
@@ -37,7 +37,6 @@ import { GitHubGistService } from './github-gist.service';
 import { GistComponent } from './gist/gist.component';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { MockNgbTooltipDirective } from './user-followings/user-followings.component.spec';
 import { getClassName } from 'codelyzer/util/utils';
 import { By } from '@angular/platform-browser';
 
@@ -54,6 +53,19 @@ const USER: User = {
   following: 2,
   name: 'Mock P. Smith'
 };
+
+@Directive({
+  selector: '[ngbTooltip]'
+})
+export class MockNgbTooltipDirective {
+  public elementRef: ElementRef;
+
+  constructor(
+    elementRef: ElementRef
+  ) {
+    this.elementRef = elementRef;
+  }
+}
 
 @Injectable()
 class MockGitHubUserService {
@@ -98,7 +110,7 @@ class MockGitHubGistsService {
 @Injectable()
 class MockGitHubGistService {
   public baseUsername: string = 'mock';
-  public gist$ = new EventEmitter(true);
+  public gist$ = new Subject();
   public gistCached$ = new EventEmitter(true);
 
   public isGistCached(username: string) {
@@ -242,6 +254,7 @@ export class MockUserGistsComponent {
 export class MockGistComponent {
   @Output() errorMessage$ = new EventEmitter(true);
   gist: Gist;
+
   constructor() {
   }
 }
@@ -370,21 +383,22 @@ describe('AppComponent', () => {
     expect(component.title).toEqual('githubusers');
   }));
 
-  xit('should render title in a h1 tag', async(() => {
+  it('should render title in a nav a tag', async(() => {
     fixture.detectChanges();
-    expect(dom.querySelector('h1').textContent).toContain('GitHub Users');
+
+    expect(dom.querySelector('nav a').textContent).toContain('githubusers');
   }));
 
   describe('components', () => {
 
     it('should have UserDetailComponent', () => {
       fixture.detectChanges();
+
       const mock = TestBed.inject(UserDetailComponent);
       expect(mock.constructor.name).toEqual('MockUserDetailComponent');
-
       expect(dom.querySelector('user-detail')).toBeDefined();
 
-//      expect(dom.querySelector('user-detail').textContent).toEqual('[UserDetailComponent]');
+      // expect(dom.querySelector('user-detail').textContent).toEqual('[UserDetailComponent]');
     });
 
     it('should have UserFollowersComponent', () => {
@@ -392,8 +406,9 @@ describe('AppComponent', () => {
 
       const mock = TestBed.inject(UserFollowersComponent);
       expect(mock.constructor.name).toEqual('MockUserFollowersComponent');
-
       expect(dom.querySelector('user-followers')).toBeDefined();
+
+      // expect(dom.querySelector('app-user-followers').textContent).toEqual('[UserFollowersComponent]');
     });
 
     it('should have UserFollowingsComponent', () => {
@@ -401,8 +416,9 @@ describe('AppComponent', () => {
 
       const mock = TestBed.inject(UserFollowingsComponent);
       expect(mock.constructor.name).toEqual('MockUserFollowingsComponent');
-
       expect(dom.querySelector('user-followings')).toBeDefined();
+
+      // expect(dom.querySelector('app-user-followings').textContent).toEqual('[UserFollowingsComponent]');
     });
 
     it('should have UserGistsComponent', () => {
@@ -410,8 +426,8 @@ describe('AppComponent', () => {
 
       const mock = TestBed.inject(UserGistsComponent);
       expect(mock.constructor.name).toEqual('MockUserGistsComponent');
-
       expect(dom.querySelector('app-user-gists')).toBeDefined();
+
       // expect(dom.querySelector('app-user-gists').textContent).toEqual('[UserGistsComponent]');
     });
 
@@ -420,9 +436,9 @@ describe('AppComponent', () => {
 
       const mock = TestBed.inject(GistComponent);
       expect(mock.constructor.name).toEqual('MockGistComponent');
-
       expect(dom.querySelector('app-gist')).toBeDefined();
-//      expect(dom.querySelector('app-gist').textContent).toEqual('[GistComponent]');
+
+      // expect(dom.querySelector('app-gist').textContent).toEqual('[GistComponent]');
     });
 
   });

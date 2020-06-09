@@ -43,7 +43,6 @@ describe('Github Gists Service mocked', () => {
   let userService: GitHubUserService;
   let gistsService: GitHubGistsService;
 
-  let httpClient: HttpClientTestingModule;
   let httpMock: HttpTestingController;
 
   const USER = {
@@ -165,61 +164,3 @@ describe('Github Gists Service mocked', () => {
   }));
 
 });
-
-xdescribe('Github Gists Service mocked httpclient', () => {
-  let userService: GitHubUserService;
-  let gistsService: GitHubGistsService;
-
-  let httpClient: HttpClientTestingModule;
-  let httpMock: HttpTestingController;
-
-  const USER = {
-    id: 1,
-    login: 'mock',
-    followers: 1,
-    following: 2,
-    name: 'Mock P. Smith'
-  };
-
-  const GISTS = [{
-    id: 1,
-    login: 'mock',
-    type: 'USER'
-  }, {
-    id: 2,
-    login: 'mock2',
-    type: 'USER'
-  }];
-
-  class MockUserService {
-    getApiUrl() {
-      return 'http://localhost';
-    }
-  }
-
-  class MockHttpClient {
-    public get() {
-      return of(GISTS);
-    }
-  }
-
-  beforeEach(() => {
-    httpClient = new HttpClientTestingModule();
-
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
-        GitHubGistsService,
-        {provider: HttpClient, useClass: httpClient},
-        {provider: GitHubUserService, useClass: MockUserService}
-      ]
-    });
-
-    httpMock = TestBed.inject(HttpTestingController);
-
-    userService = TestBed.inject(GitHubUserService);
-    gistsService = TestBed.inject(GitHubGistsService);
-  });
-
-});
-

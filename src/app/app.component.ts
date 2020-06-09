@@ -17,7 +17,7 @@ import { faMinusCircle, faCloudDownloadAlt, faExchangeAlt } from '@fortawesome/f
 import { BytesPipe } from './bytes.pipe';
 import { Gist } from './gist.model';
 import { delay } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { GitHubGistsService } from './github-gists.service';
 import { GitHubFollowersService } from './github-followers.service';
 import { GitHubFollowingsService } from './github-followings.service';
@@ -50,8 +50,6 @@ export class AppComponent implements OnInit, OnDestroy {
     useCached: false,
     users: []
   };
-
-  // @Input() isCaching: boolean = true;
 
   /**
    *
@@ -190,6 +188,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.gistService.gist$.unsubscribe();
   }
 
+  clearGistCache(gist): void {
+    this.gistService.clearGistCache(gist);
+    this.gistService.gist$.next(gist);
+  }
+
   clearCache() {
     localStorage.clear();
     this.loadUser(this.baseUsername);
@@ -223,7 +226,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   changeBaseUsernameToDefault() {
-    // this.baseUsername = this.userService.getUserBasenameDefault();
     this.loadUser(this.userService.getUserBasenameDefault());
     this.toast.success('Change baseUsername to default ' + this.baseUsername);
   }

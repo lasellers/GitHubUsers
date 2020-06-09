@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable, Input, Output } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
+import { of, Subject, Subscription } from 'rxjs';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { delay, map } from 'rxjs/operators';
 import { Gist } from './gist.model';
@@ -42,37 +42,6 @@ export class GitHubGistService {
   }
 
   /*
-  public getGist1(gist: Gist): Subscription {
-    if (this.isCaching) {
-      const content = localStorage.getItem('gist_' + gist.id + gist.filename);
-      if (content !== null) {
-        gist = {...gist, content: content, cached: true, wasCached: true};
-        this.gist$.next(gist);
-        return; // this.gist$.subscribe(gist => gist);
-      }
-    }
-
-    return this.http.get(gist.contentUrl, {responseType: 'text'}).pipe(
-      delay(0),
-      map((res) => res))
-      .subscribe(
-        content => {
-          this.apiCalls++;
-          gist = {...gist, content: content, cached: true, wasCached: false};
-          if (gist.size < (1024 * 32)) {
-            if (this.isCaching) {
-              localStorage.setItem('gist_' + gist.id + gist.filename, content);
-            }
-          }
-          this.gist$.next(gist);
-        },
-        error => {
-          this.apiCalls++;
-          this.errorMessage$.emit(error);
-        }); // ,
-    // () => console.log('getGist finished'));
-  } */
-
   public getGist(gist: Gist): void {
     if (this.isCaching) {
       const content = localStorage.getItem('gist_' + gist.id + gist.filename);
@@ -85,22 +54,45 @@ export class GitHubGistService {
 
     this.http.get(gist.contentUrl, {responseType: 'text'}).pipe(
       delay(0),
-      map((res) => {
+      map((gist2) => {
           this.apiCalls++;
-          gist = {...gist, content: res, cached: true, wasCached: false};
-          if (this.isCaching && gist.size < (1024 * 32)) { /* store 32kb max if caching */
-            localStorage.setItem('gist_' + gist.id + gist.filename, res);
+          gist = {...gist, content: gist2, cached: true, wasCached: false};
+          if (this.isCaching && gist.size < (1024 * 32)) { // store 32kb max if caching
+            localStorage.setItem('gist_' + gist.id + gist.filename, gist2);
           }
           return gist;
         }
       ))
       .subscribe(
-        gist => {
-          this.gist$.next(gist);
+        gist2 => {
+          this.gist$.next(gist2);
         },
         error => {
           this.errorMessage$.emit(error);
         });
+  }
+  */
+
+  public getGist(gist: Gist) {
+    if (this.isCaching) {
+      const content = localStorage.getItem('gist_' + gist.id + gist.filename);
+      if (content !== null) {
+        gist = {...gist, content, cached: true, wasCached: true};
+        return of(gist);
+      }
+    }
+
+    this.http.get(gist.contentUrl, {responseType: 'text'}).pipe(
+      delay(0),
+      map((gist2) => {
+          this.apiCalls++;
+          if (this.isCaching && gist.size < (1024 * 32)) { /* store 32kb max if caching */
+            localStorage.setItem('gist_' + gist.id + gist.filename, gist2);
+          }
+          gist = {...gist, content: gist2, cached: true, wasCached: false};
+          return gist;
+        }
+      ));
   }
 
 }

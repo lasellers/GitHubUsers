@@ -62,25 +62,6 @@ class MockFaIconComponent {
 class MockGitHubUserService { // extends GitHubUserService {
   public baseUsername: string = 'mock baseUsername';
 
-  /*
-  static getUser(username: string) {
-    switch (username) {
-      case 'lasellers':
-        return of(); // 1,2,3);
-      default:
-        return of();
-    }
-  }
-
-  public getUser(username: string) {
-    switch (username) {
-      case 'lasellers':
-        return of(); // 1,2,3);
-      default:
-        return of();
-    }
-  }*/
-
   public getApiUrl() {
     return 'http://localhost';
   }

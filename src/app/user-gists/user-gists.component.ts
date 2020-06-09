@@ -10,6 +10,7 @@ import { GitHubGistService } from '../github-gist.service';
 })
 export class UserGistsComponent implements OnInit, OnDestroy {
   @Input() baseUsername;
+  @Output() errorMessage$ = new EventEmitter(true);
   public gists: Gist[] = [];
 
   constructor(
@@ -24,6 +25,16 @@ export class UserGistsComponent implements OnInit, OnDestroy {
     });
 
     this.gistsService.getGists(this.baseUsername);
+  }
+
+  getGist(gist: Gist) {
+    this.gistService.getGist(gist).subscribe(
+      gistResponse => {
+        this.gistService.gist$.next(gistResponse);
+      },
+      error => {
+        this.errorMessage$.emit(error);
+      });
   }
 
   ngOnDestroy() {
