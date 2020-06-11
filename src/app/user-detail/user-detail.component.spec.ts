@@ -45,25 +45,6 @@ class MockFaIconComponent {
 class MockGitHubUserService { // extends GitHubUserService {
   public baseUsername: string = 'mock baseUsername';
 
-  /*
-  static getUser(username: string) {
-    switch (username) {
-      case 'lasellers':
-        return of(); // 1,2,3);
-      default:
-        return of();
-    }
-  }
-
-  public getUser(username: string) {
-    switch (username) {
-      case 'lasellers':
-        return of(); // 1,2,3);
-      default:
-        return of();
-    }
-  }*/
-
   public getApiUrl() {
     return 'http://localhost';
   }
@@ -109,31 +90,23 @@ describe('UserDetailComponent', () => {
     httpMock.verify();
   });
 
-  describe('setup', () => {
+  describe('Given our feature tests setup', () => {
     beforeEach(() => {
       component.baseUsername = 'lorem';
       fixture.detectChanges();
     });
 
-    it('should create component', () => {
-      expect(component).toBeTruthy();
-    });
-
-    it('should create fixture', () => {
+    it('all testing variables should be as expected', () => {
       expect(fixture).toBeTruthy();
-    });
-
-    it('should create dom', () => {
+      expect(component).toBeTruthy();
       expect(dom).toBeTruthy();
-    });
-
-    it('should create userService', () => {
       expect(userService).toBeTruthy();
+      expect(httpMock).toBeTruthy();
     });
 
   });
 
-  describe('mock user lasellers', () => {
+  describe('Given a sample user, the HTML', () => {
     beforeEach(() => {
       component.baseUsername = 'lasellers';
       component.user = USER;
@@ -211,7 +184,7 @@ describe('UserDetailComponent', () => {
 
   });
 
-  describe('mock user null', () => {
+  describe('Given no data for a user', () => {
     beforeEach(() => {
       component.baseUsername = '';
       component.user = {};
