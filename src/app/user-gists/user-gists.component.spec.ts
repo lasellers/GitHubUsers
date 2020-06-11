@@ -129,29 +129,25 @@ describe('User Gists Component', () => {
     httpMock.verify();
   });
 
-  describe('setup', () => {
+  describe('Given our feature tests setup', () => {
     beforeEach(() => {
       component.baseUsername = 'lorem';
       gistsService.isCaching = false;
-
       fixture.detectChanges();
     });
 
-    it('should create fixture', () => {
+    it('all testing variables should be as expected', () => {
       expect(fixture).toBeTruthy();
-    });
-
-    it('should create component', () => {
       expect(component).toBeTruthy();
-    });
-
-    it('should create dom', () => {
       expect(dom).toBeTruthy();
+      expect(userService).toBeTruthy();
+      expect(gistsService).toBeTruthy();
+      expect(httpMock).toBeTruthy();
     });
 
   });
 
-  describe('UI, none', () => {
+  describe('Given we have no gists', () => {
     beforeEach(() => {
       component.baseUsername = 'lasellers';
       gistsService.isCaching = false;
@@ -188,7 +184,7 @@ describe('User Gists Component', () => {
 
   });
 
-  describe('UI, two gists', () => {
+  describe('Given we have two gists', () => {
     beforeEach(() => {
       component.baseUsername = 'lasellers';
       gistsService.isCaching = false;

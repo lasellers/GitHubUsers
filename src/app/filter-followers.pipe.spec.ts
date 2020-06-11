@@ -15,7 +15,7 @@ describe('FilterFollowersPipe', () => {
     expect(pipe).toBeTruthy();
   });
 
-  it('one item', () => {
+  it('should handle filtering to one item', () => {
     const pipe = new FilterFollowersPipe();
     expect(pipe).toBeTruthy();
 
@@ -23,7 +23,7 @@ describe('FilterFollowersPipe', () => {
     expect(result).toEqual([{id: 1, name: 'lewis'}]);
   });
 
-  it('two items', () => {
+  it('should handle filtering to two items', () => {
     const pipe = new FilterFollowersPipe();
     expect(pipe).toBeTruthy();
 
@@ -31,7 +31,7 @@ describe('FilterFollowersPipe', () => {
     expect(result).toEqual([{id: 4, name: 'toby'}, {id: 5, name: 'toby lewis'}]);
   });
 
-  it('all items', () => {
+  it('should handle filtering no items', () => {
     const pipe = new FilterFollowersPipe();
     expect(pipe).toBeTruthy();
 

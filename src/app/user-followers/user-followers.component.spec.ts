@@ -126,38 +126,30 @@ describe('UserFollowersComponent', () => {
     httpMock.verify();
   });
 
-  describe('setup', () => {
+  describe('Given our feature tests setup', () => {
     beforeEach(() => {
       component.baseUsername = 'lorem';
       fixture.detectChanges();
     });
 
-    it('should create component', () => {
-      expect(component).toBeTruthy();
-    });
-
-    it('should create fixture', () => {
+    it('all testing variables should be as expected', () => {
       expect(fixture).toBeTruthy();
-    });
-
-    it('should create dom', () => {
+      expect(component).toBeTruthy();
       expect(dom).toBeTruthy();
-    });
-
-    it('should create userService', () => {
       expect(userService).toBeTruthy();
+      expect(httpMock).toBeTruthy();
     });
 
   });
 
-  describe('mock followers of lasellers', () => {
+  describe('Given we have a user with two followers', () => {
     beforeEach(() => {
       component.baseUsername = 'lasellers';
       component.followers = FOLLOWERS;
       fixture.detectChanges();
     });
 
-    it(`should render 2 rows`, () => {
+    it(`should render two rows`, () => {
       const rows = dom.querySelectorAll('tr');
       expect(rows.length).toBe(2);
     });
@@ -185,7 +177,7 @@ describe('UserFollowersComponent', () => {
 
   });
 
-  describe('mock user null', () => {
+  describe('Given we have no user or followers', () => {
     beforeEach(() => {
       component.baseUsername = '';
       component.followers = [];

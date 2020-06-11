@@ -323,19 +323,19 @@ describe('AppComponent', () => {
     });
   });
 
-  describe('setup', () => {
+  describe('Given our feature tests setup', () => {
+    beforeEach(() => {
+      component.baseUsername = 'lorem';
+      fixture.detectChanges();
+    });
 
-    it('should create the fixture', (() => {
+    it('all testing variables should be as expected', () => {
       expect(fixture).toBeTruthy();
-    }));
-
-    it('should create the component', (() => {
       expect(component).toBeTruthy();
-    }));
-
-    it('should create the dom', (() => {
       expect(dom).toBeTruthy();
-    }));
+      expect(userService).toBeTruthy();
+      expect(httpMock).toBeTruthy();
+    });
 
   });
 

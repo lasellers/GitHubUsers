@@ -83,22 +83,22 @@ describe('GistComponent', () => {
     httpMock.verify();
   });
 
-  describe('setup', () => {
-    it('should create fixture', () => {
+  describe('Given our feature tests setup', () => {
+    beforeEach(() => {
+    });
+
+    it('all testing variables should be as expected', () => {
       expect(fixture).toBeTruthy();
-    });
-
-    it('should create component', () => {
       expect(component).toBeTruthy();
-    });
-
-    it('should create dom', () => {
       expect(dom).toBeTruthy();
+      expect(userService).toBeTruthy();
+      expect(gistService).toBeTruthy();
+      expect(httpMock).toBeTruthy();
     });
 
   });
 
-  describe('html', () => {
+  describe('Given sample data, the HTML', () => {
     beforeEach(() => {
       const gist = Gist.constructor();
       gist.content = 'Lorem Ipsum';
@@ -116,7 +116,7 @@ describe('GistComponent', () => {
 
   });
 
-  describe('component', () => {
+  describe('Given sample data, the component', () => {
     beforeEach(() => {
       const gist = Gist.constructor();
       gist.content = 'Lorem Ipsum';
@@ -129,7 +129,6 @@ describe('GistComponent', () => {
       const gist = Gist.constructor();
       gistService.getGist(gist);
       expect(gistService.getGist).toHaveBeenCalled();
-
 
       /*
             spyOn(gistService.gist$, 'next');
