@@ -6,6 +6,7 @@ import { GitHubGistService } from '../github-gist.service';
 import { Gist } from '../gist.model';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Output } from '@angular/core';
 
 class MockGitHubUserService { // extends GitHubUserService {
   public token: string = 'mock';
@@ -18,16 +19,16 @@ class MockGitHubUserService { // extends GitHubUserService {
 class MockGitHubGistService { // extends GitHubGistService {
   public token: string = 'mock';
   public status: boolean;
-  public gist$ = {
+  @Output() public gist$ = {
     subscribe() {
-      this.status = true
+      this.status = true;
       return this.status;
     },
     unsubscribe() {
       this.status = false;
       return this.status;
     },
-  }
+  };
 }
 
 describe('GistComponent', () => {
@@ -128,6 +129,15 @@ describe('GistComponent', () => {
       const gist = Gist.constructor();
       gistService.getGist(gist);
       expect(gistService.getGist).toHaveBeenCalled();
+
+
+      /*
+            spyOn(gistService.gist$, 'next');
+      gistService.getGist2(gist).subscribe(gist2 => {
+        expect(gistService.gist$.next).toHaveBeenCalled();
+      });
+
+       */
     });
 
     it(`should render ngOnDestroy`, () => {

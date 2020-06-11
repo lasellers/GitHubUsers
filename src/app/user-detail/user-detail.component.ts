@@ -29,6 +29,11 @@ export class UserDetailComponent implements OnInit {
       error => {
         this.userService.errorMessage$.emit(error);
       });
+
+    setTimeout(() => {
+      document.querySelector('.card').classList.add('card-open');
+    }, 0);
+
   }
 
   isEmpty(obj) {
