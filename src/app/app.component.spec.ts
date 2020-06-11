@@ -11,7 +11,7 @@ import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testi
 import { HttpClient } from '@angular/common/http';
 import {
   Component,
-  Directive,
+  Directive, ElementRef,
   EventEmitter,
   Injectable,
   Input,
@@ -37,7 +37,6 @@ import { GitHubGistService } from './github-gist.service';
 import { GistComponent } from './gist/gist.component';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { MockNgbTooltipDirective } from './user-followings/user-followings.component.spec';
 import { getClassName } from 'codelyzer/util/utils';
 import { By } from '@angular/platform-browser';
 
@@ -54,6 +53,18 @@ const USER: User = {
   following: 2,
   name: 'Mock P. Smith'
 };
+
+@Directive({
+  selector: '[ngbTooltip]'
+})
+export class MockNgbTooltipDirective {
+  public elementRef: ElementRef;
+  constructor(
+    elementRef: ElementRef
+  ) {
+    this.elementRef = elementRef;
+  }
+}
 
 @Injectable()
 class MockGitHubUserService {
