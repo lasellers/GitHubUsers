@@ -99,6 +99,7 @@ export class AppComponent implements OnInit, OnDestroy {
       error => {
         this.errorMessage$.emit(error);
       })
+      this.gistService.gist$.next({content: '', cached: true, wasCached: false});
   }
 
   public showUser(username: string) {
