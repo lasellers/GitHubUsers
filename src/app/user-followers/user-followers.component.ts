@@ -39,7 +39,14 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.followersService.getFollowers(this.baseUsername);
+    this.followersService.getFollowers(this.baseUsername).subscribe(followers => {
+        this.followersService.followersCached$.emit(false);
+        this.followersService.followers$.emit(followers);
+      },
+      error => {
+        this.errorMessage$.emit(error);
+      }
+    )
   }
 
   ngOnDestroy(): void {

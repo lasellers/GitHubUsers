@@ -12,6 +12,7 @@ import { User } from './user.model';
 @Injectable({providedIn: 'root'})
 export class GitHubUserService {
   private apiUrl: string = 'https://api.github.com/users/';
+  // private apiUrl: string = 'https://localhost:3000/users/';
 
   // current data
   private defaultBaseUsername: string = 'lasellers';
@@ -66,7 +67,6 @@ export class GitHubUserService {
       const cachedUserObj = localStorage.getItem('user_' + username);
       if (cachedUserObj !== null) {
         const user = JSON.parse(cachedUserObj);
-        this.user$.emit({...user, wasCached: true});
         return of({...user, wasCached: true});
       }
     }
@@ -79,7 +79,7 @@ export class GitHubUserService {
           if (this.isCaching) {
             localStorage.setItem('user_' + username, JSON.stringify(user));
           }
-          this.user$.emit({...user, wasCached: false});
+          return {...user, wasCached: false};
         }
       ));
   }

@@ -21,13 +21,12 @@ export class GitHubGistsService {
   ) {
   }
   @Output() errorMessage$ = new EventEmitter(true);
+  @Output() gistsCached$ = new EventEmitter(true);
+  @Output() gists$ = new EventEmitter(true);
 
   // These are resolved async
   public apiCalls: number = 0;
   @Input() isCaching: boolean = true;
-
-  @Output() gistsCached$ = new EventEmitter(true);
-  @Output() gists$ = new EventEmitter(true);
 
   private static processGistsToArray(gists, isCached: boolean): Gist[] {
     const processedGists = [];
@@ -62,14 +61,12 @@ export class GitHubGistsService {
     this.gistsCached$.emit(false);
   }
 
-  public getGists(username: string): any { // Subscription {
+  public getGists(username: string): any {
     if (this.isCaching) {
       const cachedObj = localStorage.getItem('gists_' + username);
       if (cachedObj !== null) {
-        this.gistsCached$.emit(true);
         const gists = JSON.parse(cachedObj);
-        this.gists$.emit(gists);
-        return; // of<Gist>(gists).subscribe();
+        return of<Gist>(gists);
       }
     }
 
@@ -83,14 +80,7 @@ export class GitHubGistsService {
         }
         return gists;
       })
-    ).subscribe(
-      gists => {
-        this.gistsCached$.emit(false);
-        this.gists$.emit(gists);
-      },
-      error => {
-        this.errorMessage$.emit(error);
-      });
+    );
   }
 
 }

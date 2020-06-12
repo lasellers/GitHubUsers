@@ -38,14 +38,12 @@ export class GitHubFollowingsService {
     return (localStorage.getItem('followings_' + username) !== null);
   }
 
-  public getFollowings(username: string): Subscription {
+  public getFollowings(username: string) {
     if (this.isCaching) {
       const cachedObj = localStorage.getItem('followings_' + username);
       if (cachedObj !== null) {
         const followings = JSON.parse(cachedObj);
-        this.followingsCached$.emit(true);
-        this.followings$.emit(followings);
-        return; // of(followings).subscribe();
+        return of(followings);
       }
     }
 
@@ -59,13 +57,6 @@ export class GitHubFollowingsService {
         }
         return followings;
       })
-    ).subscribe(followings => {
-        this.followingsCached$.emit(false);
-        this.followings$.emit(followings);
-      },
-      error => {
-        this.errorMessage$.emit(error);
-      }
     );
   }
 }

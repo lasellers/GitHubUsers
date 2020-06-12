@@ -31,6 +31,8 @@ console.clear();
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
+  @Output() errorMessage$ = new EventEmitter(true);
+
   public version: string = packageJson.version;
   public title: string = packageJson.name;
   public filterString: string = '';
@@ -68,19 +70,40 @@ export class AppComponent implements OnInit, OnDestroy {
   public loadUser(username: string) {
     this.baseUsername = username;
     this.userService.getUser(username).subscribe((user) => {
-        // this.userService.user$.emit({...user, wasCached: true});
+        this.userService.user$.emit(user);
       },
       error => {
         this.userService.errorMessage$.emit(error);
       });
-    this.followersService.getFollowers(username);
-    this.followingsService.getFollowings(username);
-    this.gistsService.getGists(username);
+    this.followersService.getFollowers(username).subscribe(followers => {
+        this.followersService.followersCached$.emit(false);
+        this.followersService.followers$.emit(followers);
+      },
+      error => {
+        this.errorMessage$.emit(error);
+      }
+    )
+    this.followingsService.getFollowings(username).subscribe(followings => {
+        this.followingsService.followingsCached$.emit(false);
+        this.followingsService.followings$.emit(followings);
+      },
+      error => {
+        this.errorMessage$.emit(error);
+      }
+    )
+    this.gistsService.getGists(username).subscribe(
+      gists => {
+        this.gistsService.gistsCached$.emit(false);
+        this.gistsService.gists$.emit(gists);
+      },
+      error => {
+        this.errorMessage$.emit(error);
+      })
   }
 
   public showUser(username: string) {
     this.userService.getUser(username).subscribe((user) => {
-        // this.userService.user$.emit({...user, wasCached: true});
+        this.userService.user$.emit(user);
       },
       error => {
         this.userService.errorMessage$.emit(error);

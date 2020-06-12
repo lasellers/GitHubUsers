@@ -100,7 +100,13 @@ Lorem Ipsum 2`;
         console.log('error:', error);
       });
 
-      gistService.getGist(gist);
+      gistService.getGist(gist).subscribe(
+        gistResponse => {
+          this.gistService.gist$.next(gistResponse);
+        },
+        error => {
+          this.errorMessage$.emit(error);
+        });
 
       const req = httpMock.expectNone(gist.contentUrl);
     });
