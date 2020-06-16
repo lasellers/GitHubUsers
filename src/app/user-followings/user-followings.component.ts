@@ -47,7 +47,7 @@ export class UserFollowingsComponent implements OnInit, OnDestroy {
       error => {
         this.errorMessage$.emit(error);
       }
-    )
+    );
   }
 
   ngOnDestroy(): void {

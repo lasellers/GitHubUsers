@@ -82,7 +82,7 @@ export class AppComponent implements OnInit, OnDestroy {
       error => {
         this.errorMessage$.emit(error);
       }
-    )
+    );
     this.followingsService.getFollowings(username).subscribe(followings => {
         this.followingsService.followingsCached$.emit(false);
         this.followingsService.followings$.emit(followings);
@@ -90,7 +90,7 @@ export class AppComponent implements OnInit, OnDestroy {
       error => {
         this.errorMessage$.emit(error);
       }
-    )
+    );
     this.gistsService.getGists(username).subscribe(
       gists => {
         this.gistsService.gistsCached$.emit(false);
@@ -98,8 +98,9 @@ export class AppComponent implements OnInit, OnDestroy {
       },
       error => {
         this.errorMessage$.emit(error);
-      })
-      this.gistService.gist$.next({content: '', cached: true, wasCached: false});
+      }
+      );
+    this.gistService.gist$.next({content: '', cached: true, wasCached: false});
   }
 
   public showUser(username: string) {

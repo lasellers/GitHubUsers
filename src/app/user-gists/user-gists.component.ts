@@ -33,7 +33,7 @@ export class UserGistsComponent implements OnInit, OnDestroy {
       },
       error => {
         this.errorMessage$.emit(error);
-      })
+      });
   }
 
   getGist(gist: Gist) {
