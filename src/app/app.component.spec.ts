@@ -111,7 +111,6 @@ class MockGitHubGistsService {
 class MockGitHubGistService {
   public baseUsername: string = 'mock';
   public gist$ = new Subject();
-  public gistCached$ = new EventEmitter(true);
 
   public isGistCached(username: string) {
     return false;

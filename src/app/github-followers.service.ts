@@ -38,14 +38,12 @@ export class GitHubFollowersService {
     return (localStorage.getItem('followers_' + username) !== null);
   }
 
-  public getFollowers(username: string): Subscription {
+  public getFollowers(username: string) {
     if (this.isCaching) {
       const cachedObj = localStorage.getItem('followers_' + username);
       if (cachedObj !== null) {
         const followers = JSON.parse(cachedObj);
-        this.followersCached$.emit(true);
-        this.followers$.emit(followers);
-        return; // of(followers).subscribe();
+        return of(followers);
       }
     }
 
@@ -59,13 +57,6 @@ export class GitHubFollowersService {
         }
         return followers;
       })
-    ).subscribe(followers => {
-        this.followersCached$.emit(false);
-        this.followers$.emit(followers);
-      },
-      error => {
-        this.errorMessage$.emit(error);
-      }
     );
   }
 

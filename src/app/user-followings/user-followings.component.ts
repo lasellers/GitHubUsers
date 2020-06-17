@@ -8,6 +8,7 @@ import { GitHubFollowingsService } from '../github-followings.service';
   styleUrls: ['./user-followings.component.css']
 })
 export class UserFollowingsComponent implements OnInit, OnDestroy {
+  @Output() errorMessage$ = new EventEmitter(true);
   @Input() baseUsername;
   @Input() filterString: string = '';
   @Output() notifyChangeBaseUsername = new EventEmitter();
@@ -39,7 +40,14 @@ export class UserFollowingsComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.followingsService.getFollowings(this.baseUsername);
+    this.followingsService.getFollowings(this.baseUsername).subscribe(followings => {
+        this.followingsService.followingsCached$.emit(false);
+        this.followingsService.followings$.emit(followings);
+      },
+      error => {
+        this.errorMessage$.emit(error);
+      }
+    );
   }
 
   ngOnDestroy(): void {

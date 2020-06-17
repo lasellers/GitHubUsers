@@ -14,13 +14,12 @@ import { Gist } from './gist.model';
 })
 export class GitHubGistService {
   @Output() errorMessage$ = new EventEmitter(true);
+  // @Output() gist$ = new EventEmitter(true);
+  @Output() public gist$ = new Subject();
 
   // These are resolved async
-  public apiCalls: number = 0;
   @Input() isCaching: boolean = true;
-
-  // @Output() gist$ = new EventEmitter(true);
-  public gist$ = new Subject();
+  public apiCalls: number = 0;
 
   // public gistObs$ = this.gist$.asObservable();
 
@@ -41,38 +40,6 @@ export class GitHubGistService {
     this.gist$.next(gist);
   }
 
-  /*
-  public getGist(gist: Gist): void {
-    if (this.isCaching) {
-      const content = localStorage.getItem('gist_' + gist.id + gist.filename);
-      if (content !== null) {
-        gist = {...gist, content, cached: true, wasCached: true};
-        this.gist$.next(gist);
-        return;
-      }
-    }
-
-    this.http.get(gist.contentUrl, {responseType: 'text'}).pipe(
-      delay(0),
-      map((gist2) => {
-          this.apiCalls++;
-          gist = {...gist, content: gist2, cached: true, wasCached: false};
-          if (this.isCaching && gist.size < (1024 * 32)) { // store 32kb max if caching
-            localStorage.setItem('gist_' + gist.id + gist.filename, gist2);
-          }
-          return gist;
-        }
-      ))
-      .subscribe(
-        gist2 => {
-          this.gist$.next(gist2);
-        },
-        error => {
-          this.errorMessage$.emit(error);
-        });
-  }
-  */
-
   public getGist(gist: Gist) {
     if (this.isCaching) {
       const content = localStorage.getItem('gist_' + gist.id + gist.filename);
@@ -82,7 +49,7 @@ export class GitHubGistService {
       }
     }
 
-    this.http.get(gist.contentUrl, {responseType: 'text'}).pipe(
+    return this.http.get(gist.contentUrl, {responseType: 'text'}).pipe(
       delay(0),
       map((gist2) => {
           this.apiCalls++;

@@ -11,6 +11,8 @@ import { GitHubGistService } from '../github-gist.service';
 export class UserGistsComponent implements OnInit, OnDestroy {
   @Input() baseUsername;
   @Output() errorMessage$ = new EventEmitter(true);
+  @Output() gistsCached$ = new EventEmitter(true);
+  @Output() gists$ = new EventEmitter(true);
   public gists: Gist[] = [];
 
   constructor(
@@ -24,7 +26,14 @@ export class UserGistsComponent implements OnInit, OnDestroy {
       this.gists = gists;
     });
 
-    this.gistsService.getGists(this.baseUsername);
+    this.gistsService.getGists(this.baseUsername).subscribe(
+      gists => {
+        this.gistsCached$.emit(false);
+        this.gists$.emit(gists);
+      },
+      error => {
+        this.errorMessage$.emit(error);
+      });
   }
 
   getGist(gist: Gist) {

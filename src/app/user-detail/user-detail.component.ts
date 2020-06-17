@@ -24,7 +24,7 @@ export class UserDetailComponent implements OnInit {
     });
 
     this.userService.getUser(this.baseUsername).subscribe((user) => {
-        // this.userService.user$.emit({...user, wasCached: true});
+        this.userService.user$.emit(user);
       },
       error => {
         this.userService.errorMessage$.emit(error);
