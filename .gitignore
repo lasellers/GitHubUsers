@@ -40,3 +40,6 @@ testem.log
 Thumbs.db
 
 dist/
+
+.nyc_output
+
