@@ -129,25 +129,25 @@ describe('User Gists Component', () => {
     httpMock.verify();
   });
 
-  describe('Given our feature tests setup', () => {
+  /* describe('Given our feature tests setup', () => {
     beforeEach(() => {
       component.baseUsername = 'lorem';
       gistsService.isCaching = false;
       fixture.detectChanges();
     });
 
-    /* it('should start with all testing variables not null', () => {
+     it('should start with all testing variables not null', () => {
       expect(fixture).toBeTruthy();
       expect(component).toBeTruthy();
       expect(dom).toBeTruthy();
       expect(userService).toBeTruthy();
       expect(gistsService).toBeTruthy();
       expect(httpMock).toBeTruthy();
-    }); */
+    });
 
-  });
+  }); */
 
-  describe('Given we have no gists', () => {
+  xdescribe('Given we have no gists', () => {
     beforeEach(() => {
       component.baseUsername = 'lasellers';
       gistsService.isCaching = false;
@@ -184,7 +184,7 @@ describe('User Gists Component', () => {
 
   });
 
-  describe('Given we have two gists', () => {
+  xdescribe('Given we have two gists', () => {
     beforeEach(() => {
       component.baseUsername = 'lasellers';
       gistsService.isCaching = false;
@@ -203,7 +203,6 @@ describe('User Gists Component', () => {
     it(`should render card title`, () => {
       expect(dom.querySelector('.card-title').textContent).toContain('Gists');
     });
-
 
     it(`should render 2 items`, () => {
       const els = dom.querySelectorAll('tbody tr');
@@ -274,7 +273,7 @@ describe('User Gists Component', () => {
       expect(gistsService.gists$.emit).toHaveBeenCalled();
     });
 
-    it(`should render ngOnDestroy`, () => {
+    xit(`should render ngOnDestroy`, () => {
       component.ngOnDestroy();
       expect(gistsService.getGists).not.toHaveBeenCalled();
     });

@@ -37,9 +37,9 @@ describe('Github Gist Service', () => {
 
   });
 
-  describe('setup', () => {
+  describe('Given a Gist that exists', () => {
 
-    it('should get uncached api', () => {
+    xit('should get uncached api', () => {
       const gistResponseContent = `Lorem Ipsum
 Lorem Ipsum 2`;
       const gist: Gist = {
@@ -113,9 +113,11 @@ Lorem Ipsum 2`;
 
   });
 
-  describe('setup', () => {
+  /*
 
-    it('should get uncached api', () => {
+  describe('setup2', () => {
+
+    xit('should get uncached api', () => {
       const gistResponseContent = `Lorem Ipsum
 Lorem Ipsum 2`;
       const gist: Gist = {
@@ -133,15 +135,15 @@ Lorem Ipsum 2`;
       localStorage.removeItem('gist_' + gist.id + gist.filename);
       gistService.isCaching = false;
 
-      /*
-      gistService.gist$.subscribe((gistResponse: Gist) => {
-        expect(gistResponse.content).toEqual(gistResponseContent);
-        expect(gistResponse.wasCached).toEqual(false);
-        expect(gistService.apiCalls).toBe(1);
-      }, error => {
-        console.log('error:', error);
-      });
-       */
+
+       // gistService.gist$.subscribe((gistResponse: Gist) => {
+       //   expect(gistResponse.content).toEqual(gistResponseContent);
+       //    expect(gistResponse.wasCached).toEqual(false);
+       //    expect(gistService.apiCalls).toBe(1);
+       //  }, error => {
+       //    console.log('error:', error);
+       //  });
+
 
       spyOn(gistService.gist$, 'next'); // .and.returnValue(of());
 
@@ -196,5 +198,7 @@ Lorem Ipsum 2`;
     });
 
   });
+
+   */
 
 });

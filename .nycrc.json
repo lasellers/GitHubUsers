@@ -1,0 +1,12 @@
+{
+  "all": true,
+  "reporter": [
+    "text",
+    "html",
+    "lcov"
+  ],
+  "exclude": [
+    ".conf.js",
+    "dist"
+  ]
+}
