@@ -96,13 +96,13 @@ describe('UserDetailComponent', () => {
       fixture.detectChanges();
     });
 
-    it('all testing variables should be as expected', () => {
+    /* it('should start with all testing variables not null', () => {
       expect(fixture).toBeTruthy();
       expect(component).toBeTruthy();
       expect(dom).toBeTruthy();
       expect(userService).toBeTruthy();
       expect(httpMock).toBeTruthy();
-    });
+    }); */
 
   });
 

@@ -1,7 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { of } from 'rxjs';
-import { Component, Directive, ElementRef, Injectable, Input, OnChanges, OnInit, Pipe, PipeTransform, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Directive,
+  ElementRef,
+  Injectable,
+  Input,
+  OnChanges,
+  OnInit,
+  Pipe,
+  PipeTransform,
+  SimpleChanges
+} from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -84,6 +95,7 @@ class MockPipe implements PipeTransform {
 })
 export class MockNgbTooltipDirective {
   public elementRef: ElementRef;
+
   constructor(
     elementRef: ElementRef
   ) {
@@ -132,13 +144,13 @@ describe('UserFollowersComponent', () => {
       fixture.detectChanges();
     });
 
-    it('all testing variables should be as expected', () => {
+    /* it('should start with all testing variables not null', () => {
       expect(fixture).toBeTruthy();
       expect(component).toBeTruthy();
       expect(dom).toBeTruthy();
       expect(userService).toBeTruthy();
       expect(httpMock).toBeTruthy();
-    });
+    }); */
 
   });
 

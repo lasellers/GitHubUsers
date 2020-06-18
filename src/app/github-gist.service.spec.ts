@@ -44,10 +44,10 @@ describe('Github Gist Service', () => {
 Lorem Ipsum 2`;
       const gist: Gist = {
         id: '123',
-        contentUrl: 'https://gist.githubusercontent.com/lasellers/7d9ed…a10d8ce79be188b90b9c3c9d0ff86329a955d01/units.txt',
+        contentUrl: 'https://gist.githubusercontent.com/lasellers/7d9ed3190275aa22cbfce66ae4476c1e/raw/1a10d8ce79be188b90b9c3c9d0ff86329a955d01/units.txt',
         filename: 'units.txt',
         language: 'Text',
-        url: 'https://gist.githubusercontent.com/lasellers/7d9ed…a10d8ce79be188b90b9c3c9d0ff86329a955d01/units.txt',
+        url: 'https://gist.githubusercontent.com/lasellers/7d9ed3190275aa22cbfce66ae4476c1e/raw/1a10d8ce79be188b90b9c3c9d0ff86329a955d01/units.txt',
         size: 123,
         wasCached: true,
         content: ``,
@@ -78,10 +78,10 @@ Lorem Ipsum 2`;
 
       const gist: Gist = {
         id: '321',
-        contentUrl: 'https://gist.githubusercontent.com/lasellers/7d9ed…a10d8ce79be188b90b9c3c9d0ff86329a955d01/units.txt',
+        contentUrl: 'https://gist.githubusercontent.com/lasellers/7d9ed3190275aa22cbfce66ae4476c1e/raw/1a10d8ce79be188b90b9c3c9d0ff86329a955d01/units.txt',
         filename: 'units.txt',
         language: 'Text',
-        url: 'https://gist.githubusercontent.com/lasellers/7d9ed…a10d8ce79be188b90b9c3c9d0ff86329a955d01/units.txt',
+        url: 'https://gist.githubusercontent.com/lasellers/7d9ed3190275aa22cbfce66ae4476c1e/raw/1a10d8ce79be188b90b9c3c9d0ff86329a955d01/units.txt',
         size: 321,
         wasCached: true,
         content: ``,
@@ -120,10 +120,10 @@ Lorem Ipsum 2`;
 Lorem Ipsum 2`;
       const gist: Gist = {
         id: '123',
-        contentUrl: 'https://gist.githubusercontent.com/lasellers/7d9ed…a10d8ce79be188b90b9c3c9d0ff86329a955d01/units.txt',
+        contentUrl: 'https://gist.githubusercontent.com/lasellers/7d9ed3190275aa22cbfce66ae4476c1e/raw/1a10d8ce79be188b90b9c3c9d0ff86329a955d01/units.txt',
         filename: 'units.txt',
         language: 'Text',
-        url: 'https://gist.githubusercontent.com/lasellers/7d9ed…a10d8ce79be188b90b9c3c9d0ff86329a955d01/units.txt',
+        url: 'https://gist.githubusercontent.com/lasellers/7d9ed3190275aa22cbfce66ae4476c1e/raw/1a10d8ce79be188b90b9c3c9d0ff86329a955d01/units.txt',
         size: 123,
         wasCached: true,
         content: ``,

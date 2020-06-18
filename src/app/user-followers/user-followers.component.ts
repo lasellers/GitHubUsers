@@ -10,6 +10,7 @@ import { GitHubFollowersService } from '../github-followers.service';
 export class UserFollowersComponent implements OnInit, OnDestroy {
   @Input() baseUsername;
   @Input() filterString: string = '';
+  @Output() errorMessage$ = new EventEmitter(true);
   @Output() notifyChangeBaseUsername = new EventEmitter();
   @Output() notifyShowBaseUsername = new EventEmitter();
   private cachedUsers = [];
@@ -22,9 +23,7 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // probably should delay this a click
     this.userService.user$.subscribe(user => {
-      // const [status, username] = statusUser;
       this.cachedUsers[user.login] = user.wasCached;
     });
 
