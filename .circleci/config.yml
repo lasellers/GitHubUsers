@@ -1,7 +1,7 @@
 defaults: &defaults
   working_directory: ~/GitHubUsers
   docker:
-    - image: circleci/node-browsers:12
+    - image: circleci/node:jessie-browsers
 
 version: 2
 jobs:
