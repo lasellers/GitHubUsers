@@ -24,21 +24,24 @@ jobs:
           key: githubusers-{{ .Branch }}-cache-{{ checksum "package.json"}}
       - run:
           name: Setup Test Output Directory
-          command: mkdir -p test-results/karma
+          command: mkdir -p reports/junit
       - run:
           name: Run tests
-          command: npm test | npx tap-xunit > test-results/karma/results.xml
+          command: npm test
       - run:
-          name: Run coverage report
-          command: npm run coverage > coverage-report.lcov
+          name: Run coverage
+          command: npm coverage
       - store_artifacts:
-          path: test-results/karma/results.xml
-          destination: test-results/karma/
+          path: reports/junit/
+          destination: reports/junit/
+      - store_artifacts:
+          path: reports/detailed/
+          destination: reports/detailed/
       - store_artifacts:
           path: coverage-report.lcov
           destination: reports
       - store_test_results:
-          path: test-results
+          path: reports
 workflows:
   version: 2
   build_and_test:

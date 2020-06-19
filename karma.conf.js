@@ -49,6 +49,9 @@ module.exports = function (config) {
       'report-config': {
         html: {
           subdir: 'html'
+        },
+        lcov: {
+          file: 'coverage-report.lcov'
         }
       },
       verbose: false,
