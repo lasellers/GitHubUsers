@@ -1,3 +1,6 @@
+![Build Status](https://circleci.com/gh/lasellers/GitHubUsers.png?circle-token=e949fd7d7af872231de030feb04b73e843abd3f7)
+![Build Status](https://travis-ci.org/lasellers/GitHubUsers.svg?branch=master)
+
 # GitHub Users
 
 ## Learning Angular 9, using the GitHub API
