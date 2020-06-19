@@ -7,15 +7,15 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "ng test --code-coverage --progress --source-map=true",
-    "test-dev": "ng test --code-coverage --progress --source-map=true --watch=true",
-    "coverage": "ng test --code-coverage --progress --source-map=true --watch=false",
+    "test": "ng test --code-coverage --progress --watch=false",
+    "test-dev": "ng test --code-coverage --progress --watch=true",
+    "coverage": "ng test --code-coverage --progress --watch=false",
     "eslint": "eslint .",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "ci": "ng test --watch=false --reporters=dots,progress,kjhtml --progress --code-coverage",
     "test2": "mocha --recursive ./test/*.js",
-    "test3": "nyc ng test --code-coverage --progress --source-map=true"
+    "test3": "nyc ng test --code-coverage --progress"
   },
   "private": true,
   "dependencies": {
@@ -67,6 +67,7 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-spec-reporter": "0.0.32",
     "karma-summary-reporter": "^1.8.0",
+    "karma-typescript": "^5.0.3",
     "mocha": "^8.0.1",
     "mocha-sinon": "^2.1.2",
     "nyc": "^15.1.0",

@@ -37,7 +37,7 @@ describe('Github Gist Service', () => {
 
   });
 
-  describe('Given a Gist that exists', () => {
+  xdescribe('Given a Gist that exists', () => {
 
     xit('should get uncached api', () => {
       const gistResponseContent = `Lorem Ipsum

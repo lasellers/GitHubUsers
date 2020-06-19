@@ -13,7 +13,7 @@ export class UserFollowingsComponent implements OnInit, OnDestroy {
   @Output() errorMessage$ = new EventEmitter(true);
   @Output() notifyChangeBaseUsername = new EventEmitter();
   @Output() notifyShowBaseUsername = new EventEmitter();
-  private cachedUsers = [];
+  public cachedUsers = [];
   public followings = [];
 
   constructor(
@@ -53,7 +53,7 @@ export class UserFollowingsComponent implements OnInit, OnDestroy {
   }
 
   isUserWasCached(username: string): boolean {
-    return (username in this.cachedUsers);
+    return (this.cachedUsers.includes(username));
   }
 
   changeBaseUsername(username: string): void {
