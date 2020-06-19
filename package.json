@@ -13,7 +13,6 @@
     "eslint": "eslint .",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "ci": "ng test --watch=false --reporters=dots,progress,kjhtml --progress --code-coverage",
     "test2": "mocha --recursive ./test/*.js",
     "test3": "nyc ng test --code-coverage --progress"
   },
