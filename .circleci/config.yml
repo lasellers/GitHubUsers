@@ -1,7 +1,7 @@
 defaults: &defaults
   working_directory: ~/GitHubUsers
   docker:
-    - image: circleci/node:12
+    - image: circleci/node-browsers:12
 
 version: 2
 jobs:
@@ -26,12 +26,7 @@ jobs:
           name: Setup Test Output Directory
           command: mkdir -p reports/junit
       - run:
-          name: Run tests
-          command: npm test
-          environment:
-            CHROME_BIN: /usr/bin/google-chrome karma start --single-run
-      - run:
-          name: Run coverage
+          name: Run tests + coverage
           command: npm coverage
           environment:
             CHROME_BIN: /usr/bin/google-chrome karma start --single-run

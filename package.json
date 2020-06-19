@@ -9,7 +9,7 @@
     "build": "ng build",
     "test": "ng test --watch=false",
     "coverage": "ng test --code-coverage --progress --watch=false",
-    "test-dev": "ng test --code-coverage --progress --watch=true",
+    "test-dev": "ng test --code-coverage --progress --watch=true --browsers=Chrome",
     "eslint": "eslint .",
     "lint": "ng lint",
     "e2e": "ng e2e",
