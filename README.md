@@ -22,7 +22,7 @@ Note: This code may change often.
 * v1 2/6/2017 Angular 2.4 using npm angular cli beta.31
 * v2 2/20/2017 Update to Angular 5
 * v3 5/10/2020 Upgrade to Angular 9 and rewrite app extensively to experiment with different Angular features.
-
+* v3.0.4 6/19/2020 Add several tests
 
 ### Deploy
 See [https://lasellers.github.io/GitHubUsers/] for the live version of this repo posted to gh-pages.
@@ -47,24 +47,6 @@ sudo apt install ./google-chrome-stable_current_amd64.deb
 ### source map
 `ng test --source=map=false`
 Changed ng test to avoid xmlRequest send bug caused by new cli.
-
-
-## Installs
-npm install
-npm install -g @angular/cli
-npm install @angular/cli
-ng add @fortawesome/angular-fontawesome
-npm install @fortawesome/fontawesome-svg-core
-npm install @fortawesome/free-solid-svg-icons
-npm install @fortawesome/free-regular-svg-icons
-ng add @ng-bootstrap/ng-bootstrap
-ng add @angular/localize
-npm install ngx-toastr
-# npm install --save bootstrap
-# npm install --save jquery
-# npm install --save popper
-npm install webpack
-# npm install core-js
 
 
 ## Todo
