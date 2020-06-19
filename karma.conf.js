@@ -8,7 +8,7 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadless'],
     concurrency: Infinity,
     singleRun: false,
     restartOnFileChange: true,
