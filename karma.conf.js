@@ -21,7 +21,7 @@ module.exports = function (config) {
       'src/app/**/*.js'
     ],
     client: {
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
+      clearContext: true // leave Jasmine Spec Runner output visible in browser
     },
     coverageIstanbulReporter: {
       includeAllSource: true,
@@ -66,7 +66,7 @@ module.exports = function (config) {
       properties: {}, // key value pair of properties to add to the <properties> section of the report
       xmlVersion: null // use '1' if reporting to be per SonarQube 6.2 XML format
     },
-    reporters: ['dots', 'kjhtml', 'coverage-istanbul', 'spec', 'junit'],
+    reporters: ['progress', 'kjhtml', 'coverage-istanbul', 'spec', 'junit'],
     // reporters: ['progress', 'kjhtml', 'coverage-istanbul', 'summary', 'spec', 'htmlDetailed', 'junit],
     port: 9876,
     colors: true,

@@ -8,13 +8,14 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test --code-coverage --progress --source-map=true",
-    "test-dev": "ng test --watch=true --code-coverage --progress --source-map=true",
+    "test-dev": "ng test --code-coverage --progress --source-map=true --watch=true",
+    "coverage": "ng test --code-coverage --progress --source-map=true --watch=false",
+    "eslint": "eslint .",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "ci": "ng test --watch=false --reporters=dots,progress,kjhtml --progress --code-coverage",
-    "eslint": "eslint .",
-    "coverage": "nyc reporter --reporter=lcov --reporter=text --reporter=html",
-    "test2": "mocha --recursive ./test/*.js"
+    "test2": "mocha --recursive ./test/*.js",
+    "test3": "nyc ng test --code-coverage --progress --source-map=true"
   },
   "private": true,
   "dependencies": {
