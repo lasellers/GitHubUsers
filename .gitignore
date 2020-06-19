@@ -43,4 +43,5 @@ dist/
 
 .nyc_output
 reports
+test-results
 
