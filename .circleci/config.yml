@@ -27,7 +27,7 @@ jobs:
           command: mkdir -p reports/junit
       - run:
           name: Run tests + coverage
-          command: npm coverage
+          command: npm run coverage
           environment:
             CHROME_BIN: /usr/bin/google-chrome karma start --single-run
       - store_artifacts:
