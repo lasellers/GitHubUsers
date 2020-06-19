@@ -203,5 +203,44 @@ describe('UserFollowersComponent', () => {
 
   });
 
+  describe('Given isUserWasCached with three users', () => {
+    beforeEach( () => {
+      component.cachedUsers = ['Able', 'Baker', 'Charlie'];
+    });
+
+    it('isUserWasCached exists', () => {
+      expect(typeof component.isUserWasCached !== 'undefined').toBeTrue();
+    });
+
+    it('should find the first mentioned', () => {
+      expect(component.isUserWasCached('Able')).toBeTrue();
+    });
+
+    it('should find the last mentioned', () => {
+      expect(component.isUserWasCached('Charlie')).toBeTrue();
+    });
+
+    it('should not find one not in list', () => {
+      expect(component.isUserWasCached('Zed')).toBeFalse();
+    });
+
+  });
+
+  describe('Given changeBaseUsername', () => {
+
+    it('changeBaseUsername exists', () => {
+      expect(typeof component.changeBaseUsername !== 'undefined').toBeTrue();
+    });
+
+  });
+
+  describe('Given showBaseUsername', () => {
+
+    it('showBaseUsername exists', () => {
+      expect(typeof component.showBaseUsername !== 'undefined').toBeTrue();
+    });
+
+  });
+
 });
 
