@@ -28,9 +28,13 @@ jobs:
       - run:
           name: Run tests
           command: npm test
+          environment:
+            CHROME_BIN=/usr/bin/google-chrome karma start --single-run
       - run:
           name: Run coverage
           command: npm coverage
+          environment:
+            CHROME_BIN=/usr/bin/google-chrome karma start --single-run
       - store_artifacts:
           path: reports/junit/
           destination: reports/junit/
