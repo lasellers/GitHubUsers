@@ -13,14 +13,15 @@ module.exports = function (config) {
       require('@angular-devkit/build-angular/plugins/karma'),
       require('karma-summary-reporter'),
       require('karma-spec-reporter'),
-      require('karma-html-detailed-reporter')
+      require('karma-html-detailed-reporter'),
+      require('karma-junit-reporter')
     ],
     files: [
       'src/app/*.spec.ts',
       'src/app/**/*.js'
     ],
     client: {
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
+      clearContext: true // leave Jasmine Spec Runner output visible in browser
     },
     coverageIstanbulReporter: {
       includeAllSource: true,
@@ -55,8 +56,18 @@ module.exports = function (config) {
     htmlDetailed: {
       splitResults: true
     },
-    reporters: ['dots', 'kjhtml', 'coverage-istanbul', 'spec'],
-    // reporters: ['progress', 'kjhtml', 'coverage-istanbul', 'summary', 'spec', 'htmlDetailed'],
+    junitReporter: {
+      outputDir: './coverage/junit/', // results will be saved as $outputDir/$browserName.xml
+      outputFile: undefined, // if included, results will be saved as $outputDir/$browserName/$outputFile
+      suite: '', // suite will become the package name attribute in xml testsuite element
+      useBrowserName: true, // add browser name to report and classes names
+      nameFormatter: undefined, // function (browser, result) to customize the name attribute in xml testcase element
+      classNameFormatter: undefined, // function (browser, result) to customize the classname attribute in xml testcase element
+      properties: {}, // key value pair of properties to add to the <properties> section of the report
+      xmlVersion: null // use '1' if reporting to be per SonarQube 6.2 XML format
+    },
+    reporters: ['progress', 'kjhtml', 'coverage-istanbul', 'spec', 'junit'],
+    // reporters: ['progress', 'kjhtml', 'coverage-istanbul', 'summary', 'spec', 'htmlDetailed', 'junit],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,

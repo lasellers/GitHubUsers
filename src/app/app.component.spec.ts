@@ -376,6 +376,10 @@ describe('AppComponent', () => {
       expect(typeof component.changeCaching === 'function').toBeTrue();
     });
 
+    it('should have clearGistCache', () => {
+      expect(typeof component.clearGistCache === 'function').toBeTrue();
+    });
+
   });
 
   it(`should have as title 'GitHub Users'`, async(() => {

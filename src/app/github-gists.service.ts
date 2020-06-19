@@ -20,6 +20,7 @@ export class GitHubGistsService {
     private userService: GitHubUserService
   ) {
   }
+
   @Output() errorMessage$ = new EventEmitter(true);
   @Output() gistsCached$ = new EventEmitter(true);
   @Output() gists$ = new EventEmitter(true);
@@ -28,9 +29,17 @@ export class GitHubGistsService {
   public apiCalls: number = 0;
   @Input() isCaching: boolean = true;
 
-  private static processGistsToArray(gists, isCached: boolean): Gist[] {
+  /**
+   * Converts the raw gists data from the api into a simplified object type (called Gist)
+   * @param rawGists
+   * @param isCached
+   */
+  public static processGistsToArray(rawGists, isCached: boolean): Gist[] {
+    // If not an array of data, abort early with an empty array
+    if (!Array.isArray(rawGists)) return [];
+    // process raw gists api data into new array
     const processedGists = [];
-    for (const gist of gists) {
+    for (const gist of rawGists) {
       for (const key in gist.files) {
         if (gist.files.hasOwnProperty(key)) {
           const file = gist.files[key];
