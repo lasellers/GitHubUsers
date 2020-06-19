@@ -49,24 +49,6 @@ sudo apt install ./google-chrome-stable_current_amd64.deb
 Changed ng test to avoid xmlRequest send bug caused by new cli.
 
 
-## Installs
-npm install
-npm install -g @angular/cli
-npm install @angular/cli
-ng add @fortawesome/angular-fontawesome
-npm install @fortawesome/fontawesome-svg-core
-npm install @fortawesome/free-solid-svg-icons
-npm install @fortawesome/free-regular-svg-icons
-ng add @ng-bootstrap/ng-bootstrap
-ng add @angular/localize
-npm install ngx-toastr
-# npm install --save bootstrap
-# npm install --save jquery
-# npm install --save popper
-npm install webpack
-# npm install core-js
-
-
 ## Todo
 * Add Material
 * add variant with ngrx
