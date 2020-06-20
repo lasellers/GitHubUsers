@@ -13,7 +13,7 @@ jobs:
           name: npm install
           command: npm install
       - save_cache:
-          key: githubusers-{{ .Branch }}-cache-{{ checksum "package.json"}}-{{ checksum ".circleci/config.yml"}}
+          key: githubusers-{{ .Branch }}-cache-{{ checksum "package.json"}}-{{ checksum ".circleci/config.yml"}}-{{ checksum "karma.conf.js"}}
           paths:
             - ./node_modules
   test:
@@ -21,7 +21,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: githubusers-{{ .Branch }}-cache-{{ checksum "package.json"}}-{{ checksum ".circleci/config.yml"}}
+          key: githubusers-{{ .Branch }}-cache-{{ checksum "package.json"}}-{{ checksum ".circleci/config.yml"}}-{{ checksum "karma.conf.js"}}
       - run:
           name: Save env
           command: env > env.txt
