@@ -8,7 +8,21 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadless'],
+    customLaunchers: {
+      ChromeHeadless: {
+        base: 'Chrome',
+        flags: [
+          '--headless',
+          '--disable-gpu',
+          '--disable-translate',
+          '--disable-extensions',
+          '--disable-web-security',
+          '--no-sandbox',
+          '--remote-debugging-port=9222'
+        ]
+      }
+    },
     concurrency: Infinity,
     singleRun: false,
     restartOnFileChange: true,
@@ -29,7 +43,7 @@ module.exports = function (config) {
     files: [
       'src/app/**/*.ts',
       'src/app/**/*.spec.ts',
-      'src/app/**/*.js'
+      // 'src/app/**/*.js'
     ],
     /* preprocessors: {
       "** / *.ts": "karma-typescript" // *.tsx for React Jsx
