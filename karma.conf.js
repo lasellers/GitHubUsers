@@ -42,7 +42,7 @@ module.exports = function (config) {
     ],
     files: [
       'src/app/**/*.ts',
-      'src/app/**/*.spec.ts',
+      // 'src/app/**/*.spec.ts',
       // 'src/app/**/*.js'
     ],
     /* preprocessors: {
