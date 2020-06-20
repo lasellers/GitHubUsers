@@ -13,7 +13,7 @@ jobs:
           name: npm install
           command: npm install
       - save_cache:
-          key: githubusers-{{ .Branch }}-cache-{{ checksum "package.json"}}
+          key: githubusers-{{ .Branch }}-cache-{{ checksum "package.json"}}-{{ checksum ".circleci/config.yml"}}
           paths:
             - ./node_modules
   test:
@@ -21,20 +21,20 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: githubusers-{{ .Branch }}-cache-{{ checksum "package.json"}}
+          key: githubusers-{{ .Branch }}-cache-{{ checksum "package.json"}}-{{ checksum ".circleci/config.yml"}}
       - run:
           name: Save env
           command: env > env.txt
       - store_artifacts:
           path: env.txt
           destination: reports
-      - run:
-          name: Run lint
-          command: npm run eslint
+      #- run:
+      #    name: Run lint
+      #    command: npm run eslint
       - run:
           name: Run tests + coverage
 #          command: xvfb-run -a  npm run test-ci
-          command:  npm run test-ci --no-watch --no-progress
+          command:  npm run test-ci --no-watch --no-progress --browsers=ChromeHeadless
           environment:
             CHROME_BIN: /usr/bin/google-chrome karma start --single-run
       - store_artifacts:
@@ -47,7 +47,7 @@ jobs:
           path: coverage-report.lcov
           destination: reports
       - store_test_results:
-          path: reports
+          path: reports/junit
 workflows:
   version: 2
   build_and_test:
