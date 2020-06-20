@@ -36,7 +36,7 @@ jobs:
           command: mkdir -p coverage
       - run:
           name: Run tests + coverage
-          command: npm run test-ci
+          command: xvfb-run -a  npm run test-ci
           environment:
             CHROME_BIN: /usr/bin/google-chrome karma start --single-run
       - store_artifacts:
