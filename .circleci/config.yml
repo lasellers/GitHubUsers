@@ -60,9 +60,9 @@ jobs:
       - store_artifacts:
           root: dist
           paths: dist
-      - persist_to_workspace:
-          root: dist
-          paths: dist
+      #- persist_to_workspace:
+      #    root: dist
+      #    paths: dist
 workflows:
   version: 2
   build_and_test:
