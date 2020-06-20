@@ -38,12 +38,16 @@ git subtree push --prefix dist origin gh-pages
 ## Tests
 
 `npm run test`
+
 or 
+
 `npm run test-dev`
 
 ## Coverage
 For coverage reports:
+
 `npm run coverage`
+
 and see coverage and reports folders.
 
 ## Continuous Deploy
