@@ -29,14 +29,12 @@ jobs:
           path: env.txt
           destination: reports
       - run:
-          name: Setup Test Output Directory
-          command: mkdir -p reports
-      - run:
-          name: Setup Test Coverage Directory
-          command: mkdir -p coverage
+          name: Run lint
+          command: npm run eslint
       - run:
           name: Run tests + coverage
-          command: xvfb-run -a  npm run test-ci
+#          command: xvfb-run -a  npm run test-ci
+          command:  npm run test-ci --no-watch --no-progress
           environment:
             CHROME_BIN: /usr/bin/google-chrome karma start --single-run
       - store_artifacts:
