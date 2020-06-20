@@ -23,6 +23,7 @@ Note: This code may change often.
 * v2 2/20/2017 Update to Angular 5
 * v3 5/10/2020 Upgrade to Angular 9 and rewrite app extensively to experiment with different Angular features.
 * v3.0.4 6/19/2020 Add several tests
+* v3.0.5 Add CircleCI for CI testing + puppeteer for CHROME_BIN
 
 ### Deploy
 See [https://lasellers.github.io/GitHubUsers/] for the live version of this repo posted to gh-pages.
@@ -34,25 +35,31 @@ ng build
 git subtree push --prefix dist origin gh-pages
 ```
 
-##
- Please, set "CHROME_BIN" env variable.
- `export CHROME_BIN=/usr/bin/chromium-browser `
-export CHROME_BIN=chromium
+## Tests
 
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo apt install ./google-chrome-stable_current_amd64.deb
+`npm run test`
+or 
+`npm run test-dev`
 
-## Notes
+## Coverage
+For coverage reports:
+`npm run coverage`
+and see coverage and reports folders.
 
-### source map
+## Continuous Deploy
+
+(todo next)
+
+## source map
+
 `ng test --source=map=false`
 Changed ng test to avoid xmlRequest send bug caused by new cli.
 
-
 ## Todo
+
 * Add Material
 * add variant with ngrx
 * Add service workers
 * Add routing so we can have a couple different variations in the the same app
 * Add HTTP Interceptor for caching to simplify httpclient....
-* clean up obserables ....
+* clean up observables ....
