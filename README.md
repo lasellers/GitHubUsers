@@ -39,6 +39,7 @@ and see coverage and reports folders.
 ## Linting
 
 For linting use:
+
 `npm run lint`
 
 
@@ -68,5 +69,5 @@ Also see https://circleci.com/blog/deploying-documentation-to-github-pages-with-
 * Add service workers
 * Add routing so we can have a couple different variations in the the same app
 * Add HTTP Interceptor for caching to simplify httpclient....
-* clean up observables ....
-* add Travis and Jenkins
+* Add Travis and Jenkins
+* Add more tests for coverage

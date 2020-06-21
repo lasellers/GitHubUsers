@@ -16,18 +16,22 @@ jobs:
           key: githubusers-{{ .Branch }}-cache-{{ checksum "package.json"}}-{{ checksum ".circleci/config.yml"}}-{{ checksum "karma.conf.js"}}
           paths:
             - ./node_modules
-  lint:
+  env:
     <<: *defaults
     steps:
       - checkout
-      - restore_cache:
-          key: githubusers-{{ .Branch }}-cache-{{ checksum "package.json"}}-{{ checksum ".circleci/config.yml"}}-{{ checksum "karma.conf.js"}}
       - run:
           name: Save env
           command: env > env.txt
       - store_artifacts:
           path: env.txt
           destination: reports
+  lint:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          key: githubusers-{{ .Branch }}-cache-{{ checksum "package.json"}}-{{ checksum ".circleci/config.yml"}}-{{ checksum "karma.conf.js"}}
       - run:
           name: Run lint
           command: npm run eslint
@@ -57,27 +61,46 @@ jobs:
           destination: reports
       - store_test_results:
           path: reports/junit
-  deploy:
+  buildDist:
     <<: *defaults
     steps:
       - checkout
       - restore_cache:
           key: githubusers-{{ .Branch }}-cache-{{ checksum "package.json"}}-{{ checksum ".circleci/config.yml"}}-{{ checksum "karma.conf.js"}}
-      #- run:
-      #    name: Build prod
-      #    command:  npm run build
-      #- store_artifacts:
-      #    path: dist
-      #    destination: dist
-      #- persist_to_workspace:
-      #    root: ./
-      #    paths:
-      #      - dist
+      - run:
+          name: Build prod
+          command:  npm run build
+      - store_artifacts:
+          path: dist
+          destination: dist
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - dist
+  deployDist:
+    <<: *defaults
+    steps:
+      - checkout
+      - add_ssh_keys:
+      fingerprints:
+        - "58:16:f3:26:28:34:a1:6e:b8:34:59:7e:c4:b3:79:7d"
+      - attach_workspace:
+          at: ./
+      - run:
+          name: Install deps
+          command: |
+            npm i -g --silent gh-pages@2.0.1
+            git config user.email "ci-build@intrafoundation.com"
+            git config user.name "ci-build"
+      - run:
+          name: Deploy dist to gh-pages branch
+          command: gh-pages --dist dist
 workflows:
   version: 2
   build_and_test:
     jobs:
       - build
+      - env
       - lint:
           requires:
             - build
@@ -87,10 +110,18 @@ workflows:
           filters:
             branches:
               only: master
-      - deploy:
+      - buildDist:
           requires:
             - build
             - test
+          filters:
+            branches:
+              only: master
+      - deployDist:
+          requires:
+            - build
+            - test
+            - buildDist
           filters:
             branches:
               only: master
