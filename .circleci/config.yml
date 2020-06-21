@@ -42,7 +42,7 @@ jobs:
           command: npm run eslint
       - run:
           name: Run tests + coverage
-#          command: xvfb-run -a  npm run test-ci
+          #          command: xvfb-run -a  npm run test-ci
           command:  npm run test-ci --no-watch --no-progress --browsers=ChromeHeadless
           #environment:
           #  CHROME_BIN: /usr/bin/google-chrome karma start --single-run
@@ -78,7 +78,9 @@ workflows:
   build_and_test:
     jobs:
       - build
-      - lint
+      - lint:
+          requires:
+            - build
       - test:
           requires:
             - build
