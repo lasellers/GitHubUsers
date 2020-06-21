@@ -5,7 +5,7 @@ import { WasCachedHighlightDirective } from './was-cached-highlight.directive';
 
 // Simple test component that will not in the actual app
 @Component({
-  template: '<p appWasCachedHighlight [wasCached]="wasCached">Testing highlight directive {{wasCached}}</p>'
+  template: '<div appWasCachedHighlight [wasCached]="wasCached">Testing highlight directive {{wasCached}}</div>'
 })
 class TestComponent {
   public wasCached: boolean = false;

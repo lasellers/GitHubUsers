@@ -1,7 +1,7 @@
 ![Build Status](https://circleci.com/gh/lasellers/GitHubUsers.png?circle-token=e949fd7d7af872231de030feb04b73e843abd3f7)
-![Build Status](https://travis-ci.org/lasellers/GitHubUsers.svg?branch=master)
 
 # GitHub Users
+See https://lasellers.github.io/GitHubUsers/
 
 ## Learning Angular 9, using the GitHub API
 
@@ -25,38 +25,44 @@ Note: This code may change often.
 * v3.0.4 6/19/2020 Add several tests
 * v3.0.5 Add CircleCI for CI testing + puppeteer for CHROME_BIN
 
-### Deploy
-See [https://lasellers.github.io/GitHubUsers/] for the live version of this repo posted to gh-pages.
-
-To publish to gh-pages yourself, the procedure used was:
-
-```
-ng build
-git subtree push --prefix dist origin gh-pages
-```
-
 ## Tests
 
 `npm run test`
 
-or 
+or
 
 `npm run test-dev`
 
+
 ## Coverage
+
 For coverage reports:
 
 `npm run coverage`
 
 and see coverage and reports folders.
 
-## Continuous Deploy
 
-(todo next)
+## Linting
 
-## source map
+For linting use:
+`npm run lint`
+
+
+## Continuous Integration / Continuous Deploy
+
+The original manual deployment process to gh-pages has been updated through CircleCI to a CI/CD setup.
+The project now is linted on pushes to any branch.
+For pushes to master we also run tests, and if that passes, run a prod build and deployment push to gh-pages.
+See https://lasellers.github.io/GitHubUsers/ for the live deployment version of this repo this produces.
+
+Also see https://circleci.com/blog/deploying-documentation-to-github-pages-with-continuous-integration for information about this process.
+
+
+## Note: Source map
 
 `ng test --source=map=false`
+
 Changed ng test to avoid xmlRequest send bug caused by new cli.
 
 ## Todo
