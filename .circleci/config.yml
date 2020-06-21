@@ -16,6 +16,19 @@ jobs:
           key: githubusers-{{ .Branch }}-cache-{{ checksum "package.json"}}-{{ checksum ".circleci/config.yml"}}-{{ checksum "karma.conf.js"}}
           paths:
             - ./node_modules
+  lint:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: Save env
+          command: env > env.txt
+      - store_artifacts:
+          path: env.txt
+          destination: reports
+      - run:
+          name: Run lint
+          command: npm run eslint
   test:
     <<: *defaults
     steps:
@@ -23,14 +36,8 @@ jobs:
       - restore_cache:
           key: githubusers-{{ .Branch }}-cache-{{ checksum "package.json"}}-{{ checksum ".circleci/config.yml"}}-{{ checksum "karma.conf.js"}}
       - run:
-          name: Save env
-          command: env > env.txt
-      - store_artifacts:
-          path: env.txt
-          destination: reports
-      #- run:
-      #    name: Run lint
-      #    command: npm run eslint
+          name: Run lint
+          command: npm run eslint
       - run:
           name: Run tests + coverage
 #          command: xvfb-run -a  npm run test-ci
@@ -58,16 +65,18 @@ jobs:
           name: Build prod
           command:  npm run build
       - store_artifacts:
-          root: dist
           path: dist
+          destination: dist
       - persist_to_workspace:
           root: dist
-          path: dist
+          paths: 
+            - dist
 workflows:
   version: 2
   build_and_test:
     jobs:
-      - build
+      - build  
+      - lint
       - test:
           requires:
             - build

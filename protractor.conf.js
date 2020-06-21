@@ -1,10 +1,8 @@
 // Protractor configuration file, see link for more information
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
-console.error('Protractor');
-
-/*global jasmine */
-var SpecReporter = require('jasmine-spec-reporter');
+// global jasmine 
+// const SpecReporter = require('jasmine-spec-reporter');
 
 exports.config = {
   allScriptsTimeout: 11000,
@@ -29,6 +27,6 @@ exports.config = {
     });
   },
   onPrepare: function() {
-    jasmine.getEnv().addReporter(new SpecReporter());
+    // jasmine.getEnv().addReporter(new SpecReporter());
   }
 };
