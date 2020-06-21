@@ -20,6 +20,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - restore_cache:
+          key: githubusers-{{ .Branch }}-cache-{{ checksum "package.json"}}-{{ checksum ".circleci/config.yml"}}-{{ checksum "karma.conf.js"}}
       - run:
           name: Save env
           command: env > env.txt
@@ -75,7 +77,7 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - build  
+      - build
       - lint
       - test:
           requires:
@@ -90,4 +92,3 @@ workflows:
           filters:
             branches:
               only: master
-      
