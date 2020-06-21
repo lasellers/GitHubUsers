@@ -84,6 +84,9 @@ jobs:
       - attach_workspace:
           at: ./
       - run:
+          - name: Add github to known hosts
+          - command: ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - run:
           name: Install deps
           command: |
             sudo npm i -g --silent gh-pages@2.0.1
