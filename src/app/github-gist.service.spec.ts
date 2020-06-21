@@ -29,12 +29,8 @@ describe('Github Gist Service', () => {
     httpMock.verify();
   });
 
-  describe('setup', () => {
-
-    it('should be created', () => {
-      expect(gistService).toBeTruthy();
-    });
-
+  beforeEach(() => {
+    expect(gistService).toBeTruthy();
   });
 
   xdescribe('Given a Gist that exists', () => {

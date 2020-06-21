@@ -20,13 +20,9 @@ describe('GitHubUserService unmocked', () => {
     userService = TestBed.inject(GitHubUserService);
   });
 
-  describe('setup', (() => {
-
-    it('userService should exist', () => {
-      expect(userService).toBeTruthy();
-    });
-
-  }));
+  beforeEach(() => {
+    expect(userService).toBeTruthy();
+  });
 
   describe('consts', (() => {
 
@@ -77,17 +73,10 @@ describe('GitHubUserService mocked', () => {
     httpMock = TestBed.inject(HttpTestingController);
   });
 
-  describe('setup', (() => {
-
-    it('userService should exist', () => {
-      expect(userService).toBeTruthy();
-    });
-
-    it('httpMock should exist', () => {
-      expect(httpMock).toBeTruthy();
-    });
-
-  }));
+  beforeEach(() => {
+    expect(userService).toBeTruthy();
+    expect(httpMock).toBeTruthy();
+  });
 
   describe('clearUserCache', (() => {
 

@@ -18,13 +18,6 @@ Note: This code may change often.
 
 --Lewis
 
-### Version
-* v1 2/6/2017 Angular 2.4 using npm angular cli beta.31
-* v2 2/20/2017 Update to Angular 5
-* v3 5/10/2020 Upgrade to Angular 9 and rewrite app extensively to experiment with different Angular features.
-* v3.0.4 6/19/2020 Add several tests
-* v3.0.5 Add CircleCI for CI testing + puppeteer for CHROME_BIN
-
 ## Tests
 
 `npm run test`
@@ -59,11 +52,14 @@ See https://lasellers.github.io/GitHubUsers/ for the live deployment version of 
 Also see https://circleci.com/blog/deploying-documentation-to-github-pages-with-continuous-integration for information about this process.
 
 
-## Note: Source map
+### Version
+* v1 2/6/2017 Angular 2.4 using npm angular cli beta.31
+* v2 2/20/2017 Update to Angular 5
+* v3 5/10/2020 Upgrade to Angular 9 and rewrite app extensively to experiment with different Angular features.
+* v3.0.3 Changed angular.json to avoid xmlRequest send bug caused by new cli.
+* v3.0.4 6/19/2020 Add several tests
+* v3.0.5 Add CircleCI for CI testing + puppeteer for CHROME_BIN
 
-`ng test --source=map=false`
-
-Changed ng test to avoid xmlRequest send bug caused by new cli.
 
 ## Todo
 

@@ -83,19 +83,13 @@ describe('GistComponent', () => {
     httpMock.verify();
   });
 
-  describe('Given our feature tests setup', () => {
-    beforeEach(() => {
-    });
-
-    it('all testing variables should be as expected', () => {
-      expect(fixture).toBeTruthy();
-      expect(component).toBeTruthy();
-      expect(dom).toBeTruthy();
-      expect(userService).toBeTruthy();
-      expect(gistService).toBeTruthy();
-      expect(httpMock).toBeTruthy();
-    });
-
+  beforeEach(() => {
+    expect(fixture).toBeTruthy();
+    expect(component).toBeTruthy();
+    expect(dom).toBeTruthy();
+    expect(userService).toBeTruthy();
+    expect(gistService).toBeTruthy();
+    expect(httpMock).toBeTruthy();
   });
 
   describe('Given sample data, the HTML', () => {

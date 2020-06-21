@@ -1,10 +1,10 @@
-import {TestBed} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {GitHubFollowersService} from './github-followers.service';
-import {GitHubUserService} from './github-user.service';
-import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {HttpClient} from '@angular/common/http';
-import {of} from 'rxjs';
+import { GitHubFollowersService } from './github-followers.service';
+import { GitHubUserService } from './github-user.service';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
 import { User } from './user.model';
 
 describe('GitHubFollowersService unmocked', () => {
@@ -24,17 +24,10 @@ describe('GitHubFollowersService unmocked', () => {
     followersService = TestBed.inject(GitHubFollowersService);
   });
 
-  describe('setup', (() => {
-
-    it('userService should exist', () => {
-      expect(userService).toBeTruthy();
-    });
-
-    it('followersService should exist', () => {
-      expect(followersService).toBeTruthy();
-    });
-
-  }));
+  beforeEach(() => {
+    expect(userService).toBeTruthy();
+    expect(followersService).toBeTruthy();
+  });
 
 });
 
@@ -82,17 +75,10 @@ describe('GitHubUserService mocked', () => {
     httpMock = TestBed.inject(HttpTestingController);
   });
 
-  describe('setup', (() => {
-
-    it('userService should exist', () => {
-      expect(userService).toBeTruthy();
-    });
-
-    it('httpMock should exist', () => {
-      expect(httpMock).toBeTruthy();
-    });
-
-  }));
+  beforeEach(() => {
+    expect(userService).toBeTruthy();
+    expect(httpMock).toBeTruthy();
+  });
 
   describe('clearFollowersCache', (() => {
 

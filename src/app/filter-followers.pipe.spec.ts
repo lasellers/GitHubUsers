@@ -10,7 +10,7 @@ describe('FilterFollowersPipe', () => {
     {id: 5, name: 'toby lewis'},
   ];
 
-  it('create an instance', () => {
+  it('should create an instance', () => {
     const pipe = new FilterFollowersPipe();
     expect(pipe).toBeTruthy();
   });

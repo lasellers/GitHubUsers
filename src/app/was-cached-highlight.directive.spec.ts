@@ -1,64 +1,85 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { ElementRef } from '@angular/core';
+import { ElementRef, Input } from '@angular/core';
 import { Component, HostListener } from '@angular/core';
 import { WasCachedHighlightDirective } from './was-cached-highlight.directive';
 
 // Simple test component that will not in the actual app
 @Component({
-  template: '<div appWasCachedHighlight [wasCached]="wasCached">Testing highlight directive {{wasCached}}</div>'
+  template: '<div appWasCachedHighlight [wasCached]="false">Testing highlight directive {{false}}</div>'
 })
-class TestComponent {
-  public wasCached: boolean = false;
-
+class TestComponentFalse {
   constructor() {
   }
-
 }
 
-describe('WasCachedHighlightDirective', () => {
-  let component: TestComponent;
-  let fixture: ComponentFixture<TestComponent>;
+describe('WasCachedHighlightDirective = false', () => {
+  let component: TestComponentFalse;
+  let fixture: ComponentFixture<TestComponentFalse>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        TestComponent,
+        TestComponentFalse,
         WasCachedHighlightDirective
       ]
     });
 
-    fixture = TestBed.createComponent(TestComponent);
+    fixture = TestBed.createComponent(TestComponentFalse);
     component = fixture.componentInstance;
   });
 
-  it('should create test fixture', () => {
+  beforeEach(() => {
     expect(fixture).toBeDefined();
-  });
-
-  it('should create test component', () => {
     expect(component).toBeDefined();
   });
 
-  it('should NOT be highlighed when wasCached=false', () => {
+  it('should NOT be highlighted when wasCached=false', () => {
     const debugEl: HTMLElement = fixture.debugElement.nativeElement;
     const el: HTMLElement = debugEl.querySelector('div');
 
-    component.wasCached = false;
     fixture.detectChanges();
 
-    expect(component.wasCached).toBe(false);
     expect(el.style.backgroundColor).toBe('white');
     expect(el.className).toBe('');
   });
 
-  it('should be highlighed when wasCached=true', () => {
+});
+
+@Component({
+  template: '<div appWasCachedHighlight [wasCached]="true">Testing highlight directive {{true}}</div>'
+})
+class TestComponentTrue {
+  constructor() {
+  }
+}
+
+describe('WasCachedHighlightDirective = true', () => {
+  let component: TestComponentTrue;
+  let fixture: ComponentFixture<TestComponentTrue>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        TestComponentTrue,
+        WasCachedHighlightDirective
+      ]
+    });
+
+    fixture = TestBed.createComponent(TestComponentTrue);
+    component = fixture.componentInstance;
+  });
+
+  beforeEach(() => {
+    expect(fixture).toBeDefined();
+    expect(component).toBeDefined();
+  });
+
+  it('should be highlighted when wasCached=true', () => {
     const debugEl: HTMLElement = fixture.debugElement.nativeElement;
     const el: HTMLElement = debugEl.querySelector('div');
 
-    component.wasCached = true;
     fixture.detectChanges();
 
-    expect(component.wasCached).toBe(true);
     expect(el.style.backgroundColor).toBe('yellow');
     expect(el.className).toBe('text-info');
   });

@@ -25,16 +25,9 @@ describe('Github Gists Service unmocked', () => {
     gistsService = TestBed.inject(GitHubGistsService);
   });
 
-  describe('setup', () => {
-
-    it('GitHub User Service should be created', () => {
-      expect(userService).toBeTruthy();
-    });
-
-    it('GitHub Gists Service should be created', () => {
-      expect(gistsService).toBeTruthy();
-    });
-
+  beforeEach(() => {
+    expect(userService).toBeTruthy();
+    expect(gistsService).toBeTruthy();
   });
 
 });
@@ -97,16 +90,9 @@ describe('Github Gists Service mocked', () => {
     })
   );*/
 
-  describe('setup', () => {
-
-    it('GitHub User Service should be created', () => {
-      expect(userService).toBeTruthy();
-    });
-
-    it('GitHub Gists Service should be created', () => {
-      expect(gistsService).toBeTruthy();
-    });
-
+  beforeEach(() => {
+    expect(userService).toBeTruthy();
+    expect(gistsService).toBeTruthy();
   });
 
   describe('clearGistsCache', (() => {

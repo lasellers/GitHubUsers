@@ -11,6 +11,20 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
+    files: [
+      'src/app/**/*.ts',
+      // 'src/app/**/*.spec.ts',
+      // 'src/app/**/*.js'
+    ],
+    /* preprocessors: {
+      "** / *.ts": "karma-typescript" // *.tsx for React Jsx
+    }, */
+    concurrency: Infinity,
+    singleRun: false,
+    restartOnFileChange: true,
+    client: {
+      clearContext: false // leave Jasmine Spec Runner output visible in browser
+    },
     browsers: ['ChromeHeadless'],
     customLaunchers: {
       ChromeHeadless: {
@@ -26,9 +40,6 @@ module.exports = function (config) {
         ]
       }
     },
-    concurrency: Infinity,
-    singleRun: false,
-    restartOnFileChange: true,
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
     // frameworks: ['jasmine', 'karma-typescript', '@angular-devkit/build-angular'],
     plugins: [
@@ -43,17 +54,6 @@ module.exports = function (config) {
       require('karma-junit-reporter'),
       // require('karma-typescript')
     ],
-    files: [
-      'src/app/**/*.ts',
-      // 'src/app/**/*.spec.ts',
-      // 'src/app/**/*.js'
-    ],
-    /* preprocessors: {
-      "** / *.ts": "karma-typescript" // *.tsx for React Jsx
-    }, */
-    client: {
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
-    },
     reporters: ['spec', 'kjhtml', 'coverage-istanbul', 'junit', 'htmlDetailed'],
     // reporters: ['progress', 'kjhtml', 'coverage-istanbul', 'spec', 'junit', 'htmlDetailed', 'karma-typescript'],
     // reporters: ['progress', 'kjhtml', 'coverage-istanbul', 'summary', 'spec', 'htmlDetailed', 'junit],
