@@ -23,8 +23,14 @@ jobs:
       - run:
           name: Save env
           command: env > env.txt
+      - run:
+          name: Save ssh
+          command: ssh-keyscan github.com > ssh.txt
       - store_artifacts:
           path: env.txt
+          destination: reports
+      - store_artifacts:
+          path: ssh.txt
           destination: reports
   lint:
     <<: *defaults
@@ -94,7 +100,7 @@ jobs:
             git config user.name "ci-build"
       - run:
           name: Deploy dist to gh-pages branch
-          command: sudo gh-pages --dist dist
+          command: yes | sudo gh-pages --dist dist
 workflows:
   version: 2
   build_and_test:
