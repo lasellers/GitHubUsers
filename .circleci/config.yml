@@ -68,8 +68,8 @@ jobs:
           path: dist
           destination: dist
       - persist_to_workspace:
-          root: dist
-          paths: 
+          root: ./
+          paths:
             - dist
 workflows:
   version: 2
