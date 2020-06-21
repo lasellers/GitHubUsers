@@ -46,10 +46,7 @@ jobs:
           command: npm run eslint
       - run:
           name: Run tests + coverage
-          #          command: xvfb-run -a  npm run test-ci
           command:  npm run test-ci --no-watch --no-progress --browsers=ChromeHeadless
-          #environment:
-          #  CHROME_BIN: /usr/bin/google-chrome karma start --single-run
       - store_artifacts:
           path: reports/junit/
           destination: reports/junit/
@@ -61,7 +58,7 @@ jobs:
           destination: reports
       - store_test_results:
           path: reports/junit
-  buildDist:
+  build-dist:
     <<: *defaults
     steps:
       - checkout
@@ -77,7 +74,7 @@ jobs:
           root: ./
           paths:
             - dist
-  deployDist:
+  deploy-dist:
     <<: *defaults
     steps:
       - checkout
@@ -110,18 +107,18 @@ workflows:
           filters:
             branches:
               only: master
-      - buildDist:
+      - build-dist:
           requires:
             - build
             - test
           filters:
             branches:
               only: master
-      - deployDist:
+      - deploy-dist:
           requires:
             - build
             - test
-            - buildDist
+            - build-dist
           filters:
             branches:
               only: master
