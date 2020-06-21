@@ -72,6 +72,7 @@
     "mocha-sinon": "^2.1.2",
     "nyc": "^15.1.0",
     "protractor": "^7.0.0",
+    "puppeteer": "^4.0.0",
     "sinon": "^9.0.2",
     "sinon-chai": "^3.5.0",
     "supertest": "^4.0.2",
