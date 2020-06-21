@@ -21,11 +21,11 @@ describe('HelloHttpService', () => {
     service = TestBed.inject(HelloHttpService);
   });
 
-  it('service should be created', () => {
+  it('should create service', () => {
     expect(service).toBeTruthy();
   });
 
-  it('getApi() works live', () => {
+  it('getApi() call should work live', () => {
     expect(service).toBeTruthy();
     service.getApi().subscribe(user => {
       expect(user).not.toBeNull();

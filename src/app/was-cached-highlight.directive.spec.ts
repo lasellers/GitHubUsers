@@ -41,7 +41,7 @@ describe('WasCachedHighlightDirective', () => {
 
   it('should NOT be highlighed when wasCached=false', () => {
     const debugEl: HTMLElement = fixture.debugElement.nativeElement;
-    const el: HTMLElement = debugEl.querySelector('p');
+    const el: HTMLElement = debugEl.querySelector('div');
 
     component.wasCached = false;
     fixture.detectChanges();
@@ -53,7 +53,7 @@ describe('WasCachedHighlightDirective', () => {
 
   it('should be highlighed when wasCached=true', () => {
     const debugEl: HTMLElement = fixture.debugElement.nativeElement;
-    const el: HTMLElement = debugEl.querySelector('p');
+    const el: HTMLElement = debugEl.querySelector('div');
 
     component.wasCached = true;
     fixture.detectChanges();
