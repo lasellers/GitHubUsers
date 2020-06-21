@@ -9,14 +9,15 @@
     "src/polyfills.ts"
   ],
   "include": [
-    "src/**/*.d.ts",
-    "src/test.ts",
-    "src/environments/environment.prod.ts"
+    "src/**/*.d.ts"
+    // "src/test.ts",
+    // "src/environments/environment.prod.ts"
   ],
   "exclude": [
     "node_modules",
-    "src/**/*.spec.ts"
-    // "src/test.ts",
-    // "src/environments/environment.prod.ts"
+    "src/**/*.spec.ts",
+    "src/app/*.spec.ts",
+    "src/test.ts",
+    "src/environments/environment.prod.ts"
   ]
 }

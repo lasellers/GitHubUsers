@@ -6,7 +6,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod",
+    "build": "ng build",
     "test": "ng test --watch=false --reporters=spec",
     "test-ci": "ng test --code-coverage --watch=false --browsers=ChromeHeadless --reporters=spec,kjhtml,coverage-istanbul,junit,htmlDetailed",
     "coverage": "ng test --code-coverage --progress --watch=false --reporters=spec,kjhtml,coverage-istanbul,junit,htmlDetailed",
