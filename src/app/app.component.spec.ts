@@ -322,20 +322,19 @@ describe('AppComponent', () => {
     });
   });
 
-  describe('Given our feature tests setup', () => {
+  /* describe('Given our feature tests setup', () => {
     beforeEach(() => {
       component.baseUsername = 'lorem';
       fixture.detectChanges();
     });
+  }); */
 
-    /* it('should start with all testing variables not null', () => {
-      expect(fixture).toBeTruthy();
-      expect(component).toBeTruthy();
-      expect(dom).toBeTruthy();
-      expect(userService).toBeTruthy();
-      expect(httpMock).toBeTruthy();
-    }); */
-
+  beforeEach(() => {
+    expect(fixture).toBeTruthy();
+    expect(component).toBeTruthy();
+    expect(dom).toBeTruthy();
+    expect(userService).toBeTruthy();
+    expect(httpMock).toBeTruthy();
   });
 
   describe('methods', () => {
@@ -382,11 +381,11 @@ describe('AppComponent', () => {
 
   });
 
-  it(`should have as title 'GitHub Users'`, async(() => {
+  it(`should have as title 'GitHub Users'`, (() => {
     expect(component.title).toEqual('githubusers');
   }));
 
-  it('should render title in a nav a tag', async(() => {
+  it('should render title in a nav a tag', (() => {
     fixture.detectChanges();
 
     expect(dom.querySelector('nav a').textContent).toContain('githubusers');
