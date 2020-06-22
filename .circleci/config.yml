@@ -95,12 +95,15 @@ jobs:
       - run:
           name: Install deps
           command: |
-            sudo npm i -g --silent gh-pages@2.0.1
+            sudo npm i -g --silent gh-pages
             git config user.email "ci-build@intrafoundation.com"
             git config user.name "ci-build"
       - run:
           name: ls
           command: ls dist -lha
+      - run:
+          name: chown
+          command: sudo chown -R circleci /usr/local/lib/node_modules/angular-cli-ghpages/node_modules/gh-pages/
       - run:
           name: Deploy dist to gh-pages branch
           command: sudo yes | gh-pages --dist ./dist
