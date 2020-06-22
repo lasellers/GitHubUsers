@@ -52,6 +52,7 @@
     "@types/node": "^12.11.1",
     "@typescript-eslint/eslint-plugin": "^3.3.0",
     "@typescript-eslint/parser": "^3.3.0",
+    "angular-cli-ghpages": "^0.6.2",
     "chai": "^4.2.0",
     "chai-datetime": "^1.6.0",
     "chai-http": "^4.3.0",

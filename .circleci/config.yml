@@ -92,21 +92,24 @@ jobs:
       #- run:
       #    - name: Add github to known hosts
       #    - command: ssh-keyscan github.com >> ~/.ssh/known_hosts
-      - run:
-          name: Install deps
-          command: |
-            sudo npm i -g --silent gh-pages
-            git config user.email "ci-build@intrafoundation.com"
-            git config user.name "ci-build"
-      - run:
-          name: ls
-          command: ls dist -lha
-      - run:
-          name: chown
-          command: sudo chown -R circleci /usr/local/lib/node_modules/angular-cli-ghpages/node_modules/gh-pages/
+      #- run:
+      #    name: Install deps
+      #    command: |
+      #      sudo npm i -g --silent gh-pages
+      #      git config user.email "ci-build@intrafoundation.com"
+      #      git config user.name "ci-build"
+      #- run:
+      #    name: ls
+      #    command: ls dist -lha
+      #- run:
+      #    name: chown
+      #    command: sudo chown -R circleci /usr/local/lib/node_modules/angular-cli-ghpages/node_modules/gh-pages/
+      #- run:
+      #    name: Deploy dist to gh-pages branch
+      #    command: sudo yes | gh-pages --dist ./dist
       - run:
           name: Deploy dist to gh-pages branch
-          command: sudo yes | gh-pages --dist ./dist
+          command: ng deploy
 workflows:
   version: 2
   build_and_test:
