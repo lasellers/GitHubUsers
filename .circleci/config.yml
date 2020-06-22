@@ -100,10 +100,7 @@ jobs:
             git config user.name "ci-build"
       - run:
           name: ls
-          command: ls -lha
-      - store_artifacts:
-          path: ssh.txt
-          destination: reports
+          command: ls dist -lha
       - run:
           name: Deploy dist to gh-pages branch
           command: sudo yes | gh-pages --dist ./dist
