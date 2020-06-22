@@ -23,12 +23,12 @@ jobs:
       - run:
           name: Save env
           command: env > env.txt
-      - run:
-          name: Save ssh
-          command: ssh-keyscan github.com > ssh.txt
       - store_artifacts:
           path: env.txt
           destination: reports
+      - run:
+          name: Save ssh
+          command: ssh-keyscan github.com > ssh.txt
       - store_artifacts:
           path: ssh.txt
           destination: reports
@@ -99,8 +99,14 @@ jobs:
             git config user.email "ci-build@intrafoundation.com"
             git config user.name "ci-build"
       - run:
+          name: ls
+          command: ls -lha
+      - store_artifacts:
+          path: ssh.txt
+          destination: reports
+      - run:
           name: Deploy dist to gh-pages branch
-          command: sudo yes | gh-pages --dist dist
+          command: sudo yes | gh-pages --dist ./dist
 workflows:
   version: 2
   build_and_test:
