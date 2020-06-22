@@ -1,8 +1,7 @@
 import { delay, map } from 'rxjs/operators';
 import { EventEmitter, Injectable, Input, Output } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { of, Subject, Subscription } from 'rxjs';
-import { Gist } from './gist.model';
+import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
 import { User } from './user.model';
 
 /**

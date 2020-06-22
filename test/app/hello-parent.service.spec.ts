@@ -7,9 +7,6 @@ describe('HelloParentService', () => {
   let parentService: HelloParentService;
   let service: HelloService;
 
-  beforeEach(() => {
-  });
-
   it('service should be created', () => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(HelloParentService);

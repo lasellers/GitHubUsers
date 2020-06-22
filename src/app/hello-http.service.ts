@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { delay, map } from 'rxjs/operators';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({

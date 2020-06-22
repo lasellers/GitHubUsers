@@ -5,7 +5,6 @@ import { of } from 'rxjs';
 
 import { GitHubFollowersService } from '../../src/app/github-followers.service';
 import { GitHubUserService } from '../../src/app/github-user.service';
-import { User } from '../../src/app/user.model';
 
 describe('GitHubFollowersService unmocked', () => {
   let userService: GitHubUserService;
@@ -37,13 +36,13 @@ describe('GitHubUserService mocked', () => {
 
   let httpMock: HttpTestingController; // HttpClientTestingModule;
 
-  const USER: User = {
+  /* const USER: User = {
     id: 1,
     login: 'mock',
     followers: 1,
     following: 2,
     name: 'Mock P. Smith'
-  };
+  }; */
 
   const FOLLOWERS = [{
     id: 1,
@@ -123,12 +122,11 @@ describe('GitHubUserService mocked', () => {
   describe('getFollowers', (() => {
 
     it('getFollowers exists', () => {
-      const username = 'lasellers';
       expect(typeof followersService.getFollowers !== 'undefined').toBeTrue();
     });
 
     xit('getFollowers(lasellers) works', () => {
-      const username = 'lasellers';
+      // const username = 'lasellers';
       // expect(followersService.getFollowers(username)).toBeTrue();
     });
 

@@ -1,6 +1,6 @@
 import { EventEmitter, Injectable, Input, Output } from '@angular/core';
-import { of, Subject, Subscription } from 'rxjs';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { of, Subject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { delay, map } from 'rxjs/operators';
 import { Gist } from './gist.model';
 
@@ -28,11 +28,11 @@ export class GitHubGistService {
   ) {
   }
 
-  public isGistCached(gist): boolean {
+  public isGistCached(gist: Gist): boolean {
     return (localStorage.getItem('gist_' + gist.id + gist.filename) !== null);
   }
 
-  clearGistCache(gist): void {
+  clearGistCache(gist: Gist): void {
     localStorage.removeItem('gist_' + gist.id + gist.filename);
     if (typeof gist === 'object') {
       gist = Gist.constructor(); // this.blankGist();

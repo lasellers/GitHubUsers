@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable, Input, Output } from '@angular/core';
-import { of, Subscription } from 'rxjs';
+import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { GitHubUserService } from './github-user.service';

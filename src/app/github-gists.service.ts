@@ -1,8 +1,8 @@
 import { EventEmitter, Injectable, Input, Output } from '@angular/core';
 import { Gist } from './gist.model';
-import { delay, map, tap } from 'rxjs/operators';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable, of, Subscription } from 'rxjs';
+import { delay, map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
 import { GitHubUserService } from './github-user.service';
 
 /**
@@ -31,12 +31,12 @@ export class GitHubGistsService {
 
   /**
    * Converts the raw gists data from the api into a simplified object type (called Gist)
-   * @param rawGists
-   * @param isCached
    */
   public static processGistsToArray(rawGists, isCached: boolean): Gist[] {
     // If not an array of data, abort early with an empty array
-    if (!Array.isArray(rawGists)) return [];
+    if (!Array.isArray(rawGists)) {
+      return [];
+    }
     // process raw gists api data into new array
     const processedGists = [];
     for (const gist of rawGists) {

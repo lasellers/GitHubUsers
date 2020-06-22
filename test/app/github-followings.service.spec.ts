@@ -37,13 +37,13 @@ describe('GitHubUserService mocked', () => {
 
   let httpMock: HttpTestingController; // HttpClientTestingModule;
 
-  const USER = {
+ /* const USER = {
     id: 1,
     login: 'mock',
     followings: 1,
     following: 2,
     name: 'Mock P. Smith'
-  };
+  }; */
 
   const Followings = [{
     id: 1,
@@ -123,12 +123,11 @@ describe('GitHubUserService mocked', () => {
   describe('getFollowings', (() => {
 
     it('getFollowings exists', () => {
-      const username = 'lasellers';
       expect(typeof followingsService.getFollowings !== 'undefined').toBeTrue();
     });
 
     xit('getFollowings(lasellers) works', () => {
-      const username = 'lasellers';
+      // const username = 'lasellers';
       // expect(followingsService.getFollowings(username)).toBeTrue();
     });
 

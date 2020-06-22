@@ -5,9 +5,6 @@ import { HelloService } from '../../src/app/hello.service';
 describe('HelloService', () => {
   let service: HelloService;
 
-  beforeEach(() => {
-  });
-
   it('service should be created', () => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(HelloService);

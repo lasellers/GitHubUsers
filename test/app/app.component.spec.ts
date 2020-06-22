@@ -1,6 +1,6 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Toast, TOAST_CONFIG, ToastInjector, ToastrModule, ToastrService } from 'ngx-toastr';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';

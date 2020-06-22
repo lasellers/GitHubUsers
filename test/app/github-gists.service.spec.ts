@@ -1,6 +1,6 @@
-import { inject, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient, HttpEvent, HttpEventType, HttpHandler } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 import { GitHubGistsService } from '../../src/app/github-gists.service';
 import { GitHubUserService } from '../../src/app/github-user.service';
@@ -38,13 +38,13 @@ describe('Github Gists Service mocked', () => {
 
   let httpMock: HttpTestingController;
 
-  const USER = {
-    id: 1,
-    login: 'mock',
-    followers: 1,
-    following: 2,
-    name: 'Mock P. Smith'
-  };
+  /* const USER = {
+     id: 1,
+     login: 'mock',
+     followers: 1,
+     following: 2,
+     name: 'Mock P. Smith'
+   }; */
 
   const GISTS = [{
     id: 1,
@@ -138,12 +138,11 @@ describe('Github Gists Service mocked', () => {
   describe('getGists', (() => {
 
     it('getGists exists', () => {
-      const username = 'lasellers';
       expect(typeof gistsService.getGists !== 'undefined').toBeTrue();
     });
 
     xit('getGists(lasellers) works', () => {
-      const username = 'lasellers';
+      // const username = 'lasellers';
       // expect(gistsService.getGists(username)).toBeTrue();
     });
 
@@ -169,8 +168,7 @@ describe('Github Gists Service mocked', () => {
 
     describe('Given gists with no data given to processGistsToArray', (() => {
 
-      const rawGists =
-        [];
+      const rawGists = [];
 
       it('processGistsToArray() returns a valid gist array of 0 records with isCached = true', () => {
         const results = GitHubGistsService.processGistsToArray(rawGists, false);

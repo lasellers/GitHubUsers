@@ -1,11 +1,8 @@
 import {
   Component,
-  NgModule,
-  ElementRef,
   OnInit,
   OnDestroy,
   Input,
-  ViewContainerRef,
   Output,
   EventEmitter
 } from '@angular/core';
