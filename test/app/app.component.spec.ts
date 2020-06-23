@@ -315,20 +315,10 @@ describe('AppComponent', () => {
       fixture.detectChanges();
       component = fixture.debugElement.componentInstance;
       dom = fixture.debugElement.nativeElement;
-
       httpMock = TestBed.inject(HttpTestingController);
-
       userService = TestBed.inject(GitHubUserService);
-
     });
   });
-
-  /* describe('Given our feature tests setup', () => {
-    beforeEach(() => {
-      component.baseUsername = 'lorem';
-      fixture.detectChanges();
-    });
-  }); */
 
   beforeEach(() => {
     expect(fixture).toBeTruthy();

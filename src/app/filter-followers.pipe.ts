@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FilterFollowersPipe implements PipeTransform {
 
-  transform(filters: any, filterString: string, propName: string): any {
+  transform(filters: string[], filterString: string, propName: string): string[] {
     if (filters.length === 0 || filterString === '') {
       return filters;
     }

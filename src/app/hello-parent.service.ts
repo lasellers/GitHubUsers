@@ -9,11 +9,11 @@ export class HelloParentService {
   constructor(public helloService: HelloService) {
   }
 
-  public getText() {
+  public getText(): string {
     return this.helloService.getText();
   }
 
-  public getParentText() {
+  public getParentText(): string {
     return 'Hello Parent World';
   }
 

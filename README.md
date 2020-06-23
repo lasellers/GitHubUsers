@@ -28,6 +28,7 @@ or
 
 
 ## Coverage
+ls /usr/lib/jvm/java-1.14.0-openjdk-amd64/bin
 
 For coverage reports:
 
@@ -40,7 +41,7 @@ and see coverage and reports folders.
 
 For linting use:
 
-`npm run lint`
+`npm run eslint`
 
 
 ## Continuous Integration / Continuous Deploy
@@ -51,6 +52,10 @@ For pushes to master we also run tests, and if that passes, run a prod build and
 See https://lasellers.github.io/GitHubUsers/ for the live deployment version of this repo this produces.
 
 Also see https://circleci.com/blog/deploying-documentation-to-github-pages-with-continuous-integration for information about this process.
+
+Optionally you can run:
+
+`ng deploy`
 
 
 ### Version

@@ -8,17 +8,13 @@ import {
 } from '@angular/core';
 import { GitHubUserService } from './github-user.service';
 import { ToastrService } from 'ngx-toastr';
-// @ts-ignore
 import packageJson from '../../package.json';
-import { faMinusCircle, faCloudDownloadAlt, faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
 import { BytesPipe } from './bytes.pipe';
-import { Gist } from './gist.model';
-import { delay } from 'rxjs/operators';
-import { Subject, Subscription } from 'rxjs';
 import { GitHubGistsService } from './github-gists.service';
 import { GitHubFollowersService } from './github-followers.service';
 import { GitHubFollowingsService } from './github-followings.service';
 import { GitHubGistService } from './github-gist.service';
+import { Gist } from './gist.model';
 
 console.clear();
 
@@ -64,7 +60,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.baseUsername = this.userService.getUserBasenameDefault();
   }
 
-  public loadUser(username: string) {
+  public loadUser(username: string): void {
     this.baseUsername = username;
     this.userService.getUser(username).subscribe((user) => {
         this.userService.user$.emit(user);
@@ -100,7 +96,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.gistService.gist$.next({content: '', cached: true, wasCached: false});
   }
 
-  public showUser(username: string) {
+  public showUser(username: string): void {
     this.userService.getUser(username).subscribe((user) => {
         this.userService.user$.emit(user);
       },
@@ -109,7 +105,7 @@ export class AppComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.toast.warning(this.version, this.title, {
       timeOut: 12000
     });
@@ -162,7 +158,7 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
 
-    const gistSub: Subscription = this.gistService.gist$.subscribe(
+    this.gistService.gist$.subscribe(
       data => {
         if (data === null) {
           this.toast.info('Clear gist cache');
@@ -180,7 +176,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
-  gistEvent(data) {
+  gistEvent(data: Gist): void {
     this.gist = data;
     this.cachingStatus.gistWasCached = data.cached;
     const size = new BytesPipe().transform(data.size);
@@ -195,14 +191,15 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  onErrorMessage(error): void {
+  onErrorMessage(error: Response): void {
+    console.log('error class ' + typeof error);
     const text: string = error.statusText || 'Internet Error';
-    const message: string = `Error: (${error.status}) (${error.message}) ${text}`;
+    const message: string = `Error: (${error.status}) (${error.body}) ${text}`;
     console.error(`Error: ${message}`);
     this.toast.error(text, `Error: ${message} `);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.userService.user$.unsubscribe();
     this.followersService.followersCached$.unsubscribe();
     this.followingsService.followingsCached$.unsubscribe();
@@ -210,12 +207,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.gistService.gist$.unsubscribe();
   }
 
-  clearGistCache(gist): void {
+  clearGistCache(gist: Gist): void {
     this.gistService.clearGistCache(gist);
     this.gistService.gist$.next(gist);
   }
 
-  clearCache() {
+  clearCache(): void {
     localStorage.clear();
     this.loadUser(this.baseUsername);
     this.cachingStatus = {
@@ -231,28 +228,28 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   // notifyChangeBaseUsername
-  onChangeBaseUsername(username: string) {
+  onChangeBaseUsername(username: string): void {
     this.loadUser(username);
     this.toast.info('onChangeBaseUsername: ' + username);
   }
 
   // notifyShowBaseUsername
-  onShowBaseUsername(username: string) {
+  onShowBaseUsername(username: string): void {
     this.showUser(username);
     this.toast.info('onShowBaseUsername: ' + username);
   }
 
-  changeBaseUsername(username: string) {
+  changeBaseUsername(username: string): void {
     this.loadUser(username);
     this.toast.success('Change baseUsername: ' + this.baseUsername);
   }
 
-  changeBaseUsernameToDefault() {
+  changeBaseUsernameToDefault(): void {
     this.loadUser(this.userService.getUserBasenameDefault());
     this.toast.success('Change baseUsername to default ' + this.baseUsername);
   }
 
-  changeCaching(value: boolean) {
+  changeCaching(value: boolean): void {
     this.userService.isCaching = value;
     this.gistsService.isCaching = value;
     this.gistService.isCaching = value;

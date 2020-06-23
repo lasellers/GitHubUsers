@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable, Input, Output } from '@angular/core';
-import { of, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { delay, map } from 'rxjs/operators';
 import { Gist } from './gist.model';
@@ -14,7 +14,6 @@ import { Gist } from './gist.model';
 })
 export class GitHubGistService {
   @Output() errorMessage$ = new EventEmitter(true);
-  // @Output() gist$ = new EventEmitter(true);
   @Output() public gist$ = new Subject();
 
   // These are resolved async
@@ -35,12 +34,12 @@ export class GitHubGistService {
   clearGistCache(gist: Gist): void {
     localStorage.removeItem('gist_' + gist.id + gist.filename);
     if (typeof gist === 'object') {
-      gist = Gist.constructor(); // this.blankGist();
+      gist = Gist.constructor();
     }
     this.gist$.next(gist);
   }
 
-  public getGist(gist: Gist) {
+  public getGist(gist: Gist): Observable<any> {
     if (this.isCaching) {
       const content = localStorage.getItem('gist_' + gist.id + gist.filename);
       if (content !== null) {
@@ -53,7 +52,7 @@ export class GitHubGistService {
       delay(0),
       map((gist2) => {
           this.apiCalls++;
-          if (this.isCaching && gist.size < (1024 * 32)) { /* store 32kb max if caching */
+          if (this.isCaching && gist.size < (1024 * 32)) { // store 32kb max if caching
             localStorage.setItem('gist_' + gist.id + gist.filename, gist2);
           }
           gist = {...gist, content: gist2, cached: true, wasCached: false};

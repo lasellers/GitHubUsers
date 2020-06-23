@@ -2,7 +2,7 @@ export class Gists {
 
   constructor(
     public cached: boolean = false,
-    public content: any = {},
+    public content: Record<string, unknown> = {},
     public contentUrl: string = '',
     public filename: string = '',
     public id: string = '',

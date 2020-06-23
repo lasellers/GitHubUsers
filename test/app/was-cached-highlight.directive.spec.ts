@@ -7,24 +7,24 @@ import { WasCachedHighlightDirective } from '../../src/app/was-cached-highlight.
 @Component({
   template: '<div appWasCachedHighlight [wasCached]="false">Testing highlight directive {{false}}</div>'
 })
-class TestComponentFalse {
+class TestFalseComponent {
   constructor() {
   }
 }
 
-describe('WasCachedHighlightDirective = false', () => {
-  let component: TestComponentFalse;
-  let fixture: ComponentFixture<TestComponentFalse>;
+describe('Given WasCachedHighlightDirective with wasCached = false', () => {
+  let component: TestFalseComponent;
+  let fixture: ComponentFixture<TestFalseComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        TestComponentFalse,
+        TestFalseComponent,
         WasCachedHighlightDirective
       ]
     });
 
-    fixture = TestBed.createComponent(TestComponentFalse);
+    fixture = TestBed.createComponent(TestFalseComponent);
     component = fixture.componentInstance;
   });
 
@@ -33,7 +33,7 @@ describe('WasCachedHighlightDirective = false', () => {
     expect(component).toBeDefined();
   });
 
-  it('should NOT be highlighted when wasCached=false', () => {
+  it('should NOT be highlighted', () => {
     const debugEl: HTMLElement = fixture.debugElement.nativeElement;
     const el: HTMLElement = debugEl.querySelector('div');
 
@@ -48,24 +48,24 @@ describe('WasCachedHighlightDirective = false', () => {
 @Component({
   template: '<div appWasCachedHighlight [wasCached]="true">Testing highlight directive {{true}}</div>'
 })
-class TestComponentTrue {
+class TestTrueComponent {
   constructor() {
   }
 }
 
-describe('WasCachedHighlightDirective = true', () => {
-  let component: TestComponentTrue;
-  let fixture: ComponentFixture<TestComponentTrue>;
+describe('Given WasCachedHighlightDirective with wasCached = true', () => {
+  let component: TestTrueComponent;
+  let fixture: ComponentFixture<TestTrueComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        TestComponentTrue,
+        TestTrueComponent,
         WasCachedHighlightDirective
       ]
     });
 
-    fixture = TestBed.createComponent(TestComponentTrue);
+    fixture = TestBed.createComponent(TestTrueComponent);
     component = fixture.componentInstance;
   });
 
@@ -74,7 +74,7 @@ describe('WasCachedHighlightDirective = true', () => {
     expect(component).toBeDefined();
   });
 
-  it('should be highlighted when wasCached=true', () => {
+  it('should be highlighted', () => {
     const debugEl: HTMLElement = fixture.debugElement.nativeElement;
     const el: HTMLElement = debugEl.querySelector('div');
 

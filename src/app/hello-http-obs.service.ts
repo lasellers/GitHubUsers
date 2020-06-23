@@ -11,7 +11,7 @@ export class HelloHttpObsService {
   constructor(public http: HttpClient) {
   }
 
-  getApi() {
+  getApi(): void {
     this.http.get<any>('https://api.github.com/users/lasellers').subscribe( (result) => {
       this.obs$.next(result);
     });

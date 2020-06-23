@@ -4,6 +4,7 @@ import { delay, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 import { GitHubUserService } from './github-user.service';
+import { RawGist } from "./raw-gist.model";
 
 /**
  * Note: We could eliminate a lot of the event emitters etc in the services and just use
@@ -32,7 +33,7 @@ export class GitHubGistsService {
   /**
    * Converts the raw gists data from the api into a simplified object type (called Gist)
    */
-  public static processGistsToArray(rawGists, isCached: boolean): Gist[] {
+  public static processGistsToArray(rawGists: RawGist, isCached: boolean): Gist[] {
     // If not an array of data, abort early with an empty array
     if (!Array.isArray(rawGists)) {
       return [];

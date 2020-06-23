@@ -14,17 +14,17 @@ export class WasCachedHighlightDirective implements OnInit, OnChanges {
     this.elementRef = elementRef;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.changeHighlight();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if (changes.input) {
       this.changeHighlight();
     }
   }
 
-  changeHighlight() {
+  changeHighlight(): void {
     if (this.wasCached) {
       this.elementRef.nativeElement.style.backgroundColor = 'yellow';
       this.elementRef.nativeElement.classList.add('text-info');

@@ -14,11 +14,12 @@ module.exports = {
   ],
   "rules": {
     "no-var": "error",
-    "no-console": "warn",
+    "no-console": "off",
     "no-empty": "error",
     "no-multiple-empty-lines": "error",
     "prefer-const": "error",
     "no-inferrable-types": "off",
     "@typescript-eslint/no-inferrable-types": "off",
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }

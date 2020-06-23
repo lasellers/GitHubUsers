@@ -5,10 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class HelloService {
 
-  constructor() {
-  }
-
-  public getText() {
+  public getText(): string {
     return 'Hello World';
   }
 }
