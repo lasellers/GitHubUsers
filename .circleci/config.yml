@@ -72,7 +72,7 @@ jobs:
           key: githubusers-{{ .Branch }}-cache-{{ checksum "package.json"}}-{{ checksum ".circleci/config.yml"}}-{{ checksum "karma.conf.js"}}
       - run:
           name: Build prod
-          command:  npm run build
+          command: npm run build --base-href="https://lasellers.github.io/GitHubUsers"
       - store_artifacts:
           path: dist
           destination: dist
@@ -80,6 +80,9 @@ jobs:
           root: ./
           paths:
             - dist
+      - run:
+          name: ls
+          command: ls dist -lha
   deploy-dist:
     <<: *defaults
     steps:
@@ -111,11 +114,8 @@ jobs:
       #    name: Deploy dist to gh-pages branch
       #    command: ng deploy
       - run:
-          name: ls
-          command: ls dist -lha
-      - run:
           name: Deploy dist to gh-pages branch
-          command: npx ngh  --repo=https://b3fe27428941bb1c6cbd9ee09b885d76c1db715c@github.com/lasellers/GitHubUsers.git --name="Lewis Sellers" --email=lasellers@gmail.com
+          command: npx ngh --repo=https://GH_TOKEN@github.com/lasellers/GitHubUsers.git --name="Lewis Sellers" --email=lasellers@gmail.com
           environment:
             GH_TOKEN: b3fe27428941bb1c6cbd9ee09b885d76c1db715c
 workflows:
@@ -140,11 +140,11 @@ workflows:
           filters:
             branches:
               only: master
-      - deploy-dist:
-          requires:
-            - build
-            - test
-            - build-dist
-          filters:
-            branches:
-              only: master
+      #- deploy-dist:
+      #    requires:
+      #      - build
+      #      - test
+      #      - build-dist
+      #    filters:
+      #      branches:
+      #        only: master
