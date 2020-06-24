@@ -162,16 +162,16 @@ class MockFaIconComponent {
 
 @Injectable()
 class MockToastrService {
-  public success() {
+  public success(): void {
   }
 
-  public info() {
+  public info(): void {
   }
 
-  public warning() {
+  public warning(): void {
   }
 
-  public error() {
+  public error(): void {
   }
 }
 
@@ -195,7 +195,7 @@ export class MockWasCachedHighlightDirective {
   // pure: false
 })
 export class MockFilterFollowersPipe implements PipeTransform {
-  transform(filters: any, filterString: string, propName: string): any {
+  transform(filters: { id, name }[], filterString: string, propName: string): any {
     return filters;
   }
 }

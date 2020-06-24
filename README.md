@@ -41,7 +41,8 @@ and see coverage and reports folders.
 
 For linting use:
 
-`npm run eslint`
+`npm run lint`
+`npm run lint-test`
 
 
 ## Continuous Integration / Continuous Deploy
