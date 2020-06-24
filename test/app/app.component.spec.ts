@@ -341,6 +341,7 @@ describe('AppComponent', () => {
     });
 
     it('should have onChangeBaseUsername', () => {
+      console.log(typeof component.onChangeBaseUsername);
       expect(typeof component.onChangeBaseUsername === 'function').toBeTrue();
     });
 

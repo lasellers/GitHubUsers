@@ -39,20 +39,17 @@ jobs:
       - restore_cache:
           key: githubusers-{{ .Branch }}-cache-{{ checksum "package.json"}}-{{ checksum ".circleci/config.yml"}}-{{ checksum "karma.conf.js"}}
       - run:
-          name: Run lint app
+          name: Run eslint app
           command: npm run eslint
-      - run:
-          name: Run lint tests
-          command: npm run eslint-test
+      #- run:
+      #    name: Run eslint tests
+      #    command: npm run eslint-test
   test:
     <<: *defaults
     steps:
       - checkout
       - restore_cache:
           key: githubusers-{{ .Branch }}-cache-{{ checksum "package.json"}}-{{ checksum ".circleci/config.yml"}}-{{ checksum "karma.conf.js"}}
-      - run:
-          name: Run lint
-          command: npm run eslint
       - run:
           name: Run tests + coverage
           command:  npm run test-ci --no-watch --no-progress --browsers=ChromeHeadless
@@ -113,6 +110,8 @@ jobs:
       #- run:
       #    name: Deploy dist to gh-pages branch
       #    command: ng deploy
+      - environment:
+        GH_TOKEN: b3fe27428941bb1c6cbd9ee09b885d76c1db715c
       - run:
           name: ls
           command: ls dist -lha
