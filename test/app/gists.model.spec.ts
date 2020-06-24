@@ -22,6 +22,6 @@ describe('Gists model', () => {
 
   it('empty model created', () => {
     const obj = new Gists();
-    expect(obj.id).toEqual('');
+    expect(typeof obj.id).toEqual('undefined');
   });
 });

@@ -18,7 +18,7 @@ import {
   Pipe,
   PipeTransform
 } from '@angular/core';
-import { of, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { getClassName } from 'codelyzer/util/utils';
@@ -72,23 +72,23 @@ export class MockNgbTooltipDirective {
 class MockGitHubUserService {
   public baseUsername: string = 'mock';
 
-  public getUser(username: string) {
+  public getUser(username: string): Observable<any> {
     return of(USER);
   }
 
-  public getApiUrl() {
+  public getApiUrl(): string {
     return 'http://localhost';
   }
 
-  public isUserCached() {
+  public isUserCached(): boolean {
     return true;
   }
 
-  public getUserBasenameDefault() {
+  public getUserBasenameDefault(): string {
     return this.baseUsername;
   }
 
-  public getUserBasename() {
+  public getUserBasename(): string {
     return this.baseUsername;
   }
 }
@@ -99,11 +99,11 @@ class MockGitHubGistsService {
   public gists$ = new EventEmitter(true);
   public gistsCached$ = new EventEmitter(true);
 
-  public isGistsCached(username: string) {
+  public isGistsCached(username: string): boolean {
     return false;
   }
 
-  public getGists(username: string) {
+  public getGists(username: string): Observable<any> {
     return of();
   }
 }
@@ -113,11 +113,11 @@ class MockGitHubGistService {
   public baseUsername: string = 'mock';
   public gist$ = new Subject();
 
-  public isGistCached(username: string) {
+  public isGistCached(username: string): boolean {
     return false;
   }
 
-  public getGist(username: string) {
+  public getGist(username: string): Observable<any> {
     return of();
   }
 }
@@ -143,11 +143,11 @@ class MockGitHubFollowingsService {
   public followings$ = new EventEmitter(true);
   public followingsCached$ = new EventEmitter(true);
 
-  public isFollowingsCached(username: string) {
+  public isFollowingsCached(username: string): boolean {
     return false;
   }
 
-  public getFollowings(username: string) {
+  public getFollowings(username: string): Observable<any> {
     return of();
   }
 }
@@ -241,9 +241,6 @@ export class MockUserFollowingsComponent {
 })
 export class MockUserGistsComponent {
   @Input() baseUsername;
-
-  constructor() {
-  }
 }
 
 @Component({
@@ -254,9 +251,6 @@ export class MockUserGistsComponent {
 export class MockGistComponent {
   @Output() errorMessage$ = new EventEmitter(true);
   gist: Gist;
-
-  constructor() {
-  }
 }
 
 describe('AppComponent', () => {

@@ -1,6 +1,5 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { ElementRef, Input } from '@angular/core';
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import { WasCachedHighlightDirective } from '../../src/app/was-cached-highlight.directive';
 
 // Simple test component that will not in the actual app
@@ -8,8 +7,6 @@ import { WasCachedHighlightDirective } from '../../src/app/was-cached-highlight.
   template: '<div appWasCachedHighlight [wasCached]="false">Testing highlight directive {{false}}</div>'
 })
 class TestFalseComponent {
-  constructor() {
-  }
 }
 
 describe('Given WasCachedHighlightDirective with wasCached = false', () => {
@@ -49,8 +46,6 @@ describe('Given WasCachedHighlightDirective with wasCached = false', () => {
   template: '<div appWasCachedHighlight [wasCached]="true">Testing highlight directive {{true}}</div>'
 })
 class TestTrueComponent {
-  constructor() {
-  }
 }
 
 describe('Given WasCachedHighlightDirective with wasCached = true', () => {

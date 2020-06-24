@@ -30,11 +30,8 @@ export class AppComponent implements OnInit, OnDestroy {
   public title: string = packageJson.name;
   public filterString: string = '';
 
-  gist = {
-    content: '',
-    cached: false,
-    id: ''
-  };
+  gist: Gist = new Gist(
+  );
   @Input() baseUsername: string = this.userService.getUserBasenameDefault();
   cachingStatus = {
     userWasCached: false,

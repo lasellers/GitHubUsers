@@ -2,9 +2,9 @@ import { EventEmitter, Injectable, Input, Output } from '@angular/core';
 import { Gist } from './gist.model';
 import { delay, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { GitHubUserService } from './github-user.service';
-import { RawGist } from "./raw-gist.model";
+import { Gists } from "./gists.model";
 
 /**
  * Note: We could eliminate a lot of the event emitters etc in the services and just use
@@ -33,7 +33,7 @@ export class GitHubGistsService {
   /**
    * Converts the raw gists data from the api into a simplified object type (called Gist)
    */
-  public static processGistsToArray(rawGists: RawGist, isCached: boolean): Gist[] {
+  public static processGistsToArray(rawGists: any, isCached: boolean): Gist[] {
     // If not an array of data, abort early with an empty array
     if (!Array.isArray(rawGists)) {
       return [];
@@ -71,7 +71,7 @@ export class GitHubGistsService {
     this.gistsCached$.emit(false);
   }
 
-  public getGists(username: string): any {
+  public getGists(username: string): Observable<any> {
     if (this.isCaching) {
       const cachedObj = localStorage.getItem('gists_' + username);
       if (cachedObj !== null) {
@@ -80,7 +80,7 @@ export class GitHubGistsService {
       }
     }
 
-    return this.http.get<Gist>(this.userService.getApiUrl() + username + '/gists').pipe(
+    return this.http.get<Gists>(this.userService.getApiUrl() + username + '/gists').pipe(
       delay(0),
       map((results) => GitHubGistsService.processGistsToArray(results, false)),
       map((gists) => {

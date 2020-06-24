@@ -1,6 +1,6 @@
-import { inject, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient, HttpEvent, HttpEventType, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { GitHubGistService } from '../../src/app/github-gist.service';
 import { Gist } from '../../src/app/gist.model';
 
@@ -105,6 +105,7 @@ Lorem Ipsum 2`;
         });
 
       const req = httpMock.expectNone(gist.contentUrl);
+      expect(req).toBeDefined();
     });
 
   });

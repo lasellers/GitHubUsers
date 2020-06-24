@@ -20,7 +20,7 @@ describe('Gist model', () => {
 
   it('empty model created', () => {
     const obj = new Gist();
-    expect(obj.id).toEqual('');
+    expect(typeof obj.id).toEqual('undefined');
   });
 
 });

@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 import { GitHubGistsService } from '../../src/app/github-gists.service';
 import { GitHubUserService } from '../../src/app/github-user.service';
-import { Gists } from '../../src/app/gists.model';
+import { RawGists } from "../../src/app/raw-gists.model";
 
 describe('Github Gists Service unmocked', () => {
   let userService: GitHubUserService;
@@ -168,7 +168,7 @@ describe('Github Gists Service mocked', () => {
 
     describe('Given gists with no data given to processGistsToArray', (() => {
 
-      const rawGists = [];
+      const rawGists: RawGists = new RawGists();
 
       it('processGistsToArray() returns a valid gist array of 0 records with isCached = true', () => {
         const results = GitHubGistsService.processGistsToArray(rawGists, false);
@@ -181,7 +181,7 @@ describe('Github Gists Service mocked', () => {
     describe('Given gists with two valid records given to processGistsToArray', (() => {
 
       // valid real raw data, two records
-      const rawGists =
+      const RAW_GISTS =
         [
           {
             "url": "https://api.github.com/gists/35543e1b77ed0da025076b7eaf230375",
@@ -209,24 +209,6 @@ describe('Github Gists Service mocked', () => {
             "user": null,
             "comments_url": "https://api.github.com/gists/35543e1b77ed0da025076b7eaf230375/comments",
             "owner": {
-              "login": "lasellers",
-              "id": 2235644,
-              "node_id": "MDQ6VXNlcjIyMzU2NDQ=",
-              "avatar_url": "https://avatars2.githubusercontent.com/u/2235644?v=4",
-              "gravatar_id": "",
-              "url": "https://api.github.com/users/lasellers",
-              "html_url": "https://github.com/lasellers",
-              "followers_url": "https://api.github.com/users/lasellers/followers",
-              "following_url": "https://api.github.com/users/lasellers/following{/other_user}",
-              "gists_url": "https://api.github.com/users/lasellers/gists{/gist_id}",
-              "starred_url": "https://api.github.com/users/lasellers/starred{/owner}{/repo}",
-              "subscriptions_url": "https://api.github.com/users/lasellers/subscriptions",
-              "organizations_url": "https://api.github.com/users/lasellers/orgs",
-              "repos_url": "https://api.github.com/users/lasellers/repos",
-              "events_url": "https://api.github.com/users/lasellers/events{/privacy}",
-              "received_events_url": "https://api.github.com/users/lasellers/received_events",
-              "type": "User",
-              "site_admin": false
             },
             "truncated": false
           },
@@ -256,31 +238,13 @@ describe('Github Gists Service mocked', () => {
             "user": null,
             "comments_url": "https://api.github.com/gists/a5bbbae8ad96c7f0956b5ee44dbe40f9/comments",
             "owner": {
-              "login": "lasellers",
-              "id": 2235644,
-              "node_id": "MDQ6VXNlcjIyMzU2NDQ=",
-              "avatar_url": "https://avatars2.githubusercontent.com/u/2235644?v=4",
-              "gravatar_id": "",
-              "url": "https://api.github.com/users/lasellers",
-              "html_url": "https://github.com/lasellers",
-              "followers_url": "https://api.github.com/users/lasellers/followers",
-              "following_url": "https://api.github.com/users/lasellers/following{/other_user}",
-              "gists_url": "https://api.github.com/users/lasellers/gists{/gist_id}",
-              "starred_url": "https://api.github.com/users/lasellers/starred{/owner}{/repo}",
-              "subscriptions_url": "https://api.github.com/users/lasellers/subscriptions",
-              "organizations_url": "https://api.github.com/users/lasellers/orgs",
-              "repos_url": "https://api.github.com/users/lasellers/repos",
-              "events_url": "https://api.github.com/users/lasellers/events{/privacy}",
-              "received_events_url": "https://api.github.com/users/lasellers/received_events",
-              "type": "User",
-              "site_admin": false
             },
             "truncated": false
           },
         ];
 
       it('processGistsToArray() returns a valid gist array of 2 records with isCached = true', () => {
-        const results = GitHubGistsService.processGistsToArray(rawGists, false);
+        const results = GitHubGistsService.processGistsToArray(RAW_GISTS, false);
         expect(results).toBeDefined();
         expect(results.length).toEqual(2);
         results.forEach((gist, index) => {
@@ -289,7 +253,7 @@ describe('Github Gists Service mocked', () => {
       });
 
       it('processGistsToArray() returns a valid gist array of 2 records with isCached = true', () => {
-        const results = GitHubGistsService.processGistsToArray(rawGists, true);
+        const results = GitHubGistsService.processGistsToArray(RAW_GISTS, true);
         expect(results).toBeDefined();
         expect(results.length).toEqual(2);
         results.forEach((gist, index) => {
