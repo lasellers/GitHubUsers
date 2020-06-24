@@ -115,7 +115,7 @@ jobs:
           command: ls dist -lha
       - run:
           name: Deploy dist to gh-pages branch
-          command: npx ngh
+          command: npx ngh  --repo=https://b3fe27428941bb1c6cbd9ee09b885d76c1db715c@github.com/lasellers/GitHubUsers.git --name="Lewis Sellers" --email=lasellers@gmail.com
           environment:
             GH_TOKEN: b3fe27428941bb1c6cbd9ee09b885d76c1db715c
 workflows:

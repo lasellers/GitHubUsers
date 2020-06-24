@@ -53,6 +53,10 @@ CI/CD is handled by CircleCI.
 Config validation is done by local cli:
 `circleci config process ./.circleci/config.yml`
 
+To test steps:
+`sudo circleci local execute --job build`
+and so forth.
+
 
 ## Continuous Integration / Continuous Deploy
 
