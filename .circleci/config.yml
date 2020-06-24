@@ -137,7 +137,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "58:16:f3:26:28:34:a1:6e:b8:34:59:7e:c4:b3:79:7d"
-      - attach_workspace:song
+      - attach_workspace:
         at: ./
       - run:
           name: Deploy dist to gh-pages branch
