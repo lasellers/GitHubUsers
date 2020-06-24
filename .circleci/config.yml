@@ -113,11 +113,11 @@ jobs:
       - run:
           name: ls
           command: ls dist -lha
-      - environment:
-        GH_TOKEN: b3fe27428941bb1c6cbd9ee09b885d76c1db715c
       - run:
           name: Deploy dist to gh-pages branch
           command: npx ngh
+          environment:
+            GH_TOKEN: b3fe27428941bb1c6cbd9ee09b885d76c1db715c
 workflows:
   version: 2
   build_and_test:

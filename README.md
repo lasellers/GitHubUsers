@@ -42,7 +42,16 @@ and see coverage and reports folders.
 For linting use:
 
 `npm run lint`
+or
 `npm run lint-test`
+
+
+## CircleCI
+
+CI/CD is handled by CircleCI.
+
+Config validation is done by local cli:
+`circleci config process ./.circleci/config.yml`
 
 
 ## Continuous Integration / Continuous Deploy
