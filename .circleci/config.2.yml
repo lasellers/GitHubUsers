@@ -92,6 +92,27 @@ jobs:
             - "58:16:f3:26:28:34:a1:6e:b8:34:59:7e:c4:b3:79:7d"
       - attach_workspace:
           at: ./
+      #- run:
+      #    - name: Add github to known hosts
+      #    - command: ssh-keyscan github.com >> ~/.ssh/known_hosts
+      #- run:
+      #    name: Install deps
+      #    command: |
+      #      sudo npm i -g --silent gh-pages
+      #      git config user.email "ci-build@intrafoundation.com"
+      #      git config user.name "ci-build"
+      #- run:
+      #    name: ls
+      #    command: ls dist -lha
+      #- run:
+      #    name: chown
+      #    command: sudo chown -R circleci /usr/local/lib/node_modules/angular-cli-ghpages/node_modules/gh-pages/
+      #- run:
+      #    name: Deploy dist to gh-pages branch
+      #    command: sudo yes | gh-pages --dist ./dist
+      #- run:
+      #    name: Deploy dist to gh-pages branch
+      #    command: ng deploy
       - run:
           name: Deploy dist to gh-pages branch
           command: npx ngh --repo=https://GH_TOKEN@github.com/lasellers/GitHubUsers.git --name="Lewis Sellers" --email=lasellers@gmail.com
