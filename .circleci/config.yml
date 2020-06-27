@@ -132,11 +132,11 @@ workflows:
           filters:
             branches:
               only: master
-      - deploy-dist:
-          requires:
-            - build
-            - test
-            - build-dist
-          filters:
-            branches:
-              only: master
+      #- deploy-dist:
+      #    requires:
+      #      - build
+      #      - test
+      #      - build-dist
+      #    filters:
+      #      branches:
+      #        only: master
