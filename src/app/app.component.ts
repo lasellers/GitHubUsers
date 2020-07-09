@@ -83,6 +83,7 @@ export class AppComponent implements OnInit, OnDestroy {
     );
     this.gistsService.getGists(username).subscribe(
       gists => {
+        console.log('app', gists);
         this.gistsService.gistsCached$.emit(false);
         this.gistsService.gists$.emit(gists);
       },

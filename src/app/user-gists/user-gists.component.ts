@@ -28,6 +28,7 @@ export class UserGistsComponent implements OnInit, OnDestroy {
 
     this.gistsService.getGists(this.baseUsername).subscribe(
       gists => {
+        console.log('user gists', gists);
         this.gistsCached$.emit(false);
         this.gists$.emit(gists);
       },

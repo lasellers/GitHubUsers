@@ -18,6 +18,11 @@ Note: This code may change often.
 
 --Lewis
 
+## Run locally
+
+`npm run start`
+
+
 ## Tests
 
 `npm run test`
