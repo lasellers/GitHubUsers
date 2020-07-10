@@ -14,12 +14,18 @@
     "lib": [
       "es2018",
       "dom"
-    ]//,
-    // "resolveJsonModule": true,
+    ],
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true
     // "esModuleInterop": true
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
+  },
+  "paths": {
+    "@app/*": ["src/app/*"],
+    "@env/*": ["environments/*"],
+    "@test/*": ["src/test/*"]
   }
 }

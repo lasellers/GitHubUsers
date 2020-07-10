@@ -14,7 +14,7 @@ import { GitHubFollowersService } from './github-followers.service';
 import { GitHubFollowingsService } from './github-followings.service';
 import { GitHubGistService } from './github-gist.service';
 import { Gist } from './gist.model';
-// import packageJson from '../../package.json';
+import packageJson from '../../package.json';
 
 console.clear();
 
@@ -26,8 +26,8 @@ console.clear();
 export class AppComponent implements OnInit, OnDestroy {
   @Output() errorMessage$ = new EventEmitter(true);
 
-  public version: string; // = packageJson.version;
-  public title: string; // = packageJson.name;
+  public version: string = packageJson.version;
+  public title: string = packageJson.name;
   public filterString: string = '';
 
   gist: Gist = new Gist(

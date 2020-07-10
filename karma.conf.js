@@ -11,11 +11,11 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-   /* files: [
-      'src/app/ ** / *.ts',
-      'test/app/ ** / *.spec.ts',
-      'src/app/ ** /*.js'
-    ],*/
+    /* files: [
+       'src/app/ ** / *.ts',
+       'test/app/ ** / *.spec.ts',
+       'src/app/ ** /*.js'
+     ],*/
     /* preprocessors: {
       "** / *.ts": "karma-typescript" // *.tsx for React Jsx
     }, */
@@ -25,8 +25,8 @@ module.exports = function (config) {
     client: {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
-    browsers: ['Chrome'],
-    // browsers: ['ChromeHeadless'],
+    //browsers: ['Chrome'],
+    browsers: ['ChromeHeadless'],
     customLaunchers: {
       ChromeHeadless: {
         base: 'Chrome',
@@ -113,7 +113,7 @@ module.exports = function (config) {
       suppressPassed: false,      // do not print information about passed tests
       suppressSkipped: true,      // do not print information about skipped tests
       showSpecTiming: false,      // print the time elapsed for each spec
-      failFast: true              // test would finish with error when a first fail occurs.
+      failFast: false              // test would finish with error when a first fail occurs.
     },
   });
 };
