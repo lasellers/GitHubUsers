@@ -84,7 +84,7 @@ Optionally you can run:
 * v3.0.3 Changed angular.json to avoid xmlRequest send bug caused by new cli.
 * v3.0.4 6/19/2020 Add several tests
 * v3.0.5 Add CircleCI for CI testing + puppeteer for CHROME_BIN
-
+* v3.0.6 Cleanup karma build issues. Look into e2e testing.
 
 ## Todo
 

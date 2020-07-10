@@ -1,7 +1,7 @@
 {
   "name": "githubusers",
   "fullName": "Github Users",
-  "version": "3.0.5",
+  "version": "3.0.6",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -19,7 +19,8 @@
     "lint-old": "ng lint",
     "e2e": "ng e2e",
     "test-mocha": "mocha --recursive ./test/*.js",
-    "test-nyc": "nyc ng test --code-coverage --progress"
+    "test-nyc": "nyc ng test --code-coverage --progress",
+    "test-simple": "ng test"
   },
   "private": true,
   "dependencies": {
