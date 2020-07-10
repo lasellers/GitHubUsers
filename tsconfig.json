@@ -16,10 +16,16 @@
       "dom"
     ],
     "resolveJsonModule": true,
-    "esModuleInterop": true
+    "allowSyntheticDefaultImports": true
+    // "esModuleInterop": true
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
+  },
+  "paths": {
+    "@app/*": ["src/app/*"],
+    "@env/*": ["environments/*"],
+    "@test/*": ["src/test/*"]
   }
 }

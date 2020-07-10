@@ -15,10 +15,10 @@
     "lint": "eslint --ext ts src/app",
     "lint-fix": "eslint --ext ts --fix src/app",
     "lint-dry": "eslint --ext ts --fix-dry-run src/app",
-    "lint-test": "eslint --ext ts test/**/*.ts",
+    "lint-test": "eslint --ext ts src/test/**/*.ts",
     "lint-old": "ng lint",
     "e2e": "ng e2e",
-    "test-mocha": "mocha --recursive ./test/*.js",
+    "test-mocha": "mocha --recursive src/test/*.js",
     "test-nyc": "nyc ng test --code-coverage --progress",
     "test-simple": "ng test"
   },

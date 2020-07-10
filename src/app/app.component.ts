@@ -8,13 +8,13 @@ import {
 } from '@angular/core';
 import { GitHubUserService } from './github-user.service';
 import { ToastrService } from 'ngx-toastr';
-import packageJson from '../../package.json';
 import { BytesPipe } from './bytes.pipe';
 import { GitHubGistsService } from './github-gists.service';
 import { GitHubFollowersService } from './github-followers.service';
 import { GitHubFollowingsService } from './github-followings.service';
 import { GitHubGistService } from './github-gist.service';
 import { Gist } from './gist.model';
+import packageJson from '../../package.json';
 
 console.clear();
 

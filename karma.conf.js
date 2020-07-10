@@ -1,8 +1,8 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
-process.env.NO_PROXY = 'localhost, 0.0.0.0/4201, 0.0.0.0/9876';
+/*process.env.NO_PROXY = 'localhost, 0.0.0.0/4201, 0.0.0.0/9876';
 const puppeteer = require('puppeteer');
-process.env.CHROME_BIN = puppeteer.executablePath();
+process.env.CHROME_BIN = puppeteer.executablePath();*/
 
 module.exports = function (config) {
   config.set({
@@ -11,11 +11,11 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    files: [
-      'src/app/**/*.ts',
-      // 'src/app/**/*.spec.ts',
-      // 'src/app/**/*.js'
-    ],
+    /* files: [
+       'src/app/ ** / *.ts',
+       'test/app/ ** / *.spec.ts',
+       'src/app/ ** /*.js'
+     ],*/
     /* preprocessors: {
       "** / *.ts": "karma-typescript" // *.tsx for React Jsx
     }, */
@@ -25,6 +25,7 @@ module.exports = function (config) {
     client: {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
+    //browsers: ['Chrome'],
     browsers: ['ChromeHeadless'],
     customLaunchers: {
       ChromeHeadless: {
@@ -112,7 +113,7 @@ module.exports = function (config) {
       suppressPassed: false,      // do not print information about passed tests
       suppressSkipped: true,      // do not print information about skipped tests
       showSpecTiming: false,      // print the time elapsed for each spec
-      failFast: true              // test would finish with error when a first fail occurs.
+      failFast: false              // test would finish with error when a first fail occurs.
     },
   });
 };

@@ -5,6 +5,6 @@
   "slow": 75,
   "timeout": 2000,
   "ui": "bdd",
-  "watch-files": ["lib/**/*.js", "test/**/*.js"],
+  "watch-files": ["lib/**/*.js", "src/test/**/*.js"],
   "watch-ignore": ["lib/vendor"]
 }
