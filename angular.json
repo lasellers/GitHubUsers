@@ -11,12 +11,13 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "verbose": true,
+            "verbose": false,
             "progress": true,
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
+            "aot": true,
             "polyfills": "src/polyfills.ts",
             "assets": [
               "src/assets",
@@ -87,9 +88,13 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "tsconfig.app.json"
+              "tsconfig.app.json",
+              "tsconfig.spec.json",
+              "e2e/tsconfig.json"
             ],
-            "exclude": []
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         },
         "deploy": {

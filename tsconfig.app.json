@@ -11,10 +11,4 @@
   "include": [
     "src/**/*.d.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "src/**/*.spec.ts",
-    "src/test.ts" //,
-    // "src/environments/environment.prod.ts"
-  ]
 }
