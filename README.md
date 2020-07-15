@@ -33,7 +33,6 @@ or
 
 
 ## Coverage
-ls /usr/lib/jvm/java-1.14.0-openjdk-amd64/bin
 
 For coverage reports:
 
@@ -95,3 +94,9 @@ Optionally you can run:
 * Add HTTP Interceptor for caching to simplify httpclient....
 * Add Travis and Jenkins
 * Add more tests for coverage
+
+## Bugs
+
+Yes, there is a 'minor' bug in the code. It is well known. :)
+
+One of these days I'm going to get back to this project and practice writing some tests to catch it.
