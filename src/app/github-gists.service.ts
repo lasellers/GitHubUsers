@@ -62,20 +62,38 @@ export class GitHubGistsService {
     return processedGists;
   }
 
+  /**
+   *
+   * @param username
+   */
   public isGistsCached(username: string): boolean {
     return (localStorage.getItem('gists_' + username) !== null);
   }
 
+  /**
+   *
+   * @param username
+   */
   clearGistsCache(username: string): void {
     localStorage.removeItem('gists_' + username);
     this.gistsCached$.emit(false);
   }
 
+  /**
+   * Gets the list of gists for a specified username.
+   *
+   * Note that the raw gists format is always converted to a simplier version that is returned.
+   * It's the simple version we cache in local storage.
+   *
+   * @param username
+   */
   public getGists(username: string): Observable<any> {
     if (this.isCaching) {
       const cachedObj = localStorage.getItem('gists_' + username);
       if (cachedObj !== null) {
         const gists = JSON.parse(cachedObj);
+        // emit that gists was cached
+        this.gistsCached$.emit(true);
         return of<Gist>(gists);
       }
     }
@@ -88,6 +106,8 @@ export class GitHubGistsService {
         if (this.isCaching) {
           localStorage.setItem('gists_' + username, JSON.stringify(gists));
         }
+        // emit that gists was not cached
+        this.gistsCached$.emit(false);
         return gists;
       })
     );

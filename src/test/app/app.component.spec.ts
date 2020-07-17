@@ -207,7 +207,7 @@ export class MockFilterFollowersPipe implements PipeTransform {
 })
 export class MockUserDetailComponent {
   @Input() baseUsername;
-  @Output() notifyChangeBaseUsername: EventEmitter<string> = new EventEmitter<string>();
+  @Output() notifySwitchToUser: EventEmitter<string> = new EventEmitter<string>();
 }
 
 @Component({
@@ -218,7 +218,7 @@ export class MockUserDetailComponent {
 export class MockUserFollowersComponent {
   @Input() baseUsername;
   @Input() filterString: string = '';
-  @Output() notifyChangeBaseUsername = new EventEmitter();
+  @Output() notifySwitchToUser = new EventEmitter();
   @Output() notifyShowBaseUsername = new EventEmitter();
 }
 
@@ -230,7 +230,7 @@ export class MockUserFollowersComponent {
 export class MockUserFollowingsComponent {
   @Input() baseUsername;
   @Input() filterString: string = '';
-  @Output() notifyChangeBaseUsername = new EventEmitter();
+  @Output() notifySwitchToUser = new EventEmitter();
   @Output() notifyShowBaseUsername = new EventEmitter();
 }
 
@@ -340,21 +340,17 @@ describe('AppComponent', () => {
       expect(typeof component.clearCache === 'function').toBeTrue();
     });
 
-    it('should have onChangeBaseUsername', () => {
-      console.log(typeof component.onChangeBaseUsername);
-      expect(typeof component.onChangeBaseUsername === 'function').toBeTrue();
+    it('should have onSwitchToUser', () => {
+      console.log(typeof component.onSwitchToUser);
+      expect(typeof component.onSwitchToUser === 'function').toBeTrue();
     });
 
     it('should have onShowBaseUsername', () => {
       expect(typeof component.onShowBaseUsername === 'function').toBeTrue();
     });
 
-    it('should have changeBaseUsername', () => {
-      expect(typeof component.changeBaseUsername === 'function').toBeTrue();
-    });
-
-    it('should have changeBaseUsernameToDefault', () => {
-      expect(typeof component.changeBaseUsernameToDefault === 'function').toBeTrue();
+    it('should have switchToUserDefault', () => {
+      expect(typeof component.switchToUserDefault === 'function').toBeTrue();
     });
 
     it('should have changeCaching', () => {

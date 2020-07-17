@@ -6,12 +6,12 @@ import { Component, EventEmitter, Injectable, Output, Pipe, PipeTransform } from
 import { FaIconComponent, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 
-import { UserGistsComponent } from '../../../../src/app/user-gists/user-gists.component';
-import { GitHubUserService } from '../../../../src/app/github-user.service';
-import { GitHubGistsService } from '../../../../src/app/github-gists.service';
-import { Gist } from '../../../../src/app/gist.model';
+import { UserGistsComponent } from '../../../app/user-gists/user-gists.component';
+import { GitHubUserService } from '../../../app/github-user.service';
+import { GitHubGistsService } from '../../../app/github-gists.service';
+import { Gist } from '../../../app/gist.model';
 import { User } from '../../../../src/app/user.model';
-import { BytesPipe } from '../../../../src/app/bytes.pipe';
+import { BytesPipe } from '../../../app/bytes.pipe';
 
 const GISTS: Gist[] = [{
   id: 'A1',

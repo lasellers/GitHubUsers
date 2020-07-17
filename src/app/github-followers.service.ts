@@ -43,6 +43,7 @@ export class GitHubFollowersService {
       const cachedObj = localStorage.getItem('followers_' + username);
       if (cachedObj !== null) {
         const followers = JSON.parse(cachedObj);
+        this.followersCached$.emit(true);
         return of(followers);
       }
     }
@@ -55,6 +56,7 @@ export class GitHubFollowersService {
         if (this.isCaching) {
           localStorage.setItem('followers_' + username, JSON.stringify(followers));
         }
+        this.followersCached$.emit(true);
         return followers;
       })
     );

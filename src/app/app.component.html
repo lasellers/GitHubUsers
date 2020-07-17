@@ -17,7 +17,7 @@
              #usernameInput name="baseUsername" [(ngModel)]="baseUsername"
              value="{{baseUsername}}">
       <button class="btn btn-primary my-2 my-sm-0" type="submit"
-              (click)="changeBaseUsername(usernameInput.value)"
+              (click)="onSwitchToUser(usernameInput.value)"
               placement="bottom"
               ngbTooltip="Change base user">User
       </button>
@@ -25,7 +25,7 @@
 
     <div class="col-sm align-bottom">
       <button class="btn btn-outline-primary btn-sm my-2 my-sm-0"
-              (click)="changeBaseUsernameToDefault()"
+              (click)="switchToUserDefault()"
               placement="bottom"
               ngbTooltip="Change to Default User">Default User
       </button>
@@ -110,7 +110,7 @@
                  ngbTooltip="Clear user cache"></fa-icon>
       </div>
       <user-detail [baseUsername]="baseUsername"
-                   (notifyChangeBaseUsername)='onChangeBaseUsername($event)'></user-detail>
+                   (notifySwitchToUser)='onSwitchToUser($event)'></user-detail>
     </div>
 
     <div class="col-sm-4">
@@ -129,7 +129,7 @@
       </div>
       <app-user-followers [baseUsername]="baseUsername"
                           [filterString]="filterString"
-                          (notifyChangeBaseUsername)='onChangeBaseUsername($event)'
+                          (notifySwitchToUser)='onSwitchToUser($event)'
                           (notifyShowBaseUsername)='onShowBaseUsername($event)'></app-user-followers>
     </div>
 
@@ -149,7 +149,7 @@
       </div>
       <app-user-followings [baseUsername]="baseUsername"
                            [filterString]="filterString"
-                           (notifyChangeBaseUsername)='onChangeBaseUsername($event)'
+                           (notifySwitchToUser)='onSwitchToUser($event)'
                            (notifyShowBaseUsername)='onShowBaseUsername($event)'></app-user-followings>
     </div>
 

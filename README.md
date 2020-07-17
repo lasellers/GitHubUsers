@@ -39,6 +39,7 @@ For coverage reports:
 `npm run coverage`
 
 and see coverage and reports folders.
+./coverage/html/index.html and ./reports.
 
 
 ## Linting

@@ -10,7 +10,7 @@ import { User } from '../user.model';
 })
 export class UserDetailComponent implements OnInit {
   @Input() baseUsername;
-  @Output() notifyChangeBaseUsername: EventEmitter<string> = new EventEmitter<string>();
+  @Output() notifySwitchToUser: EventEmitter<string> = new EventEmitter<string>();
   public user: User = {};
 
   constructor(
@@ -46,7 +46,7 @@ export class UserDetailComponent implements OnInit {
   }
 
   changeBaseUsername(username: string): void {
-    this.notifyChangeBaseUsername.emit(username);
+    this.notifySwitchToUser.emit(username);
   }
 
 }
