@@ -40,8 +40,8 @@ Thumbs.db
 
 dist/
 
-.nyc_output
-reports
-test-results
+.nyc_output/
+reports/
+test-results/
 
 logs/

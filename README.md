@@ -53,8 +53,10 @@ or
 ## E2E tests
 
 `npx webdriver-manager clean`
-
 `./node_modules/.bin/webdriver-manager update`
+
+`node_modules/protractor/node_modules/webdriver-manager/bin/webdriver-manager clean`
+`node_modules/protractor/node_modules/webdriver-manager/bin/webdriver-manager update`
 
 `npm ls webdriver-manager`
 

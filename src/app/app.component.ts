@@ -66,7 +66,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param username
    */
   public loadUser(username: string): void {
-    this.toast.success(`loadUser: ${username}`);
+    this.toast.warning(`loadUser: ${username}`);
 
     this.baseUsername = username;
     this.userService.getUser(username).subscribe((user) => {
@@ -107,7 +107,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param username
    */
   public showUser(username: string): void {
-    this.toast.success(`showUser: ${username}`);
+    this.toast.warning(`showUser: ${username}`);
     this.userService.getUser(username).subscribe((user) => {
         this.userService.user$.emit(user);
       },
@@ -250,19 +250,19 @@ export class AppComponent implements OnInit, OnDestroy {
   // notifyShowBaseUsername
   onShowBaseUsername(username: string): void {
     this.showUser(username);
-    this.toast.info('onShowBaseUsername: ' + username);
+    this.toast.warning('onShowBaseUsername: ' + username);
   }
 
   // notifySwitchToUser
   onSwitchToUser(username: string): void {
     this.loadUser(username);
-    this.toast.info('onSwitchToUser: ' + username);
+    this.toast.warning('onSwitchToUser: ' + username);
   }
 
   switchToUserDefault(): void {
     const username = this.userService.getUserBasenameDefault();
     this.loadUser(username);
-    this.toast.success('Switch to user ' + username);
+    this.toast.warning('Switch to user ' + username);
   }
 
   changeCaching(value: boolean): void {

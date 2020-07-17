@@ -10,8 +10,8 @@ import { UserGistsComponent } from '../../../app/user-gists/user-gists.component
 import { GitHubUserService } from '../../../app/github-user.service';
 import { GitHubGistsService } from '../../../app/github-gists.service';
 import { Gist } from '../../../app/gist.model';
-import { User } from '../../../../src/app/user.model';
 import { BytesPipe } from '../../../app/bytes.pipe';
+import { User } from '../../../../src/app/user.model';
 
 const GISTS: Gist[] = [{
   id: 'A1',
@@ -106,37 +106,58 @@ describe('User Gists Component', () => {
         {provide: FaIconComponent, useClass: MockFaIconComponent}
       ]
     })
-      .compileComponents().then(() => {
-
-      fixture = TestBed.createComponent(UserGistsComponent);
-      component = fixture.componentInstance;
-      dom = fixture.debugElement.nativeElement;
-
-      component.baseUsername = 'lorem1';
-
-      fixture.detectChanges();
-
-      httpMock = TestBed.inject(HttpTestingController);
-      gistsService = TestBed.inject(GitHubGistsService);
-      userService = TestBed.inject(GitHubUserService);
-
-      //
-      gistsService.isCaching = false;
-    });
+      .compileComponents();
   }));
+
+  beforeEach(() => {
+    //.then(() => {
+    console.log('compileComponents');
+
+    fixture = TestBed.createComponent(UserGistsComponent);
+    component = fixture.componentInstance;
+    dom = fixture.debugElement.nativeElement;
+
+    console.log(fixture);
+    console.log(component);
+    console.log(dom);
+
+    component.baseUsername = 'lorem1';
+
+    httpMock = TestBed.inject(HttpTestingController);
+    console.log('httpMock', httpMock);
+
+    userService = TestBed.inject(GitHubUserService);
+    console.log('userService', userService);
+
+    gistsService = TestBed.inject(GitHubGistsService);
+    console.log('gistsService', gistsService);
+
+    gistsService.isCaching = false;
+    console.log('isCaching');
+
+    console.log(gistsService);
+
+    fixture.detectChanges();
+    console.log('detectChanges');
+
+    //
+    // });
+//  }));
+  });
 
   afterEach(() => {
     httpMock.verify();
   });
 
-  /* describe('Given our feature tests setup', () => {
+  fdescribe('Given our feature tests setup', () => {
     beforeEach(() => {
       component.baseUsername = 'lorem';
       gistsService.isCaching = false;
       fixture.detectChanges();
     });
 
-     it('should start with all testing variables not null', () => {
+    it('should start with all testing variables not null', () => {
+
       expect(fixture).toBeTruthy();
       expect(component).toBeTruthy();
       expect(dom).toBeTruthy();
@@ -145,7 +166,7 @@ describe('User Gists Component', () => {
       expect(httpMock).toBeTruthy();
     });
 
-  }); */
+  });
 
   xdescribe('Given we have no gists', () => {
     beforeEach(() => {
@@ -281,4 +302,3 @@ describe('User Gists Component', () => {
   });
 
 });
-
