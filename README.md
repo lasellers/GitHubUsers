@@ -72,6 +72,16 @@ To test steps:
 and so forth.
 
 
+## Manual deployment
+
+Run:
+`ng deploy`
+
+Then visit: https://lasellers.github.io/GitHubUsers/
+
+Note: Obviously if you fork this, you will go to your own gh page. :)
+
+
 ## Continuous Integration / Continuous Deploy
 
 The original manual deployment process to gh-pages has been updated through CircleCI to a CI/CD setup.
