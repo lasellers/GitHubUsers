@@ -50,6 +50,16 @@ For linting use:
 or
 `npm run lint-test`
 
+## E2E tests
+
+`npx webdriver-manager clean`
+
+`./node_modules/.bin/webdriver-manager update`
+
+`npm ls webdriver-manager`
+
+`ng e2e`
+
 
 ## CircleCI
 
