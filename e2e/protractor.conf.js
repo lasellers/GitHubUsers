@@ -1,9 +1,9 @@
 // Protractor configuration file, see link for more information
 // https://github.com/angular/protractor/blob/master/lib/config.ts
-
 process.env.NO_PROXY = 'localhost, 0.0.0.0/4201, 0.0.0.0/9876';
 const puppeteer = require('puppeteer');
 process.env.CHROME_BIN = puppeteer.executablePath();
+console.log(puppeteer.executablePath());
 
 exports.config = {
   allScriptsTimeout: 11000,
