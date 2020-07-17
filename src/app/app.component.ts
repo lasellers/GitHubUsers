@@ -199,7 +199,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.gist = data;
     this.cachingStatus.gistWasCached = data.cached;
     const size = new BytesPipe().transform(data.size);
-    if (data.cached) {
+    if (data.wasCached) {
       this.toast.success(`${data.filename} (${size}) ${this.cachedString}`, '', {
         timeOut: 2000
       });
