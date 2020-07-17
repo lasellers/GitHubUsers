@@ -94,6 +94,8 @@ Optionally you can run:
 * v3.0.4 6/19/2020 Add several tests
 * v3.0.5 Add CircleCI for CI testing + puppeteer for CHROME_BIN
 * v3.0.6 Cleanup karma build issues. Look into e2e testing.
+* v3.0.7 7/15/2020 Cleanup UI -- It's confusing now that I look at it again. Add e2e cucumber tests.
+
 
 ## Todo
 
