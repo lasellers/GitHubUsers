@@ -185,7 +185,7 @@ describe('UserFollowersComponent', () => {
 
     it(`should render Buttons`, () => {
       const text = dom.querySelector('button').textContent;
-      expect(text).toContain('User');
+      expect(text).toContain('Switch To');
     });
 
   });
