@@ -3,7 +3,7 @@
   <tbody>
   <tr class="row" *ngFor="let following of followings | filterFollowers:filterString:'login'">
     <td class="col">
-      <span (click)="showBaseUsername(following.login)">{{following.login}}</span>
+      View <b><span (click)="showBaseUsername(following.login)">{{following.login}}</span></b>
       <fa-icon [icon]="['fas','cloud']" *ngIf="userService.isUserCached(following.login)"
                placement="left"
                ngbTooltip="User {{following.login}} is cached localStorage"></fa-icon>
@@ -11,7 +11,7 @@
                placement="left" ngbTooltip="User {{following.login}} was cached as of last pull"></fa-icon>
     </td>
     <td class="col">
-      <button class="btn btn-primary btn-sm following" (click)="changeBaseUsername(following.login)">User
+      <button class="btn btn-primary btn-sm following" (click)="changeBaseUsername(following.login)">Switch To
       </button>
     </td>
   </tr>

@@ -1,13 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ViewContainerRef } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-// import { fas } from '@fortawesome/free-solid-svg-icons';
-// import { far } from '@fortawesome/free-regular-svg-icons';
 import {
   faMinusCircle,
   faCloudDownloadAlt,
@@ -27,6 +24,8 @@ import { GistComponent } from './gist/gist.component';
 import { WasCachedPipe } from './was-cached.pipe';
 import { WasCachedHighlightDirective } from './was-cached-highlight.directive';
 import { FilterFollowersPipe } from './filter-followers.pipe';
+// import { fas } from '@fortawesome/free-solid-svg-icons';
+// import { far } from '@fortawesome/free-regular-svg-icons';
 
 @NgModule({
   declarations: [

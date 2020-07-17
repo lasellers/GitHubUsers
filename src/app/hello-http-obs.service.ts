@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class HelloHttpObsService {
   constructor(public http: HttpClient) {
   }
 
-  getApi() {
+  getApi(): void {
     this.http.get<any>('https://api.github.com/users/lasellers').subscribe( (result) => {
       this.obs$.next(result);
     });

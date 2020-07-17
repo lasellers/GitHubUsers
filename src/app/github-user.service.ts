@@ -1,8 +1,7 @@
 import { delay, map } from 'rxjs/operators';
 import { EventEmitter, Injectable, Input, Output } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { of, Subject, Subscription } from 'rxjs';
-import { Gist } from './gist.model';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
 import { User } from './user.model';
 
 /**
@@ -62,7 +61,7 @@ export class GitHubUserService {
     return (localStorage.getItem('user_' + username) !== null);
   }
 
-  public getUser(username: string) {
+  public getUser(username: string): Observable<any> {
     if (this.isCaching) {
       const cachedUserObj = localStorage.getItem('user_' + username);
       if (cachedUserObj !== null) {

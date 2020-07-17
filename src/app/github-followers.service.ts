@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable, Input, Output } from '@angular/core';
-import { of, Subscription } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { GitHubUserService } from './github-user.service';
@@ -38,11 +38,12 @@ export class GitHubFollowersService {
     return (localStorage.getItem('followers_' + username) !== null);
   }
 
-  public getFollowers(username: string) {
+  public getFollowers(username: string): Observable<any> {
     if (this.isCaching) {
       const cachedObj = localStorage.getItem('followers_' + username);
       if (cachedObj !== null) {
         const followers = JSON.parse(cachedObj);
+        this.followersCached$.emit(true);
         return of(followers);
       }
     }
@@ -55,6 +56,7 @@ export class GitHubFollowersService {
         if (this.isCaching) {
           localStorage.setItem('followers_' + username, JSON.stringify(followers));
         }
+        this.followersCached$.emit(true);
         return followers;
       })
     );

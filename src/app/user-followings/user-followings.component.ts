@@ -11,7 +11,7 @@ export class UserFollowingsComponent implements OnInit, OnDestroy {
   @Input() baseUsername;
   @Input() filterString: string = '';
   @Output() errorMessage$ = new EventEmitter(true);
-  @Output() notifyChangeBaseUsername = new EventEmitter();
+  @Output() notifySwitchToUser = new EventEmitter();
   @Output() notifyShowBaseUsername = new EventEmitter();
   public cachedUsers = [];
   public followings = [];
@@ -39,7 +39,7 @@ export class UserFollowingsComponent implements OnInit, OnDestroy {
     });
 
     this.followingsService.getFollowings(this.baseUsername).subscribe(followings => {
-        this.followingsService.followingsCached$.emit(false);
+      //  this.followingsService.followingsCached$.emit(false);
         this.followingsService.followings$.emit(followings);
       },
       error => {
@@ -57,7 +57,7 @@ export class UserFollowingsComponent implements OnInit, OnDestroy {
   }
 
   changeBaseUsername(username: string): void {
-    this.notifyChangeBaseUsername.emit(username);
+    this.notifySwitchToUser.emit(username);
   }
 
   showBaseUsername(username: string): void {

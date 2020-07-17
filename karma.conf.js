@@ -1,5 +1,10 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
+/*
+process.env.NO_PROXY = 'localhost, 0.0.0.0/4201, 0.0.0.0/9876';
+const puppeteer = require('puppeteer');
+process.env.CHROME_BIN = puppeteer.executablePath();
+*/
 
 module.exports = function (config) {
   config.set({
@@ -8,10 +13,36 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    /* files: [
+       'src/app/ ** / *.ts',
+       'test/app/ ** / *.spec.ts',
+       'src/app/ ** /*.js'
+     ],*/
+    /* preprocessors: {
+      "** / *.ts": "karma-typescript" // *.tsx for React Jsx
+    }, */
     concurrency: Infinity,
     singleRun: false,
     restartOnFileChange: true,
+    client: {
+      clearContext: false // leave Jasmine Spec Runner output visible in browser
+    },
+    //browsers: ['Chrome'],
+    browsers: ['ChromeHeadless'],
+    customLaunchers: {
+      ChromeHeadless: {
+        base: 'Chrome',
+        flags: [
+          '--headless',
+          '--disable-gpu',
+          '--disable-translate',
+          '--disable-extensions',
+          '--disable-web-security',
+          '--no-sandbox',
+          '--remote-debugging-port=9222'
+        ]
+      }
+    },
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
     // frameworks: ['jasmine', 'karma-typescript', '@angular-devkit/build-angular'],
     plugins: [
@@ -26,17 +57,6 @@ module.exports = function (config) {
       require('karma-junit-reporter'),
       // require('karma-typescript')
     ],
-    files: [
-      'src/app/**/*.ts',
-      'src/app/**/*.spec.ts',
-      'src/app/**/*.js'
-    ],
-    /* preprocessors: {
-      "** / *.ts": "karma-typescript" // *.tsx for React Jsx
-    }, */
-    client: {
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
-    },
     reporters: ['spec', 'kjhtml', 'coverage-istanbul', 'junit', 'htmlDetailed'],
     // reporters: ['progress', 'kjhtml', 'coverage-istanbul', 'spec', 'junit', 'htmlDetailed', 'karma-typescript'],
     // reporters: ['progress', 'kjhtml', 'coverage-istanbul', 'summary', 'spec', 'htmlDetailed', 'junit],
@@ -49,6 +69,9 @@ module.exports = function (config) {
       'report-config': {
         html: {
           subdir: 'html'
+        },
+        lcov: {
+          file: 'coverage-report.lcov'
         }
       },
       verbose: false,
@@ -56,10 +79,10 @@ module.exports = function (config) {
         emitWarning: false, // set to `true` to not fail the test command when thresholds are not met
         // thresholds for all files
         global: {
-          statements: 50,
-          lines: 50,
-          branches: 50,
-          functions: 50
+          statements: 40,
+          lines: 40,
+          branches: 40,
+          functions: 40
         },
       }
     },
@@ -92,7 +115,7 @@ module.exports = function (config) {
       suppressPassed: false,      // do not print information about passed tests
       suppressSkipped: true,      // do not print information about skipped tests
       showSpecTiming: false,      // print the time elapsed for each spec
-      failFast: true              // test would finish with error when a first fail occurs.
+      failFast: false              // test would finish with error when a first fail occurs.
     },
   });
 };
