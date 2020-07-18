@@ -18,7 +18,21 @@ exports.config = {
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {
-    require: ['../e2e/src/steps/**/*.steps.ts'],
+    require: [
+      '../e2e/src/steps/**/*.steps.ts',
+      '../e2e/hooks.js'
+    ],
+    strict: true,
+    color: true,
+    format: [
+      'progress',
+      'json:./reports/e2e_cucumber_report.json',
+      'summary',
+      'usage',
+      //'snippets',
+      //'cucumber-html-report',
+      //'cucumber-html-reporter',
+    ],
   },
   useAllAngular2AppRoots: true,
   beforeLaunch: function () {
@@ -28,5 +42,7 @@ exports.config = {
   },
   onPrepare: function () {
     // jasmine.getEnv().addReporter(new SpecReporter());
-  }
+  },
+  onComplete: () => {
+  },
 };
