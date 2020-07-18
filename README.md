@@ -52,13 +52,18 @@ or
 
 ## E2E tests
 
+###
+Before run any e2e tests you may need to update your chrome and gecko drivers as well
+as latest browsers. Try:
+`npm ls webdriver-manager`
+`node_modules/protractor/node_modules/webdriver-manager/bin/webdriver-manager clean`
+`node_modules/protractor/node_modules/webdriver-manager/bin/webdriver-manager update`
+`npm ls webdriver-manager`
+
 `npx webdriver-manager clean`
 `./node_modules/.bin/webdriver-manager update`
 
-`node_modules/protractor/node_modules/webdriver-manager/bin/webdriver-manager clean`
-`node_modules/protractor/node_modules/webdriver-manager/bin/webdriver-manager update`
-
-`npm ls webdriver-manager`
+To run e2e tests, type at the cli:
 
 `ng e2e`
 

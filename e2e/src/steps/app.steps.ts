@@ -18,3 +18,19 @@ When(/^I do nothing$/, () => {});
 Then(/^I should see the title$/, async () => {
   expect(await page.getTitleText()).to.equal('githubusers');
 });
+
+When(/^I clear the user field$/, async () => {
+  await page.clearBaseUserFormText();
+});
+
+When(/^I fill out the user field with "test"$/, async () => {
+  await page.setBaseUserFormText('test');
+});
+
+Then(/^I should see the user "lasellers"$/, async () => {
+  expect(await page.getBaseUserFormText()).to.equal('lasellers');
+});
+
+Then(/^I should see the user "test"$/, async () => {
+  expect(await page.getBaseUserFormText()).to.equal('test');
+});

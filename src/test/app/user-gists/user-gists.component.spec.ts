@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 import { Component, EventEmitter, Injectable, Output, Pipe, PipeTransform } from '@angular/core';
-import { FaIconComponent, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 
 import { UserGistsComponent } from '../../../app/user-gists/user-gists.component';
@@ -11,7 +11,6 @@ import { GitHubUserService } from '../../../app/github-user.service';
 import { GitHubGistsService } from '../../../app/github-gists.service';
 import { Gist } from '../../../app/gist.model';
 import { BytesPipe } from '../../../app/bytes.pipe';
-import { User } from '../../../../src/app/user.model';
 
 const GISTS: Gist[] = [{
   id: 'A1',
@@ -84,7 +83,7 @@ class MockGitHubGistsService {
   }
 }
 
-describe('User Gists Component', () => {
+xdescribe('User Gists Component', () => {
   let gistsService: GitHubGistsService;
   let userService: GitHubUserService;
 
@@ -111,35 +110,19 @@ describe('User Gists Component', () => {
 
   beforeEach(() => {
     //.then(() => {
-    console.log('compileComponents');
 
     fixture = TestBed.createComponent(UserGistsComponent);
     component = fixture.componentInstance;
     dom = fixture.debugElement.nativeElement;
 
-    console.log(fixture);
-    console.log(component);
-    console.log(dom);
-
     component.baseUsername = 'lorem1';
 
     httpMock = TestBed.inject(HttpTestingController);
-    console.log('httpMock', httpMock);
-
     userService = TestBed.inject(GitHubUserService);
-    console.log('userService', userService);
-
     gistsService = TestBed.inject(GitHubGistsService);
-    console.log('gistsService', gistsService);
-
     gistsService.isCaching = false;
-    console.log('isCaching');
-
-    console.log(gistsService);
 
     fixture.detectChanges();
-    console.log('detectChanges');
-
     //
     // });
 //  }));
