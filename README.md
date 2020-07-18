@@ -113,20 +113,19 @@ Optionally you can run:
 * v3.0.5 Add CircleCI for CI testing + puppeteer for CHROME_BIN
 * v3.0.6 Cleanup karma build issues. Look into e2e testing.
 * v3.0.7 7/15/2020 Cleanup UI -- It's confusing now that I look at it again. Add e2e cucumber tests.
+* v3.0.8 7/16/2020 Focus on testing
 
 
 ## Todo
 
+* Re-add CircleCI CD -- worked once, then broke for some reason. Sort that out. (ng deploy works anyway.)
+* Bump to Angular v10
 * Add Material
-* add variant with ngrx
-* Add service workers
-* Add routing so we can have a couple different variations in the the same app
+* Add variant with ngrx
+* Add routing so we can have a couple different variations in the same app
 * Add HTTP Interceptor for caching to simplify httpclient....
 * Add Travis and Jenkins
 * Add more tests for coverage
-
-## Bugs
-
-Yes, there is a 'minor' bug in the code. It is well known. :)
-
-One of these days I'm going to get back to this project and practice writing some tests to catch it.
+* Fix gists tests
+* Update unit/integration tests to use class-based isolated tests
+* Add e2e coverage
