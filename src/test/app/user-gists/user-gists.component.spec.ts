@@ -132,7 +132,7 @@ xdescribe('User Gists Component', () => {
     httpMock.verify();
   });
 
-  fdescribe('Given our feature tests setup', () => {
+  describe('Given our feature tests setup', () => {
     beforeEach(() => {
       component.baseUsername = 'lorem';
       gistsService.isCaching = false;
