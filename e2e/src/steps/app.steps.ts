@@ -50,7 +50,6 @@ Then(/^I should see the filter field is blank$/, async () => {
 });
 
 When(/^Click User$/, async () => {
-  // expect(await page.getFilterInputText()).to.be.null;
   await page.getUserButton().click();
 });
 
