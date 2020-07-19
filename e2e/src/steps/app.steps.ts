@@ -45,7 +45,7 @@ Then(/^I should see the login field is blank$/, async () => {
 });
 
 Then(/^I should see the filter field is blank$/, async () => {
-  // expect(await page.getFilterInputText()).to.be.null;
+  const value = (await page.getFilterInputText()) ?? '';
   expect(await page.getFilterInputText()).to.equal('');
 });
 
