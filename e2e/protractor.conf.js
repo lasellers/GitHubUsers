@@ -27,8 +27,9 @@ exports.config = {
     format: [
       'progress',
       'json:./reports/e2e_cucumber_report.json',
+      'usage:./reports/e2e_cucumber_usage.txt',
       'summary',
-      'usage',
+      // 'usage',
       //'snippets',
       //'cucumber-html-report',
       //'cucumber-html-reporter',
