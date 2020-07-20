@@ -1,5 +1,5 @@
-<h3>Followings</h3>
-<table class="table table-striped">
+<h3>Followings <b>{{followings.length}}</b></h3>
+<table id="followings" class="table table-striped">
   <tbody>
   <tr class="row" *ngFor="let following of followings | filterFollowers:filterString:'login'">
     <td class="col">

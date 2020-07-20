@@ -1,34 +1,33 @@
 Feature: Go to the home
   Display the title
 
-  Scenario: Home Page
+  Background:
     Given I am on the home page
+    # Given Cache Only is on
+
+  Scenario: Home Page
     When I do nothing
     Then I should see the title
 
   Scenario: Default login is "lasellers"
-    Given I am on the home page
     When I do nothing
     Then I should see the login field has "lasellers"
 
   Scenario: Default Filter String is blank
-    Given I am on the home page
     Then I should see the filter field is blank
 
   Scenario Outline: Fill login input with "<login>"
-    Given I am on the home page
     When I clear the login field
     When I fill out the login field with "<login>"
     Then I should see the login field has "<login>"
 
     Examples:
-      | login |
+      | login     |
       | lasellers |
       | test      |
       | Han055    |
 
   Scenario Outline: Change User to "<login>" AKA "<name>"
-    Given I am on the home page
     When I clear the login field
     When I fill out the login field with "<login>"
     When Click User
@@ -40,7 +39,38 @@ Feature: Go to the home
     Then I should see the detail company is "<company>"
 
     Examples:
-      | login | name | id | company |
-      | lasellers | Lewis A. Sellers |  2235644 | Intrafoundation Software  |
-      | Hanzo55    | Shawn Holmes     | 816391  |                           |
+      | login     | name             | id      | company                  |
+      | lasellers | Lewis A. Sellers | 2235644 | Intrafoundation Software |
+      | Hanzo55   | Shawn Holmes     | 816391  |                          |
 
+  Scenario: Gists for "lasellers" is 13
+    When I do nothing
+    Then I should see "13" gists
+    Then I should count "13" gists
+
+  Scenario: Followers for "lasellers" is 11
+    When I do nothing
+    Then I should count "11" followers
+
+  Scenario: Followings for "lasellers" is 26
+    When I do nothing
+    Then I should count "26" followings
+
+  Scenario: Change User to "chadwicktdailey" with cache only off
+    Given Cache Only is off
+    Given I clear user cache for "chadwicktdailey"
+    Given I find user "chadwicktdailey" not in cache
+    When I clear the login field
+    When I fill out the login field with "chadwicktdailey"
+    When Click User
+    Then I should see the login field has "chadwicktdailey"
+    Then I should see the detail login is "chadwicktdailey"
+
+#  Scenario: Change User to "chadwicktdailey" with cache only on
+#    Given Cache Only is on
+#    Given I find user "chadwicktdailey" in cache
+#    When I clear the login field
+#    When I fill out the login field with "chadwicktdailey"
+#    When Click User
+#    Then I should see the login field has "chadwicktdailey"
+#    Then I should see the detail login is "chadwicktdailey"

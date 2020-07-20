@@ -14,9 +14,11 @@ import { GitHubUserService } from './github-user.service';
 })
 export class GitHubFollowersService {
   @Output() errorMessage$ = new EventEmitter(true);
-  @Input() isCaching: boolean = true;
   @Output() followersCached$ = new EventEmitter(true);
   @Output() followers$ = new EventEmitter(true);
+
+  @Input() isCaching: boolean = true;
+  @Input() cacheOnly: boolean = false;
 
   // These are resolved async
   public apiCalls: number = 0;
@@ -47,6 +49,8 @@ export class GitHubFollowersService {
         return of(followers);
       }
     }
+
+    if(this.cacheOnly) return of();
 
     return this.http.get(this.userService.getApiUrl() + username + '/followers').pipe(
       delay(0),

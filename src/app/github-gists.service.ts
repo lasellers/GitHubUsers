@@ -26,9 +26,11 @@ export class GitHubGistsService {
   @Output() gistsCached$ = new EventEmitter(true);
   @Output() gists$ = new EventEmitter(true);
 
+  @Input() isCaching: boolean = true;
+  @Input() cacheOnly: boolean = false;
+
   // These are resolved async
   public apiCalls: number = 0;
-  @Input() isCaching: boolean = true;
 
   /**
    * Converts the raw gists data from the api into a simplified object type (called Gist)
@@ -97,6 +99,8 @@ export class GitHubGistsService {
         return of<Gist>(gists);
       }
     }
+
+    if(this.cacheOnly) return of();
 
     return this.http.get<Gists>(this.userService.getApiUrl() + username + '/gists').pipe(
       delay(0),

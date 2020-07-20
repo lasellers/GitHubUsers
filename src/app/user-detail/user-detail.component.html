@@ -1,8 +1,8 @@
-<div class="card card-default">
+<div id="detail" class="card card-default">
   <img [src]="user.avatar_url" class="card-img-top" alt="{{user.name}}" id="avatar_url">
 
   <div class="card-heading">
-    <h3 class="card-title" *ngIf="!isEmpty(user)">
+    <h3 id="photo-name" class="card-title" *ngIf="!isEmpty(user)">
       {{user.name}}
       <fa-icon [icon]="['fas','user-cog']" (click)="changeBaseUsername(user.login)"
                placement="left" ngbTooltip="Make user base"></fa-icon>

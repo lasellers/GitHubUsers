@@ -84,7 +84,7 @@ class MockGitHubUserService {
     return true;
   }
 
-  public getUserBasenameDefault(): string {
+  public getBaseUserDefault(): string {
     return this.baseUsername;
   }
 
@@ -341,12 +341,11 @@ describe('AppComponent', () => {
     });
 
     it('should have onSwitchToUser', () => {
-      console.log(typeof component.onSwitchToUser);
       expect(typeof component.onSwitchToUser === 'function').toBeTrue();
     });
 
-    it('should have onShowBaseUsername', () => {
-      expect(typeof component.onShowBaseUsername === 'function').toBeTrue();
+    it('should have onShowUser', () => {
+      expect(typeof component.onShowUser === 'function').toBeTrue();
     });
 
     it('should have switchToUserDefault', () => {

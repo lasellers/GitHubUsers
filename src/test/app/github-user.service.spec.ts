@@ -34,8 +34,8 @@ describe('GitHubUserService unmocked', () => {
       expect(userService.getUserBasename()).toEqual('lasellers');
     });
 
-    it('getUserBasenameDefault is as expected', () => {
-      expect(userService.getUserBasenameDefault()).toEqual('lasellers');
+    it('getBaseUserDefault is as expected', () => {
+      expect(userService.getBaseUserDefault()).toEqual('lasellers');
     });
 
   }));

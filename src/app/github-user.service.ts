@@ -22,6 +22,7 @@ export class GitHubUserService {
 
   //
   @Input() isCaching: boolean = true;
+  @Input() cacheOnly: boolean = false;
 
   // Make all of these async so we don't have a checked error
   // Note also, since this is a service, we can't just hook these up as output
@@ -44,7 +45,7 @@ export class GitHubUserService {
     return this.baseUsername;
   }
 
-  getUserBasenameDefault(): string {
+  getBaseUserDefault(): string {
     return this.defaultBaseUsername;
   }
 
@@ -69,6 +70,8 @@ export class GitHubUserService {
         return of({...user, wasCached: true});
       }
     }
+
+    if(this.cacheOnly) return of();
 
     return this.http.get(this.apiUrl + username).pipe(
       delay(0),

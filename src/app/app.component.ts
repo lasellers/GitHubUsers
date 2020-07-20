@@ -35,7 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   gist: Gist = new Gist(
   );
-  @Input() baseUsername: string = this.userService.getUserBasenameDefault();
+  @Input() baseUsername: string = this.userService.getBaseUserDefault();
   cachingStatus = {
     userWasCached: false,
     followingsWasCached: false,
@@ -57,7 +57,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public gistsService: GitHubGistsService,
     public toast: ToastrService
   ) {
-    this.baseUsername = this.userService.getUserBasenameDefault();
+    this.baseUsername = this.userService.getBaseUserDefault();
   }
 
   /**
@@ -248,9 +248,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   // notifyShowBaseUsername
-  onShowBaseUsername(username: string): void {
+  onShowUser(username: string): void {
     this.showUser(username);
-    this.toast.warning('onShowBaseUsername: ' + username);
+    this.toast.warning('onShowUser: ' + username);
   }
 
   // notifySwitchToUser
@@ -260,7 +260,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   switchToUserDefault(): void {
-    const username = this.userService.getUserBasenameDefault();
+    const username = this.userService.getBaseUserDefault();
     this.loadUser(username);
     this.toast.warning('Switch to user ' + username);
   }
@@ -272,6 +272,15 @@ export class AppComponent implements OnInit, OnDestroy {
     this.followingsService.isCaching = value;
     this.followersService.isCaching = value;
     this.toast.success('Caching ' + (value ? 'On' : 'Off'), 'App');
+  }
+
+  changeCacheOnly(value: boolean): void {
+    this.userService.cacheOnly = value;
+    this.gistsService.cacheOnly = value;
+    this.gistService.cacheOnly = value;
+    this.followingsService.cacheOnly = value;
+    this.followersService.cacheOnly = value;
+    this.toast.success('Cache Only ' + (value ? 'On' : 'Off'), 'App');
   }
 
 }

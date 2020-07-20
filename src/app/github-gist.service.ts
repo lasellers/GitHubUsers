@@ -18,6 +18,7 @@ export class GitHubGistService {
 
   // These are resolved async
   @Input() isCaching: boolean = true;
+  @Input() cacheOnly: boolean = false;
   public apiCalls: number = 0;
 
   // public gistObs$ = this.gist$.asObservable();
@@ -47,6 +48,8 @@ export class GitHubGistService {
         return of(gist);
       }
     }
+
+    if(this.cacheOnly) return of();
 
     return this.http.get(gist.contentUrl, {responseType: 'text'}).pipe(
       delay(0),
