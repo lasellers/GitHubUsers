@@ -118,6 +118,12 @@ Optionally you can run:
 
 ## Todo
 
+* For the next version I think I'm going to finally go through and tighten up everything. Get rid of the
+ verbose code and clean everything up. Also, stream-line the state management considerable using ngrx
+ (though I may leave state as-is for some components simply to have a place to test certain things).
+ Also, for gist try writing isolated unit tests.
+ As well as add some more cucumber test support.
+
 * Re-add CircleCI CD -- worked once, then broke for some reason. Sort that out. (ng deploy works anyway.)
 * Bump to Angular v10
 * Add Material
