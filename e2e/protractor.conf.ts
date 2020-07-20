@@ -13,6 +13,7 @@ exports.config = {
   capabilities: {
     'browserName': 'chrome'
   },
+  // multiCapabilities: browserConfig['multiCapabilities'],
   directConnect: true,
   baseUrl: 'http://localhost:4200/',
   framework: 'custom',
@@ -42,7 +43,6 @@ exports.config = {
     });
   },
   onPrepare: function () {
-    // jasmine.getEnv().addReporter(new SpecReporter());
   },
   onComplete: () => {
   },

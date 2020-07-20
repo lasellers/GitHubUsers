@@ -20,5 +20,4 @@ var options = {
   }
 };
 
-
 reporter.generate(options);
