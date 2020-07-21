@@ -24,6 +24,10 @@ import { GistComponent } from './gist/gist.component';
 import { WasCachedPipe } from './was-cached.pipe';
 import { WasCachedHighlightDirective } from './was-cached-highlight.directive';
 import { FilterFollowersPipe } from './filter-followers.pipe';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 // import { fas } from '@fortawesome/free-solid-svg-icons';
 // import { far } from '@fortawesome/free-regular-svg-icons';
 
@@ -47,7 +51,15 @@ import { FilterFollowersPipe } from './filter-followers.pipe';
     HttpClientModule,
     ToastrModule.forRoot(),
     NgbModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    StoreModule.forRoot(reducers, {
+      metaReducers, 
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true,
+      }
+    }),
+    !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   providers: [
     GitHubUserService

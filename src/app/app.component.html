@@ -115,7 +115,10 @@
                  ngbTooltip="Clear user cache"></fa-icon>
       </div>
       <user-detail [baseUsername]="baseUsername"
-                   (notifySwitchToUser)='onSwitchToUser($event)'></user-detail>
+                   [CacheOnly]="cacheOnly"
+                   [isCaching]="isCaching"
+                   (notifySwitchToUser)='onSwitchToUser($event)'
+      ></user-detail>
     </div>
 
     <div class="col-sm-4">
@@ -134,6 +137,8 @@
       </div>
       <app-user-followers [baseUsername]="baseUsername"
                           [filterString]="filterString"
+                          [CacheOnly]="cacheOnly"
+                          [isCaching]="isCaching"
                           (notifySwitchToUser)='onSwitchToUser($event)'
                           (notifyShowBaseUsername)='onShowUser($event)'></app-user-followers>
     </div>
@@ -154,6 +159,8 @@
       </div>
       <app-user-followings [baseUsername]="baseUsername"
                            [filterString]="filterString"
+                           [CacheOnly]="cacheOnly"
+                           [isCaching]="isCaching"
                            (notifySwitchToUser)='onSwitchToUser($event)'
                            (notifyShowBaseUsername)='onShowUser($event)'></app-user-followings>
     </div>
@@ -176,7 +183,11 @@
                  (click)="gistsService.clearGistsCache(baseUsername)" placement="left"
                  ngbTooltip="Clear gists cache"></fa-icon>
       </div>
-      <app-user-gists [baseUsername]="baseUsername"></app-user-gists>
+      <app-user-gists
+        [baseUsername]="baseUsername"
+        [CacheOnly]="cacheOnly"
+        [isCaching]="isCaching"
+      ></app-user-gists>
 
     </div>
     <div class="col-sm-6">
@@ -188,7 +199,10 @@
                  ngbTooltip="Clear gist cache"></fa-icon>
       </div>
 
-      <app-gist></app-gist>
+      <app-gist
+        [CacheOnly]="cacheOnly"
+        [isCaching]="isCaching"
+      ></app-gist>
     </div>
   </div>
   <!-- /row -->

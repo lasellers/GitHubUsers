@@ -46,6 +46,9 @@ export class AppComponent implements OnInit, OnDestroy {
     users: []
   };
 
+  @Input() isCaching: boolean = true;
+  @Input() cacheOnly: boolean = false;
+
   /**
    *
    */
