@@ -43,6 +43,7 @@ export class UserFollowingsComponent implements OnInit, OnDestroy {
       }
     });
 
+    // initial load
     this.followingsService.getFollowings(this.baseUsername).subscribe(followings => {
         this.followingsService.followings$.emit(followings);
       },

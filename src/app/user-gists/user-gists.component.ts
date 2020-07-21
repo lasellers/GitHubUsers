@@ -25,7 +25,11 @@ export class UserGistsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // gets the info first time...
+    this.gistsService.gists$.subscribe(gists => {
+      this.gists = gists;
+    });
+
+    // initial load
     this.gistsService.getGists(this.baseUsername).subscribe(
       gists => {
         this.gists = gists;
@@ -33,10 +37,6 @@ export class UserGistsComponent implements OnInit, OnDestroy {
       error => {
         this.errorMessage$.emit(error);
       });
-
-    this.gistsService.gists$.subscribe(gists => {
-      this.gists = gists;
-    });
 
     this.gistsService.gistsCached$.subscribe(cached => {
       this.wasCached = cached;

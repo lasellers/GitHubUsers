@@ -56,16 +56,19 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param username
    */
   public loadUser(username: string): void {
+    this.baseUsername = username;
+
     this.toast.warning(`loadUser: ${username}`);
 
-    this.baseUsername = username;
     this.userService.getUser(username).subscribe((user) => {
         this.userService.user$.emit(user);
+        console.log(user);
       },
       error => {
         this.userService.errorMessage$.emit(error);
       });
     this.followersService.getFollowers(username).subscribe(followers => {
+        console.log(followers);
         this.followersService.followers$.emit(followers);
       },
       error => {
@@ -74,6 +77,7 @@ export class AppComponent implements OnInit, OnDestroy {
     );
     this.followingsService.getFollowings(username).subscribe(followings => {
         this.followingsService.followings$.emit(followings);
+        console.log(followings);
       },
       error => {
         this.errorMessage$.emit(error);
@@ -81,6 +85,7 @@ export class AppComponent implements OnInit, OnDestroy {
     );
     this.gistsService.getGists(username).subscribe(
       gists => {
+        console.log(gists);
         this.gistsService.gists$.emit(gists);
       },
       error => {
@@ -117,11 +122,11 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });*/
 
-    this.loadUser(this.baseUsername);
+    // this.loadUser(this.baseUsername);
 
-    this.userService.errorMessage$.subscribe(data => {
+   /* this.userService.errorMessage$.subscribe(data => {
       this.onErrorMessage(data);
-    });
+    });*/
   }
 
   onErrorMessage(error: Response): void {

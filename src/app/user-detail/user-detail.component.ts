@@ -34,6 +34,7 @@ export class UserDetailComponent implements OnInit {
       }
     });
 
+    // initial load
     this.userService.getUser(this.baseUsername).subscribe((user) => {
         this.userService.user$.emit(user);
       },

@@ -42,6 +42,7 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
       }
     });
 
+    // initial load
     this.followersService.getFollowers(this.baseUsername).subscribe(followers => {
         this.followersService.followers$.emit(followers);
       },
