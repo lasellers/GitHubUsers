@@ -1,3 +1,10 @@
+<div>
+  Gist {{ wasCached | wasCached}}
+  <fa-icon [icon]="['fas','minus-circle']" *ngIf="gistService.isGistCached(baseUsername)"
+           (click)="gistService.clearGistCache(gist)" placement="left"
+           ngbTooltip="Clear gist cache"></fa-icon>
+</div>
+
 <div *ngIf="gist !== undefined && gist.content !== undefined">
   <h2>Gist</h2>
   <div id="gist" class="content"><pre>{{gist.content}}</pre>

@@ -13,8 +13,13 @@ export class UserFollowingsComponent implements OnInit, OnDestroy {
   @Output() errorMessage$ = new EventEmitter(true);
   @Output() notifySwitchToUser = new EventEmitter();
   @Output() notifyShowBaseUsername = new EventEmitter();
+  @Output() notifyMessage: EventEmitter<object> = new EventEmitter<object>();
+  @Input() isCaching: boolean = true;
+  @Input() cacheOnly: boolean = false;
   public cachedUsers = [];
   public followings = [];
+  wasCached: boolean = false;
+  cached: boolean = false;
 
   constructor(
     public userService: GitHubUserService,
@@ -39,13 +44,22 @@ export class UserFollowingsComponent implements OnInit, OnDestroy {
     });
 
     this.followingsService.getFollowings(this.baseUsername).subscribe(followings => {
-      //  this.followingsService.followingsCached$.emit(false);
         this.followingsService.followings$.emit(followings);
       },
       error => {
         this.errorMessage$.emit(error);
       }
     );
+
+    this.followingsService.followingsCached$.subscribe(cached => {
+      this.wasCached = cached;
+      if (this.wasCached) {
+        this.notifyMessage.emit({message: `Followings: ${this.baseUsername} CACHED`, type: 'cached', title: ''})
+      } else {
+        this.notifyMessage.emit({message: `Followings: ${this.baseUsername} NOT CACHED`, type: 'not-cached', title: ''})
+      }
+    });
+
   }
 
   ngOnDestroy(): void {
@@ -56,7 +70,7 @@ export class UserFollowingsComponent implements OnInit, OnDestroy {
     return (this.cachedUsers.includes(username));
   }
 
-  changeBaseUsername(username: string): void {
+  changeBaseUser(username: string): void {
     this.notifySwitchToUser.emit(username);
   }
 

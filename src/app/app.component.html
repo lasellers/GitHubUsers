@@ -99,70 +99,36 @@
   <div class="row">
 
     <div class="col-sm-4">
-      <div appWasCachedHighlight
-           [wasCached]="cachingStatus.userWasCached"
-           [classString]="'text-danger'">
-        <!--[ngClass]="{'text-info': cachingStatus.userWasCached, 'text-warning': !cachingStatus.userWasCached}"-->
-        User {{ cachingStatus.userWasCached | wasCached}}
-        <fa-icon [icon]="['fas','cloud']" *ngIf="userService.isUserCached(baseUsername)"
-                 placement="left"
-                 ngbTooltip="User is cached"></fa-icon>
-        <fa-icon [icon]="['fas','cloud-download-alt']" *ngIf="cachingStatus.userWasCached"
-                 placement="left"
-                 ngbTooltip="Gist was cached"></fa-icon>
-        <fa-icon [icon]="['fas','minus-circle']"
-                 (click)="userService.clearUserCache(baseUsername)" placement="left"
-                 ngbTooltip="Clear user cache"></fa-icon>
-      </div>
       <user-detail [baseUsername]="baseUsername"
-                   [CacheOnly]="cacheOnly"
+                   [cacheOnly]="cacheOnly"
                    [isCaching]="isCaching"
                    (notifySwitchToUser)='onSwitchToUser($event)'
+                   (notifyMessage)='onMessage($event)'
       ></user-detail>
     </div>
 
     <div class="col-sm-4">
-      <div appWasCachedHighlight
-           [wasCached]="cachingStatus.followersWasCached">
-        Followers {{ cachingStatus.followersWasCached | wasCached}}
-        <fa-icon [icon]="['fas','cloud']" *ngIf="followersService.isFollowersCached(baseUsername)"
-                 placement="left"
-                 ngbTooltip="Followers is cached {{gist.id}}"></fa-icon>
-        <fa-icon [icon]="['fas','cloud-download-alt']" *ngIf="cachingStatus.followersWasCached"
-                 placement="left"
-                 ngbTooltip="Followers was cached {{gist.id}}"></fa-icon>
-        <fa-icon [icon]="['fas','minus-circle']"
-                 (click)="followersService.clearFollowersCache(baseUsername)" placement="left"
-                 ngbTooltip="Clear followers cache"></fa-icon>
-      </div>
-      <app-user-followers [baseUsername]="baseUsername"
-                          [filterString]="filterString"
-                          [CacheOnly]="cacheOnly"
-                          [isCaching]="isCaching"
-                          (notifySwitchToUser)='onSwitchToUser($event)'
-                          (notifyShowBaseUsername)='onShowUser($event)'></app-user-followers>
+      <app-user-followers
+        [baseUsername]="baseUsername"
+        [filterString]="filterString"
+        [cacheOnly]="cacheOnly"
+        [isCaching]="isCaching"
+        (notifySwitchToUser)='onSwitchToUser($event)'
+        (notifyShowBaseUsername)='onShowUser($event)'
+        (notifyMessage)='onMessage($event)'
+      ></app-user-followers>
     </div>
 
     <div class="col-sm-4">
-      <div appWasCachedHighlight
-           [wasCached]="cachingStatus.followingsWasCached">
-        Followings {{ cachingStatus.followingsWasCached | wasCached}}
-        <fa-icon [icon]="['fas','cloud']" *ngIf="followingsService.isFollowingsCached(baseUsername)"
-                 placement="left"
-                 ngbTooltip="Followings is cached"></fa-icon>
-        <fa-icon [icon]="['fas','cloud-download-alt']" *ngIf="cachingStatus.followingsWasCached"
-                 placement="left"
-                 ngbTooltip="Followings was cached"></fa-icon>
-        <fa-icon [icon]="['fas','minus-circle']"
-                 (click)="followingsService.clearFollowingsCache(baseUsername)" placement="left"
-                 ngbTooltip="Clear followings cache"></fa-icon>
-      </div>
-      <app-user-followings [baseUsername]="baseUsername"
-                           [filterString]="filterString"
-                           [CacheOnly]="cacheOnly"
-                           [isCaching]="isCaching"
-                           (notifySwitchToUser)='onSwitchToUser($event)'
-                           (notifyShowBaseUsername)='onShowUser($event)'></app-user-followings>
+      <app-user-followings
+        [baseUsername]="baseUsername"
+        [filterString]="filterString"
+        [cacheOnly]="cacheOnly"
+        [isCaching]="isCaching"
+        (notifySwitchToUser)='onSwitchToUser($event)'
+        (notifyShowBaseUsername)='onShowUser($event)'
+        (notifyMessage)='onMessage($event)'
+      ></app-user-followings>
     </div>
 
   </div>
@@ -171,37 +137,21 @@
   <div class="row">
     <div class="col-sm-6">
 
-      <div appWasCachedHighlight [wasCached]="cachingStatus.gistsWasCached">
-        Gists {{ cachingStatus.gistsWasCached | wasCached}}
-        <fa-icon [icon]="['fas','cloud']" *ngIf="gistsService.isGistsCached(baseUsername)"
-                 placement="left"
-                 ngbTooltip="Gist is cached {{gist.id}}"></fa-icon>
-        <fa-icon [icon]="['fas','cloud-download-alt']" *ngIf="cachingStatus.gistsWasCached"
-                 placement="left"
-                 ngbTooltip="Gist was cached {{gist.id}}"></fa-icon>
-        <fa-icon [icon]="['fas','minus-circle']"
-                 (click)="gistsService.clearGistsCache(baseUsername)" placement="left"
-                 ngbTooltip="Clear gists cache"></fa-icon>
-      </div>
       <app-user-gists
         [baseUsername]="baseUsername"
-        [CacheOnly]="cacheOnly"
+        [cacheOnly]="cacheOnly"
         [isCaching]="isCaching"
+        (notifyMessage)='onMessage($event)'
       ></app-user-gists>
 
     </div>
     <div class="col-sm-6">
 
-      <div>
-        Gist {{ cachingStatus.gistWasCached | wasCached}}
-        <fa-icon [icon]="['fas','minus-circle']" *ngIf="gistsService.isGistsCached(baseUsername)"
-                 (click)="gistService.clearGistCache(gist)" placement="left"
-                 ngbTooltip="Clear gist cache"></fa-icon>
-      </div>
-
       <app-gist
-        [CacheOnly]="cacheOnly"
+        [baseUsername]="baseUsername"
+        [cacheOnly]="cacheOnly"
         [isCaching]="isCaching"
+        (notifyMessage)='onMessage($event)'
       ></app-gist>
     </div>
   </div>

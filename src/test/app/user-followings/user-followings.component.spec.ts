@@ -216,10 +216,10 @@ describe('UserFollowersComponent', () => {
 
   });
 
-  describe('Given changeBaseUsername', () => {
+  describe('Given changeBaseUser', () => {
 
-    it('changeBaseUsername exists', () => {
-      expect(typeof component.changeBaseUsername !== 'undefined').toBeTrue();
+    it('changeBaseUser exists', () => {
+      expect(typeof component.changeBaseUser !== 'undefined').toBeTrue();
     });
 
   });

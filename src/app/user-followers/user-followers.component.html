@@ -1,3 +1,17 @@
+<div appWasCachedHighlight
+     [wasCached]="wasCached">
+  Followers {{ wasCached | wasCached}}
+  <fa-icon [icon]="['fas','cloud']" *ngIf="followersService.isFollowersCached(baseUsername)"
+           placement="left"
+           ngbTooltip="Followers is cached"></fa-icon>
+  <fa-icon [icon]="['fas','cloud-download-alt']" *ngIf="wasCached"
+           placement="left"
+           ngbTooltip="Followers was cached"></fa-icon>
+  <fa-icon [icon]="['fas','minus-circle']"
+           (click)="followersService.clearFollowersCache(baseUsername)" placement="left"
+           ngbTooltip="Clear followers cache"></fa-icon>
+</div>
+
 <h3>Followers <b>{{followers.length}}</b></h3>
 <table id="followers" class="table table-striped">
   <tbody>
@@ -12,7 +26,7 @@
                placement="left" ngbTooltip="User {{follower.login}} was cached as of last pull"></fa-icon>
     </td>
     <td class="col">
-      <button class="btn btn-primary btn-sm following" (click)="changeBaseUsername(follower.login)">Switch To
+      <button class="btn btn-primary btn-sm following" (click)="changeBaseUser(follower.login)">Switch To
       </button>
     </td>
   </tr>

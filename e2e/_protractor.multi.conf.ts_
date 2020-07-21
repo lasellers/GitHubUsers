@@ -1,0 +1,88 @@
+//import { browser } from "protractor";
+//require('./cucumber-html-reporter.js').register({});
+
+// Protractor configuration file, see link for more information
+// https://github.com/angular/protractor/blob/master/lib/config.ts
+process.env.NO_PROXY = 'localhost, 0.0.0.0/4201, 0.0.0.0/9876';
+const puppeteer = require('puppeteer');
+process.env.CHROME_BIN = puppeteer.executablePath();
+console.log(puppeteer.executablePath());
+
+exports.config = {
+  allScriptsTimeout: 11000,
+  specs: [
+    '../e2e/src/features/*.feature'
+  ],
+  capabilities: {
+    'browserName': 'chrome'
+  },
+  // multiCapabilities: browserConfig['multiCapabilities'],
+  directConnect: true,
+  baseUrl: 'http://localhost:4200/',
+  framework: 'custom',
+  frameworkPath: require.resolve('protractor-cucumber-framework'),
+  cucumberOpts: {
+    require: [
+      '../e2e/src/steps/**/*.steps.ts',
+      '../e2e/hooks.js'
+    ],
+    strict: true,
+    color: true,
+    format: [
+      'progress',
+      'json:./reports/e2e_cucumber_report.json',
+      'usage:./reports/e2e_cucumber_usage.txt',
+      //'json:./reports/e2e_cucumber_report.' + browserName + '.json',
+      //'usage:./reports/e2e_cucumber_usage.' + browserName + '.txt',
+      'summary',
+      // 'usage',
+      //'snippets',
+      //'cucumber-html-report',
+      //'cucumber-html-reporter',
+    ],
+  },
+  useAllAngular2AppRoots: true,
+  beforeLaunch: function () {
+    require('ts-node').register({
+      project: './e2e/tsconfig.json'
+    });
+  },
+  onPrepare: function () {
+    // jasmine.getEnv().addReporter(new SpecReporter());
+  },
+  onComplete: () => {
+
+/*    const browserConfig = require('./browserConfig');
+    let browserName = '';
+    browser.getProcessedConfig().then(function (caps) {
+      browserName = caps.get('browserName');
+    });*/
+
+
+/*
+var reporter = require('cucumber-html-reporter');
+
+  var options = {
+    theme: 'bootstrap',
+    brandTitle: 'E2E Feature Tests',
+    jsonFile: './reports/e2e_cucumber_report.' + browser.browserName + '.json',
+    output: './reports/e2e_cucumber_report.' + browser.browserName + '.html',
+    reportSuiteAsScenarios: true,
+    scenarioTimestamp: true,
+    launchReport: true,
+    storeScreenshots: true,
+    screenshotsDirectory: './reports/e2e-screenshots-' + browser.browserName + '/',
+    metadata: {
+      "App Version": "3.0.8",
+      "Test Environment": "DEV",
+      "Browser": browser.browserName + " Chrome 54.0.2840.98",
+      "Platform": "Ubuntu 20",
+      "Parallel": "Scenarios",
+      "Executed": "Remote"
+    }
+  };
+
+  reporter.generate(options);
+*/
+  },
+};

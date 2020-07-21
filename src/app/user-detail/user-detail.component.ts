@@ -11,7 +11,12 @@ import { User } from '../user.model';
 export class UserDetailComponent implements OnInit {
   @Input() baseUsername;
   @Output() notifySwitchToUser: EventEmitter<string> = new EventEmitter<string>();
+  @Output() notifyMessage: EventEmitter<object> = new EventEmitter<object>();
+  @Input() isCaching: boolean = true;
+  @Input() cacheOnly: boolean = false;
   public user: User = {};
+  wasCached: boolean = false;
+  cached: boolean = false;
 
   constructor(
     public userService: GitHubUserService
@@ -21,6 +26,12 @@ export class UserDetailComponent implements OnInit {
   ngOnInit() {
     this.userService.user$.subscribe(user => {
       this.user = user;
+      this.wasCached = user.wasCached;
+      if (this.wasCached) {
+        this.notifyMessage.emit({message: `User: ${user.login} CACHED`, type:'cached', title:''})
+      } else {
+        this.notifyMessage.emit({message: `User: ${user.login} NOT CACHED`, type:'not-cached', title:''})
+      }
     });
 
     this.userService.getUser(this.baseUsername).subscribe((user) => {
@@ -45,7 +56,7 @@ export class UserDetailComponent implements OnInit {
     return true;
   }
 
-  changeBaseUsername(username: string): void {
+  changeBaseUser(username: string): void {
     this.notifySwitchToUser.emit(username);
   }
 

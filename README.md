@@ -114,6 +114,7 @@ Optionally you can run:
 * v3.0.6 Cleanup karma build issues. Look into e2e testing.
 * v3.0.7 7/15/2020 Cleanup UI -- It's confusing now that I look at it again. Add e2e cucumber tests.
 * v3.0.8 7/16/2020 Focus on testing
+* v3.0.9 7/21/2020 Refactor
 
 
 ## Todo

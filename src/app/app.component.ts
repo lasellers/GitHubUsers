@@ -25,29 +25,16 @@ console.clear();
 })
 export class AppComponent implements OnInit, OnDestroy {
   @Output() errorMessage$ = new EventEmitter(true);
+  @Input() baseUsername: string = this.userService.getBaseUserDefault();
+  @Input() isCaching: boolean = true;
+  @Input() cacheOnly: boolean = false;
 
   public version: string = packageJson.version;
   public title: string = packageJson.name;
   public filterString: string = '';
 
-  private cachedString = "CACHED";
-  private cachingString = "caching...";
-
   gist: Gist = new Gist(
   );
-  @Input() baseUsername: string = this.userService.getBaseUserDefault();
-  cachingStatus = {
-    userWasCached: false,
-    followingsWasCached: false,
-    followersWasCached: false,
-    gistsWasCached: false,
-    gistWasCached: false,
-    useCached: false,
-    users: []
-  };
-
-  @Input() isCaching: boolean = true;
-  @Input() cacheOnly: boolean = false;
 
   /**
    *
@@ -132,85 +119,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.loadUser(this.baseUsername);
 
-    this.userService.user$.subscribe(user => {
-      // const [cached, username] = user;
-      const cached = user.wasCached;
-      const username = user.login;
-      this.cachingStatus.userWasCached = cached;
-      this.cachingStatus.users[username] = cached;
-      if (cached) {
-        this.toast.success(`User: ${username} ${this.cachedString}`);
-      } else {
-        this.toast.info(`User: ${username} ${this.cachingString}`);
-      }
-    });
-
-    this.followersService.followersCached$.subscribe(cached => {
-      this.cachingStatus.followersWasCached = cached;
-      if (cached) {
-        this.toast.success(`Followers: ${this.baseUsername} ${this.cachedString} `);
-      } else {
-        this.toast.info(`Followers: ${this.baseUsername} ${this.cachingString}`);
-      }
-    });
-
-    this.followingsService.followingsCached$.subscribe(cached => {
-      this.cachingStatus.followingsWasCached = cached;
-      if (cached) {
-        this.toast.success(`Followings: ${this.baseUsername} ${this.cachedString} `);
-      } else {
-        this.toast.info(`Followings: ${this.baseUsername} ${this.cachingString}`);
-      }
-    });
-
-    this.gistsService.gistsCached$.subscribe(cached => {
-      this.cachingStatus.gistsWasCached = cached;
-      if (cached) {
-        this.toast.success(`Gists: ${this.baseUsername} ${this.cachedString} `);
-      } else {
-        this.toast.info(`Gists: ${this.baseUsername} ${this.cachingString}`);
-      }
-    });
-
-    this.gistService.gist$.subscribe(
-      data => {
-        if (data === null) {
-          this.toast.info('Clear gist cache');
-        } else {
-          this.gistEvent(data);
-        }
-      },
-      error => {
-        this.onErrorMessage(error);
-      }
-    );
-
     this.userService.errorMessage$.subscribe(data => {
       this.onErrorMessage(data);
     });
-  }
-
-  gistEvent(data: Gist): void {
-    //
-    if (typeof data === 'undefined') {
-      this.cachingStatus.gistWasCached = false;
-      this.gist = {content:'', wasCached: false, cached: false};
-      return;
-    }
-
-    //
-    this.gist = data;
-    this.cachingStatus.gistWasCached = data.cached;
-    const size = new BytesPipe().transform(data.size);
-    if (data.wasCached) {
-      this.toast.success(`${data.filename} (${size}) ${this.cachedString}`, '', {
-        timeOut: 2000
-      });
-    } else {
-      this.toast.info(`${data.filename} (${size}) ${this.cachingString}`, '', {
-        timeOut: 2000
-      });
-    }
   }
 
   onErrorMessage(error: Response): void {
@@ -219,6 +130,21 @@ export class AppComponent implements OnInit, OnDestroy {
     const message: string = `Error: (${error.status}) (${error.body}) ${text}`;
     console.error(`Error: ${message}`);
     this.toast.error(text, `Error: ${message} `);
+  }
+
+  onMessage(data): void {
+    console.log(data);
+   let {message, type, title} = data;
+   switch(type) {
+     case 'cached':
+       this.toast.success(message, title);
+       break;
+     case 'not-cached':
+       this.toast.warning(message, title);
+       break;
+     default:
+       this.toast.info(message, title);
+   }
   }
 
   ngOnDestroy(): void {
@@ -238,15 +164,6 @@ export class AppComponent implements OnInit, OnDestroy {
     localStorage.clear();
 
     this.loadUser(this.baseUsername);
-    this.cachingStatus = {
-      userWasCached: false,
-      followingsWasCached: false,
-      followersWasCached: false,
-      gistsWasCached: false,
-      gistWasCached: false,
-      useCached: false,
-      users: []
-    };
     this.toast.success('Cache cleared');
   }
 

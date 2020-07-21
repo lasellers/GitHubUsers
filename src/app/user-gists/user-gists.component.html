@@ -1,3 +1,16 @@
+<div appWasCachedHighlight [wasCached]="wasCached">
+  Gists {{ wasCached | wasCached}}
+  <fa-icon [icon]="['fas','cloud']" *ngIf="gistsService.isGistsCached(baseUsername)"
+           placement="left"
+           ngbTooltip="Gists is cached"></fa-icon>
+  <fa-icon [icon]="['fas','cloud-download-alt']" *ngIf="wasCached"
+           placement="left"
+           ngbTooltip="Gists was cached"></fa-icon>
+  <fa-icon [icon]="['fas','minus-circle']"
+           (click)="gistsService.clearGistsCache(baseUsername)" placement="left"
+           ngbTooltip="Clear gists cache"></fa-icon>
+</div>
+
 <div class="card-heading">
   <h3 class="card-title" *ngIf="gists.length > 0">
     Gists <b>{{gists.length}}</b>

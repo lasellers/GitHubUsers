@@ -11,7 +11,12 @@ import { GitHubGistService } from '../github-gist.service';
 export class UserGistsComponent implements OnInit, OnDestroy {
   @Input() baseUsername;
   @Output() errorMessage$ = new EventEmitter(true);
+  @Input() isCaching: boolean = true;
+  @Input() cacheOnly: boolean = false;
+  @Output() notifyMessage: EventEmitter<object> = new EventEmitter<object>();
   public gists: Gist[] = [];
+  wasCached: boolean = false;
+  cached: boolean = false;
 
   constructor(
     public gistsService: GitHubGistsService,
@@ -31,6 +36,15 @@ export class UserGistsComponent implements OnInit, OnDestroy {
 
     this.gistsService.gists$.subscribe(gists => {
       this.gists = gists;
+    });
+
+    this.gistsService.gistsCached$.subscribe(cached => {
+      this.wasCached = cached;
+      if (this.wasCached) {
+        this.notifyMessage.emit({message: `Gists: ${this.baseUsername} CACHED`, type:'cached', title:''})
+      } else {
+        this.notifyMessage.emit({message: `Gists: ${this.baseUsername} NOT CACHED`, type:'not-cached', title:''})
+      }
     });
 
   }

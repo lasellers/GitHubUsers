@@ -1,10 +1,26 @@
+<div appWasCachedHighlight
+     [wasCached]="wasCached"
+     [classString]="'text-danger'">
+  <!--[ngClass]="{'text-info': cachingStatus.userWasCached, 'text-warning': !cachingStatus.userWasCached}"-->
+  User {{ wasCached | wasCached}}
+  <fa-icon [icon]="['fas','cloud']" *ngIf="userService.isUserCached(baseUsername)"
+           placement="left"
+           ngbTooltip="User is cached"></fa-icon>
+  <fa-icon [icon]="['fas','cloud-download-alt']" *ngIf="wasCached"
+           placement="left"
+           ngbTooltip="Gist was cached"></fa-icon>
+  <fa-icon [icon]="['fas','minus-circle']"
+           (click)="userService.clearUserCache(baseUsername)" placement="left"
+           ngbTooltip="Clear user cache"></fa-icon>
+</div>
+
 <div id="detail" class="card card-default">
   <img [src]="user.avatar_url" class="card-img-top" alt="{{user.name}}" id="avatar_url">
 
   <div class="card-heading">
     <h3 id="photo-name" class="card-title" *ngIf="!isEmpty(user)">
       {{user.name}}
-      <fa-icon [icon]="['fas','user-cog']" (click)="changeBaseUsername(user.login)"
+      <fa-icon [icon]="['fas','user-cog']" (click)="changeBaseUser(user.login)"
                placement="left" ngbTooltip="Make user base"></fa-icon>
     </h3>
   </div>
