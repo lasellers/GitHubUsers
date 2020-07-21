@@ -39,7 +39,28 @@
   <p class="lead">Learning Angular 9 using the GitHub API (v {{version}})</p>
 
   <div class="row">
-    <div class="col-sm-3">
+    <div class="col-md-2">
+      Uncached Api Calls
+    </div>
+    <div class="col-md-1">
+      User: {{userService.apiCalls}}
+    </div>
+    <div class="col-md-2">
+      Followings: {{followingsService.apiCalls}}
+    </div>
+    <div class="col-md-2">
+      Followers: {{followersService.apiCalls}}
+    </div>
+    <div class="col-md-1">
+      Gists: {{gistsService.apiCalls}}
+    </div>
+    <div class="col-md-1">
+      Gist: {{gistService.apiCalls}}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
       Local Storage Caching <input type="checkbox"
                                    id="local-storage-caching"
                                    [(ngModel)]="userService.isCaching"
@@ -49,39 +70,19 @@
                         [(ngModel)]="userService.cacheOnly"
                         (change)="changeCacheOnly(userService.cacheOnly)">
     </div>
-    <div class="col-sm-3">
+    <div class="col-md-3">
       <button class="btn btn-outline-primary btn-sm my-2 my-sm-0" (click)="clearCache()">Clear local storage cache
       </button>
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-sm-2">
-      Uncached Api Calls
-    </div>
-    <div class="col-sm-1">
-      User: {{userService.apiCalls}}
-    </div>
-    <div class="col-sm-2">
-      Followings: {{followingsService.apiCalls}}
-    </div>
-    <div class="col-sm-2">
-      Followers: {{followersService.apiCalls}}
-    </div>
-    <div class="col-sm-1">
-      Gists: {{gistsService.apiCalls}}
-    </div>
-    <div class="col-sm-1">
-      Gist: {{gistService.apiCalls}}
-    </div>
-  </div>
 
   <div class="row">
 
-    <div class="col-sm-4">
+    <div class="col-md-4">
     </div>
 
-    <div class="col-sm-8">
+    <div class="col-md-8">
       <form class="form-inline" role="form">
 
         <div class="form-group-row">
@@ -95,10 +96,11 @@
     </div>
 
   </div>
+</div>
 
+<div class="container-fluid">
   <div class="row">
-
-    <div class="col-sm-4">
+    <div class="col-sm-4 col-lg-4 col-xl-2">
       <user-detail [baseUsername]="baseUsername"
                    [cacheOnly]="cacheOnly"
                    [isCaching]="isCaching"
@@ -107,7 +109,7 @@
       ></user-detail>
     </div>
 
-    <div class="col-sm-4">
+    <div class="col-sm-4 col-lg-4 col-xl-2">
       <app-user-followers
         [baseUsername]="baseUsername"
         [filterString]="filterString"
@@ -119,7 +121,7 @@
       ></app-user-followers>
     </div>
 
-    <div class="col-sm-4">
+    <div class="col-sm-4 col-lg-4 col-xl-2">
       <app-user-followings
         [baseUsername]="baseUsername"
         [filterString]="filterString"
@@ -131,22 +133,16 @@
       ></app-user-followings>
     </div>
 
-  </div>
-  <!-- /row -->
-
-  <div class="row">
-    <div class="col-sm-6">
-
+    <div class="col-sm-6 col-lg-6 col-xl-3">
       <app-user-gists
         [baseUsername]="baseUsername"
         [cacheOnly]="cacheOnly"
         [isCaching]="isCaching"
         (notifyMessage)='onMessage($event)'
       ></app-user-gists>
-
     </div>
-    <div class="col-sm-6">
 
+    <div class="col-sm-6 col-lg-6 col-xl-3">
       <app-gist
         [baseUsername]="baseUsername"
         [cacheOnly]="cacheOnly"
@@ -154,11 +150,10 @@
         (notifyMessage)='onMessage($event)'
       ></app-gist>
     </div>
-  </div>
-  <!-- /row -->
 
+  </div>
 </div>
-<!-- /fluid-container -->
+<!-- /container-fluid -->
 
 <footer class="footer">
   <div class="container">

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
-import { GitHubUserService } from '../github-user.service';
-import { User } from '../user.model';
+import { GitHubUserService } from '../../github-user.service';
+import { User } from '../../user.model';
 
 @Component({
   // tslint:disable-next-line:component-selector

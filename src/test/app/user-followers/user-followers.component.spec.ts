@@ -19,7 +19,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
 
 import { FilterFollowersPipe } from '../../../../src/app/filter-followers.pipe';
-import { UserFollowersComponent } from '../../../../src/app/user-followers/user-followers.component';
+import { UserFollowersComponent } from '../../../app/components/user-followers/user-followers.component';
 import { User } from '../../../../src/app/user.model';
 import { GitHubUserService } from '../../../../src/app/github-user.service';
 

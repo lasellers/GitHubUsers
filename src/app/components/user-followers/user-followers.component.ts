@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, OnDestroy, Output } from '@angular/core';
-import { GitHubUserService } from '../github-user.service';
-import { GitHubFollowingsService } from '../github-followings.service';
+import { GitHubUserService } from '../../github-user.service';
+import { GitHubFollowersService } from '../../github-followers.service';
 
 @Component({
-  selector: 'app-user-followings',
-  templateUrl: './user-followings.component.html',
-  styleUrls: ['./user-followings.component.css']
+  selector: 'app-user-followers',
+  templateUrl: './user-followers.component.html',
+  styleUrls: ['./user-followers.component.css']
 })
-export class UserFollowingsComponent implements OnInit, OnDestroy {
+export class UserFollowersComponent implements OnInit, OnDestroy {
   @Input() baseUsername;
   @Input() filterString: string = '';
   @Output() errorMessage$ = new EventEmitter(true);
@@ -17,13 +17,13 @@ export class UserFollowingsComponent implements OnInit, OnDestroy {
   @Input() isCaching: boolean = true;
   @Input() cacheOnly: boolean = false;
   public cachedUsers = [];
-  public followings = [];
+  public followers = [];
   wasCached: boolean = false;
   cached: boolean = false;
 
   constructor(
     public userService: GitHubUserService,
-    public followingsService: GitHubFollowingsService
+    public followersService: GitHubFollowersService
   ) {
   }
 
@@ -33,10 +33,9 @@ export class UserFollowingsComponent implements OnInit, OnDestroy {
     });
 
     //
-    this.followingsService.followings$.subscribe(followings => {
-      this.followings = followings;
-
-      for (const user of this.followings) {
+    this.followersService.followers$.subscribe(followers => {
+      this.followers = followers;
+      for (const user of this.followers) {
         if (this.isUserWasCached(user.login)) {
           this.cachedUsers[user.login] = true;
         }
@@ -44,23 +43,22 @@ export class UserFollowingsComponent implements OnInit, OnDestroy {
     });
 
     // initial load
-    this.followingsService.getFollowings(this.baseUsername).subscribe(followings => {
-        this.followingsService.followings$.emit(followings);
+    this.followersService.getFollowers(this.baseUsername).subscribe(followers => {
+        this.followersService.followers$.emit(followers);
       },
       error => {
         this.errorMessage$.emit(error);
       }
     );
 
-    this.followingsService.followingsCached$.subscribe(cached => {
+    this.followersService.followersCached$.subscribe(cached => {
       this.wasCached = cached;
       if (this.wasCached) {
-        this.notifyMessage.emit({message: `Followings: ${this.baseUsername} CACHED`, type: 'cached', title: ''})
+        this.notifyMessage.emit({message: `Followers: ${this.baseUsername} CACHED`, type:'cached', title:''})
       } else {
-        this.notifyMessage.emit({message: `Followings: ${this.baseUsername} NOT CACHED`, type: 'not-cached', title: ''})
+        this.notifyMessage.emit({message: `Followers: ${this.baseUsername} NOT CACHED`, type:'not-cached', title:''})
       }
     });
-
   }
 
   ngOnDestroy(): void {

@@ -15,12 +15,12 @@ import {
 import { ToastrModule } from 'ngx-toastr';
 import { AppComponent } from './app.component';
 import { GitHubUserService } from './github-user.service';
-import { UserDetailComponent } from './user-detail/user-detail.component';
-import { UserFollowersComponent } from './user-followers/user-followers.component';
-import { UserFollowingsComponent } from './user-followings/user-followings.component';
-import { UserGistsComponent } from './user-gists/user-gists.component';
+import { UserDetailComponent } from './components/user-detail/user-detail.component';
+import { UserFollowersComponent } from './components/user-followers/user-followers.component';
+import { UserFollowingsComponent } from './components/user-followings/user-followings.component';
+import { UserGistsComponent } from './components/user-gists/user-gists.component';
 import { BytesPipe } from './bytes.pipe';
-import { GistComponent } from './gist/gist.component';
+import { GistComponent } from './components/gist/gist.component';
 import { WasCachedPipe } from './was-cached.pipe';
 import { WasCachedHighlightDirective } from './was-cached-highlight.directive';
 import { FilterFollowersPipe } from './filter-followers.pipe';
@@ -53,7 +53,7 @@ import { environment } from '../environments/environment';
     NgbModule,
     FontAwesomeModule,
     StoreModule.forRoot(reducers, {
-      metaReducers, 
+      metaReducers,
       runtimeChecks: {
         strictStateImmutability: true,
         strictActionImmutability: true,

@@ -121,12 +121,6 @@ export class AppComponent implements OnInit, OnDestroy {
         let notify = new Notification(this.title + ' ' + this.version);
       }
     });*/
-
-    // this.loadUser(this.baseUsername);
-
-   /* this.userService.errorMessage$.subscribe(data => {
-      this.onErrorMessage(data);
-    });*/
   }
 
   onErrorMessage(error: Response): void {

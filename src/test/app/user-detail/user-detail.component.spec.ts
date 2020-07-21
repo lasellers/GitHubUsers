@@ -7,7 +7,7 @@ import { FaIconComponent, FontAwesomeModule } from '@fortawesome/angular-fontawe
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 
 import { User } from '../../../../src/app/user.model';
-import { UserDetailComponent } from '../../../../src/app/user-detail/user-detail.component';
+import { UserDetailComponent } from '../../../app/components/user-detail/user-detail.component';
 import { GitHubUserService } from '../../../../src/app/github-user.service';
 
 const USER: User = {

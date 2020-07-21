@@ -24,22 +24,22 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { getClassName } from 'codelyzer/util/utils';
 import { By } from '@angular/platform-browser';
 
-import { UserFollowingsComponent } from '../../../src/app/user-followings/user-followings.component';
+import { UserFollowingsComponent } from '../../app/components/user-followings/user-followings.component';
 import { GitHubUserService } from '../../../src/app/github-user.service';
 import { AppComponent } from '../../../src/app/app.component';
-import { UserGistsComponent } from '../../../src/app/user-gists/user-gists.component';
+import { UserGistsComponent } from '../../app/components/user-gists/user-gists.component';
 import { GitHubGistsService } from '../../../src/app/github-gists.service';
 import { WasCachedPipe } from '../../../src/app/was-cached.pipe';
 import { User } from '../../../src/app/user.model';
 import { GitHubFollowersService } from '../../../src/app/github-followers.service';
 import { GitHubFollowingsService } from '../../../src/app/github-followings.service';
-import { UserDetailComponent } from '../../../src/app/user-detail/user-detail.component';
-import { UserFollowersComponent } from '../../../src/app/user-followers/user-followers.component';
+import { UserDetailComponent } from '../../app/components/user-detail/user-detail.component';
+import { UserFollowersComponent } from '../../app/components/user-followers/user-followers.component';
 import { WasCachedHighlightDirective } from '../../../src/app/was-cached-highlight.directive';
 import { FilterFollowersPipe } from '../../../src/app/filter-followers.pipe';
 import { Gist } from '../../../src/app/gist.model';
 import { GitHubGistService } from '../../../src/app/github-gist.service';
-import { GistComponent } from '../../../src/app/gist/gist.component';
+import { GistComponent } from '../../app/components/gist/gist.component';
 
 class MockHttpClient {
   public get() {

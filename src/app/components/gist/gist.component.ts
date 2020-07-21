@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter, Input } from '@angular/core';
-import { Gist } from '../gist.model';
-import { GitHubGistService } from '../github-gist.service';
-import { BytesPipe } from "../bytes.pipe";
+import { Gist } from '../../gist.model';
+import { GitHubGistService } from '../../github-gist.service';
+import { BytesPipe } from "../../bytes.pipe";
 
 @Component({
   selector: 'app-gist',

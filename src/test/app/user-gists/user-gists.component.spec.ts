@@ -6,7 +6,7 @@ import { Component, EventEmitter, Injectable, Output, Pipe, PipeTransform } from
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 
-import { UserGistsComponent } from '../../../app/user-gists/user-gists.component';
+import { UserGistsComponent } from '../../../app/components/user-gists/user-gists.component';
 import { GitHubUserService } from '../../../app/github-user.service';
 import { GitHubGistsService } from '../../../app/github-gists.service';
 import { Gist } from '../../../app/gist.model';

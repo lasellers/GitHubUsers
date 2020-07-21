@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Output } from '@angular/core';
 
-import { GistComponent } from '../../../../src/app/gist/gist.component';
+import { GistComponent } from '../../../app/components/gist/gist.component';
 import { GitHubUserService } from '../../../../src/app/github-user.service';
 import { GitHubGistService } from '../../../../src/app/github-gist.service';
 import { Gist } from '../../../../src/app/gist.model';

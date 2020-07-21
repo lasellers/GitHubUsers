@@ -7,9 +7,9 @@ import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testi
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
 
-import { UserFollowingsComponent } from '../../../../src/app/user-followings/user-followings.component';
+import { UserFollowingsComponent } from '../../../app/components/user-followings/user-followings.component';
 import { User } from '../../../../src/app/user.model';
-import { UserFollowersComponent } from '../../../../src/app/user-followers/user-followers.component';
+import { UserFollowersComponent } from '../../../app/components/user-followers/user-followers.component';
 import { GitHubUserService } from '../../../../src/app/github-user.service';
 import { FilterFollowersPipe } from '../../../../src/app/filter-followers.pipe';
 
