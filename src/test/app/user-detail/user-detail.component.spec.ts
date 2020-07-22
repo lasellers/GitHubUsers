@@ -1,14 +1,15 @@
 import { async, ComponentFixture, getTestBed, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { Component, Injectable } from '@angular/core';
+import { Component, Injectable, Pipe, PipeTransform } from '@angular/core';
 import { of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { FaIconComponent, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 
-import { User } from '../../../../src/app/user.model';
+import { User } from '../../../app/user.model';
 import { UserDetailComponent } from '../../../app/components/user-detail/user-detail.component';
-import { GitHubUserService } from '../../../../src/app/github-user.service';
+import { GitHubUserService } from '../../../app/github-user.service';
+import { WasCachedStringPipe } from "../../../app/was-cached-string.pipe";
 
 const USER: User = {
   id: 1,
@@ -55,6 +56,15 @@ class MockGitHubUserService { // extends GitHubUserService {
 
 }
 
+@Pipe({
+  name: 'wasCachedString'
+})
+export class MockWasCachedStringPipe implements PipeTransform {
+  transform(value: boolean): string {
+    return 'wasCachedStringPipe';
+  }
+}
+
 describe('UserDetailComponent', () => {
   let component: UserDetailComponent;
   let fixture: ComponentFixture<UserDetailComponent>;
@@ -65,11 +75,16 @@ describe('UserDetailComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UserDetailComponent, FaIconComponent],
+      declarations: [
+        UserDetailComponent,
+        FaIconComponent,
+        WasCachedStringPipe
+      ],
       imports: [HttpClientTestingModule, FontAwesomeTestingModule],
       providers: [
         {provide: HttpClient, useClass: MockHttpClient},
-        {provide: FaIconComponent, useClass: MockFaIconComponent}
+        {provide: FaIconComponent, useClass: MockFaIconComponent},
+        {provide: WasCachedStringPipe, useClass: MockWasCachedStringPipe},
       ]
     })
       .compileComponents();
@@ -96,13 +111,13 @@ describe('UserDetailComponent', () => {
       fixture.detectChanges();
     });
 
-    /* it('should start with all testing variables not null', () => {
+    it('should start with all testing variables not null', () => {
       expect(fixture).toBeTruthy();
       expect(component).toBeTruthy();
       expect(dom).toBeTruthy();
       expect(userService).toBeTruthy();
       expect(httpMock).toBeTruthy();
-    }); */
+    });
 
   });
 

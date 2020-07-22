@@ -1,5 +1,6 @@
+<div class="row">
 <div appWasCachedHighlight [wasCached]="wasCached">
-  Gists {{ wasCached | wasCached}}
+  Gists {{ wasCached | wasCachedString}}
   <fa-icon [icon]="['fas','cloud']" *ngIf="gistsService.isGistsCached(baseUsername)"
            placement="left"
            ngbTooltip="Gists is cached"></fa-icon>
@@ -50,3 +51,4 @@
   </tr>
   </tbody>
 </table>
+</div>

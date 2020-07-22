@@ -2,8 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpClient } from '@angular/common/http';
 
-import { GitHubGistService } from '../../../src/app/github-gist.service';
-import { Gist } from '../../../src/app/gist.model';
+import { GitHubGistService } from '../../app/github-gist.service';
+import { Gist } from '../../app/gist.model';
 
 describe('Github Gist Service', () => {
 
@@ -59,7 +59,7 @@ Lorem Ipsum 2`;
         expect(gistResponse.wasCached).toEqual(false);
         expect(gistService.apiCalls).toBe(1);
       }, error => {
-        console.log('error:', error);
+        this.errorMessage$.emit(error);
       });
 
       gistService.getGist(gist);
@@ -94,7 +94,7 @@ Lorem Ipsum 2`;
         expect(gistResponse.wasCached).toEqual(true);
         expect(gistService.apiCalls).toBe(0);
       }, error => {
-        console.log('error:', error);
+        this.errorMessage$.emit(error);
       });
 
       gistService.getGist(gist).subscribe(

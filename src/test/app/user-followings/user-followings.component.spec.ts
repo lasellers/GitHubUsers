@@ -1,17 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { of } from 'rxjs';
-import { Component, Directive, ElementRef, Injectable } from '@angular/core';
+import { Component, Directive, ElementRef, Injectable, Pipe, PipeTransform } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
 
 import { UserFollowingsComponent } from '../../../app/components/user-followings/user-followings.component';
-import { User } from '../../../../src/app/user.model';
+import { User } from '../../../app/user.model';
 import { UserFollowersComponent } from '../../../app/components/user-followers/user-followers.component';
-import { GitHubUserService } from '../../../../src/app/github-user.service';
-import { FilterFollowersPipe } from '../../../../src/app/filter-followers.pipe';
+import { GitHubUserService } from '../../../app/github-user.service';
+import { FilterFollowersPipe } from '../../../app/filter-followers.pipe';
+import { WasCachedStringPipe } from "../../../app/was-cached-string.pipe";
 
 const FOLLOWINGS: User[] = [{
   id: 1,
@@ -86,6 +87,7 @@ class MockPipe implements PipeTransform {
 })
 export class MockNgbTooltipDirective {
   public elementRef: ElementRef;
+
   constructor(
     elementRef: ElementRef
   ) {
@@ -93,7 +95,16 @@ export class MockNgbTooltipDirective {
   }
 }
 
-describe('UserFollowersComponent', () => {
+@Pipe({
+  name: 'wasCachedString'
+})
+export class MockWasCachedStringPipe implements PipeTransform {
+  transform(value: boolean): string {
+    return 'wasCachedStringPipe';
+  }
+}
+
+describe('UserFollowingsComponent', () => {
   let component: UserFollowingsComponent;
   let fixture: ComponentFixture<UserFollowingsComponent>;
   let dom: HTMLElement;
@@ -103,11 +114,18 @@ describe('UserFollowersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UserFollowingsComponent, FaIconComponent, FilterFollowersPipe, MockNgbTooltipDirective],
+      declarations: [
+        UserFollowingsComponent,
+        FaIconComponent,
+        FilterFollowersPipe,
+        MockNgbTooltipDirective,
+        WasCachedStringPipe
+      ],
       imports: [HttpClientTestingModule, FontAwesomeTestingModule, NgbModule],
       providers: [
         {provide: HttpClient, useClass: MockHttpClient},
-        {provide: FaIconComponent, useClass: MockFaIconComponent}
+        {provide: FaIconComponent, useClass: MockFaIconComponent},
+        {provide: WasCachedStringPipe, useClass: MockWasCachedStringPipe},
       ]
     })
       .compileComponents();
@@ -194,7 +212,7 @@ describe('UserFollowersComponent', () => {
   });
 
   describe('Given isUserWasCached with three users', () => {
-    beforeEach( () => {
+    beforeEach(() => {
       component.cachedUsers = ['Able', 'Baker', 'Charlie'];
     });
 

@@ -24,15 +24,20 @@ export class GitHubGistService {
   // public gistObs$ = this.gist$.asObservable();
 
   constructor(
-    private http: HttpClient
+    public http: HttpClient
   ) {
   }
 
   public isGistCached(gist: Gist): boolean {
+    if(typeof gist === 'undefined' || typeof gist.id === 'undefined')
+      return false;
     return (localStorage.getItem('gist_' + gist.id + gist.filename) !== null);
   }
 
-  clearGistCache(gist: Gist): void {
+  public clearGistCache(gist: Gist): void {
+    if(typeof gist === 'undefined' || typeof gist.id === 'undefined')
+      return;
+
     localStorage.removeItem('gist_' + gist.id + gist.filename);
     if (typeof gist === 'object') {
       gist = Gist.constructor();
@@ -41,6 +46,9 @@ export class GitHubGistService {
   }
 
   public getGist(gist: Gist): Observable<any> {
+    if(typeof gist === 'undefined' || typeof gist.id === 'undefined')
+      return of();
+
     if (this.isCaching) {
       const content = localStorage.getItem('gist_' + gist.id + gist.filename);
       if (content !== null) {

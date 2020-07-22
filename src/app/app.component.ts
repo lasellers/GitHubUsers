@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { GitHubUserService } from './github-user.service';
 import { ToastrService } from 'ngx-toastr';
-import { BytesPipe } from './bytes.pipe';
 import { GitHubGistsService } from './github-gists.service';
 import { GitHubFollowersService } from './github-followers.service';
 import { GitHubFollowingsService } from './github-followings.service';
@@ -30,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
   @Input() cacheOnly: boolean = false;
 
   public version: string = packageJson.version;
-  public title: string = packageJson.name;
+  public title: string = packageJson.fullName;
   public filterString: string = '';
 
   gist: Gist = new Gist(
@@ -62,13 +61,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.userService.getUser(username).subscribe((user) => {
         this.userService.user$.emit(user);
-        console.log(user);
       },
       error => {
         this.userService.errorMessage$.emit(error);
       });
     this.followersService.getFollowers(username).subscribe(followers => {
-        console.log(followers);
         this.followersService.followers$.emit(followers);
       },
       error => {
@@ -77,7 +74,6 @@ export class AppComponent implements OnInit, OnDestroy {
     );
     this.followingsService.getFollowings(username).subscribe(followings => {
         this.followingsService.followings$.emit(followings);
-        console.log(followings);
       },
       error => {
         this.errorMessage$.emit(error);
@@ -85,7 +81,6 @@ export class AppComponent implements OnInit, OnDestroy {
     );
     this.gistsService.getGists(username).subscribe(
       gists => {
-        console.log(gists);
         this.gistsService.gists$.emit(gists);
       },
       error => {
@@ -124,26 +119,24 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onErrorMessage(error: Response): void {
-    console.log('error class ' + typeof error);
     const text: string = error.statusText || 'Internet Error';
-    const message: string = `Error: (${error.status}) (${error.body}) ${text}`;
+    const message: string = `Error: (${error.status}) (${error.body}) ${text} {typeof error}`;
     console.error(`Error: ${message}`);
     this.toast.error(text, `Error: ${message} `);
   }
 
   onMessage(data): void {
-    console.log(data);
-   let {message, type, title} = data;
-   switch(type) {
-     case 'cached':
-       this.toast.success(message, title);
-       break;
-     case 'not-cached':
-       this.toast.warning(message, title);
-       break;
-     default:
-       this.toast.info(message, title);
-   }
+    const {message, type, title} = data;
+    switch (type) {
+      case 'cached':
+        this.toast.success(message, title);
+        break;
+      case 'not-cached':
+        this.toast.warning(message, title);
+        break;
+      default:
+        this.toast.info(message, title);
+    }
   }
 
   ngOnDestroy(): void {

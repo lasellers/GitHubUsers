@@ -1,8 +1,7 @@
 <div appWasCachedHighlight
      [wasCached]="wasCached"
      [classString]="'text-danger'">
-  <!--[ngClass]="{'text-info': cachingStatus.userWasCached, 'text-warning': !cachingStatus.userWasCached}"-->
-  User {{ wasCached | wasCached}}
+  User {{ wasCached | wasCachedString}}
   <fa-icon [icon]="['fas','cloud']" *ngIf="userService.isUserCached(baseUsername)"
            placement="left"
            ngbTooltip="User is cached"></fa-icon>

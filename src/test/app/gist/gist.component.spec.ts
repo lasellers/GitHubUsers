@@ -1,26 +1,55 @@
 import { async, ComponentFixture, getTestBed, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Output } from '@angular/core';
+import { Directive, EventEmitter, Injectable, Input, Output, Pipe, PipeTransform } from '@angular/core';
 
 import { GistComponent } from '../../../app/components/gist/gist.component';
-import { GitHubUserService } from '../../../../src/app/github-user.service';
-import { GitHubGistService } from '../../../../src/app/github-gist.service';
-import { Gist } from '../../../../src/app/gist.model';
+import { GitHubUserService } from '../../../app/github-user.service';
+import { GitHubGistService } from '../../../app/github-gist.service';
+import { Gist } from '../../../app/gist.model';
+import { WasCachedStringPipe } from "../../../app/was-cached-string.pipe";
+import { WasCachedHighlightDirective } from "../../../app/was-cached-highlight.directive";
+import { Subject } from "rxjs";
 
+@Injectable({providedIn: 'root'})
 class MockGitHubUserService { // extends GitHubUserService {
-  public token: string = 'mock';
+  private baseUsername: string = 'mock';
+  public apiCalls: number = 0;
 
-  public getApiUrl() {
-    return 'http://localhost';
+  public getApiUrl(): string {
+    return 'http://localhost/';
   }
+
+  isUserCached(user) {
+    return false;
+  }
+
+  clearUserCache() {
+  }
+
+  getUserBasename() {
+    return this.baseUsername;
+  }
+
+  getBaseUserDefault() {
+    return 'mock';
+  }
+
+  getUser() {
+    return {}
+  }
+
+  isCaching: boolean = false;
+  cacheOnly: boolean = false;
+  user$ = new EventEmitter(true);
+  errorMessage$ = new EventEmitter(true);
+  public http: HttpClient;
 }
 
+@Injectable({providedIn: 'root'})
 class MockGitHubGistService { // extends GitHubGistService {
-  public token: string = 'mock';
   public status: boolean;
-  @Output() public gist$ = {
+  @Output() public gist$: any = {
     subscribe() {
       this.status = true;
       return this.status;
@@ -30,34 +59,66 @@ class MockGitHubGistService { // extends GitHubGistService {
       return this.status;
     },
   };
+
+  public isGistCached(gist) {
+    return {}
+  };
+
+  public getGist(gist) {
+    return {}
+  };
+
+  public clearGistCache(gist) {
+    return false;
+  };
+
+  errorMessage$ = new EventEmitter(true);
+
+  @Input() isCaching: boolean = true;
+  @Input() cacheOnly: boolean = false;
+  public apiCalls: number = 0;
+  public http: HttpClient;
+}
+
+@Directive({
+  selector: '[appWasCachedHighlight]'
+})
+export class MockWasCachedHighlightDirective {
+}
+
+@Pipe({
+  name: 'wasCachedString'
+})
+export class MockWasCachedStringPipe implements PipeTransform {
+  transform(value: boolean): string {
+    return 'wasCachedStringPipe';
+  }
 }
 
 describe('GistComponent', () => {
-  let userService: GitHubUserService;
-  let gistService: GitHubGistService;
+  let userService = new MockGitHubUserService()
+  let gistService = new MockGitHubGistService()
+
   let httpMock: HttpTestingController;
 
   let component: GistComponent;
   let fixture: ComponentFixture<GistComponent>;
   let dom: HTMLElement;
 
-  /*
-    const myMockedJSON = [];
-    spyOn($,'ajax').and.callFake(()=>{
-      var d = $.deferred();
-      d.resolve(myMockedJSON);
-      d.promise();
-    });*/
-
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [GistComponent],
+      declarations: [
+        GistComponent,
+        WasCachedHighlightDirective,
+        WasCachedStringPipe
+      ],
       imports: [HttpClientTestingModule],
       providers: [
-        {provider: GitHubUserService, useClass: MockGitHubUserService},
-        {provider: GitHubGistService, useClass: MockGitHubGistService},
+        {provider: GitHubUserService, useValue: userService}, //replace with custom mock instance
+        {provider: GitHubGistService, useValue: gistService}, //replace with custom mock instance
         {provider: HttpClient, useClass: HttpClientTestingModule},
+        {provide: WasCachedHighlightDirective, useClass: MockWasCachedHighlightDirective}, //replace with custom mock
+        {provide: WasCachedStringPipe, useClass: MockWasCachedStringPipe}, //replace with custom mock
       ]
     })
       .compileComponents();
@@ -66,13 +127,16 @@ describe('GistComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GistComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
 
     httpMock = TestBed.inject(HttpTestingController);
-    userService = TestBed.inject(GitHubUserService);
-    gistService = TestBed.inject(GitHubGistService);
 
     dom = fixture.debugElement.nativeElement;
+
+    component.gist = Gist.constructor();
+    component.gist.id = '0';
+    component.gist.content = 'Lorem';
+
+    fixture.detectChanges();
 
     spyOn(gistService, 'isGistCached').and.returnValue(false);
     spyOn(userService, 'isUserCached').and.returnValue(false);
@@ -84,18 +148,22 @@ describe('GistComponent', () => {
     httpMock.verify();
   });
 
-  beforeEach(() => {
+  it(`should do setup with mocks`, () => {
     expect(fixture).toBeTruthy();
     expect(component).toBeTruthy();
     expect(dom).toBeTruthy();
+    expect(httpMock).toBeTruthy();
+
     expect(userService).toBeTruthy();
     expect(gistService).toBeTruthy();
-    expect(httpMock).toBeTruthy();
+
+    expect(userService.getUserBasename()).toEqual('mock');
   });
 
   describe('Given sample data, the HTML', () => {
     beforeEach(() => {
       const gist = Gist.constructor();
+      gist.id = 0;
       gist.content = 'Lorem Ipsum';
       component.gist = gist;
       fixture.detectChanges();
@@ -114,6 +182,7 @@ describe('GistComponent', () => {
   describe('Given sample data, the component', () => {
     beforeEach(() => {
       const gist = Gist.constructor();
+      gist.id = 0;
       gist.content = 'Lorem Ipsum';
       component.gist = gist;
       fixture.detectChanges();
@@ -122,16 +191,9 @@ describe('GistComponent', () => {
     it(`should render ngOnInit`, () => {
       component.ngOnInit();
       const gist = Gist.constructor();
+      gist.id = 0;
       gistService.getGist(gist);
       expect(gistService.getGist).toHaveBeenCalled();
-
-      /*
-            spyOn(gistService.gist$, 'next');
-      gistService.getGist2(gist).subscribe(gist2 => {
-        expect(gistService.gist$.next).toHaveBeenCalled();
-      });
-
-       */
     });
 
     it(`should render ngOnDestroy`, () => {

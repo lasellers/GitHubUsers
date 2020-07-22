@@ -1,6 +1,6 @@
 <div appWasCachedHighlight
      [wasCached]="wasCached">
-  Followers {{ wasCached | wasCached}}
+  Followers {{ wasCached | wasCachedString}}
   <fa-icon [icon]="['fas','cloud']" *ngIf="followersService.isFollowersCached(baseUsername)"
            placement="left"
            ngbTooltip="Followers is cached"></fa-icon>

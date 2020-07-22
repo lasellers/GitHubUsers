@@ -18,10 +18,11 @@ import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testi
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
 
-import { FilterFollowersPipe } from '../../../../src/app/filter-followers.pipe';
+import { FilterFollowersPipe } from '../../../app/filter-followers.pipe';
 import { UserFollowersComponent } from '../../../app/components/user-followers/user-followers.component';
-import { User } from '../../../../src/app/user.model';
-import { GitHubUserService } from '../../../../src/app/github-user.service';
+import { User } from '../../../app/user.model';
+import { GitHubUserService } from '../../../app/github-user.service';
+import { WasCachedStringPipe } from "../../../app/was-cached-string.pipe";
 
 const FOLLOWERS: User[] = [{
   id: 1,
@@ -104,6 +105,15 @@ export class MockNgbTooltipDirective {
   }
 }
 
+@Pipe({
+  name: 'wasCachedString'
+})
+export class MockWasCachedStringPipe implements PipeTransform {
+  transform(value: boolean): string {
+    return 'wasCachedStringPipe';
+  }
+}
+
 describe('UserFollowersComponent', () => {
   let component: UserFollowersComponent;
   let fixture: ComponentFixture<UserFollowersComponent>;
@@ -114,11 +124,18 @@ describe('UserFollowersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UserFollowersComponent, FaIconComponent, FilterFollowersPipe, MockNgbTooltipDirective],
+      declarations: [
+        UserFollowersComponent,
+        FaIconComponent,
+        FilterFollowersPipe,
+        MockNgbTooltipDirective,
+        WasCachedStringPipe
+      ],
       imports: [HttpClientTestingModule, FontAwesomeTestingModule, NgbModule],
       providers: [
         {provide: HttpClient, useClass: MockHttpClient},
-        {provide: FaIconComponent, useClass: MockFaIconComponent}
+        {provide: FaIconComponent, useClass: MockFaIconComponent},
+        {provide: WasCachedStringPipe, useClass: MockWasCachedStringPipe},
       ]
     })
       .compileComponents();
@@ -145,13 +162,13 @@ describe('UserFollowersComponent', () => {
       fixture.detectChanges();
     });
 
-    /* it('should start with all testing variables not null', () => {
+    it('should start with all testing variables not null', () => {
       expect(fixture).toBeTruthy();
       expect(component).toBeTruthy();
       expect(dom).toBeTruthy();
       expect(userService).toBeTruthy();
       expect(httpMock).toBeTruthy();
-    }); */
+    });
 
   });
 
@@ -205,7 +222,7 @@ describe('UserFollowersComponent', () => {
   });
 
   describe('Given isUserWasCached with three users', () => {
-    beforeEach( () => {
+    beforeEach(() => {
       component.cachedUsers = ['Able', 'Baker', 'Charlie'];
     });
 

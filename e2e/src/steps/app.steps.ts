@@ -13,6 +13,13 @@ Given(/^I am on the home page$/, async () => {
   await page.navigateTo();
 });
 
+When(/^I do nothing$/, () => {
+});
+
+Then(/^I should see the title$/, async () => {
+  expect(await page.getTitleText()).to.equal('GitHub Users');
+});
+
 Given(/^Local Storage Caching is off$/, async () => {
   await page.setLocalStorageCachingOff();
 });
@@ -24,13 +31,6 @@ Given(/^Cache Only is off$/, async () => {
 });
 Given(/^Cache Only is on$/, async () => {
   await page.setCacheOnlyOn();
-});
-
-When(/^I do nothing$/, () => {
-});
-
-Then(/^I should see the title$/, async () => {
-  expect(await page.getTitleText()).to.equal('githubusers');
 });
 
 When(/^I clear the login field$/, async () => {

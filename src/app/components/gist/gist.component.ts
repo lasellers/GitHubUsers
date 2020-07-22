@@ -14,9 +14,9 @@ export class GistComponent implements OnInit, OnDestroy {
   @Output() notifyMessage: EventEmitter<object> = new EventEmitter<object>();
   @Input() isCaching: boolean = true;
   @Input() cacheOnly: boolean = false;
-  gist: Gist;
-  wasCached: boolean = false;
-  cached: boolean = false;
+  public gist: Gist;
+  public wasCached: boolean = false;
+  public cached: boolean = false;
 
   constructor(
     public gistService: GitHubGistService
@@ -40,18 +40,17 @@ export class GistComponent implements OnInit, OnDestroy {
         if (data === null) {
           this.notifyMessage.emit({message: 'Clear gist cache', type: 'default', title: ''});
         } else {
-          this.gistEvent(data);
+          this.gistGistData(data);
         }
       },
       error => {
         this.errorMessage$.emit(error);
-        //   this.onErrorMessage(error);
       }
     );
 
   }
 
-  gistEvent(data: Gist): void {
+  gistGistData(data: Gist) {
     //
     if (typeof data === 'undefined') {
       this.wasCached = false;
@@ -68,6 +67,16 @@ export class GistComponent implements OnInit, OnDestroy {
     } else {
       this.notifyMessage.emit({message: `${data.filename} (${size}) NOT CACHED`, type: 'not-cached', title: ''})
     }
+  }
+
+  getGist(gist: Gist) {
+    this.gistService.getGist(gist).subscribe(
+      gistResponse => {
+        this.gistService.gist$.next(gistResponse);
+      },
+      error => {
+        this.errorMessage$.emit(error);
+      });
   }
 
   ngOnDestroy(): void {

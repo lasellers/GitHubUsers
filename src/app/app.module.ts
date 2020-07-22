@@ -21,7 +21,7 @@ import { UserFollowingsComponent } from './components/user-followings/user-follo
 import { UserGistsComponent } from './components/user-gists/user-gists.component';
 import { BytesPipe } from './bytes.pipe';
 import { GistComponent } from './components/gist/gist.component';
-import { WasCachedPipe } from './was-cached.pipe';
+import { WasCachedStringPipe } from './was-cached-string.pipe';
 import { WasCachedHighlightDirective } from './was-cached-highlight.directive';
 import { FilterFollowersPipe } from './filter-followers.pipe';
 import { StoreModule } from '@ngrx/store';
@@ -40,7 +40,7 @@ import { environment } from '../environments/environment';
     UserGistsComponent,
     BytesPipe,
     GistComponent,
-    WasCachedPipe,
+    WasCachedStringPipe,
     WasCachedHighlightDirective,
     FilterFollowersPipe
   ],

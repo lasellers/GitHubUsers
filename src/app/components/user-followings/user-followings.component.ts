@@ -43,15 +43,6 @@ export class UserFollowingsComponent implements OnInit, OnDestroy {
       }
     });
 
-    // initial load
-    this.followingsService.getFollowings(this.baseUsername).subscribe(followings => {
-        this.followingsService.followings$.emit(followings);
-      },
-      error => {
-        this.errorMessage$.emit(error);
-      }
-    );
-
     this.followingsService.followingsCached$.subscribe(cached => {
       this.wasCached = cached;
       if (this.wasCached) {
@@ -60,6 +51,15 @@ export class UserFollowingsComponent implements OnInit, OnDestroy {
         this.notifyMessage.emit({message: `Followings: ${this.baseUsername} NOT CACHED`, type: 'not-cached', title: ''})
       }
     });
+
+    // initial load
+    this.followingsService.getFollowings(this.baseUsername).subscribe(followings => {
+        this.followingsService.followings$.emit(followings);
+      },
+      error => {
+        this.errorMessage$.emit(error);
+      }
+    );
 
   }
 

@@ -25,19 +25,19 @@ import { getClassName } from 'codelyzer/util/utils';
 import { By } from '@angular/platform-browser';
 
 import { UserFollowingsComponent } from '../../app/components/user-followings/user-followings.component';
-import { GitHubUserService } from '../../../src/app/github-user.service';
-import { AppComponent } from '../../../src/app/app.component';
+import { GitHubUserService } from '../../app/github-user.service';
+import { AppComponent } from '../../app/app.component';
 import { UserGistsComponent } from '../../app/components/user-gists/user-gists.component';
-import { GitHubGistsService } from '../../../src/app/github-gists.service';
-import { WasCachedPipe } from '../../../src/app/was-cached.pipe';
-import { User } from '../../../src/app/user.model';
-import { GitHubFollowersService } from '../../../src/app/github-followers.service';
-import { GitHubFollowingsService } from '../../../src/app/github-followings.service';
+import { GitHubGistsService } from '../../app/github-gists.service';
+import { WasCachedStringPipe } from '../../../src/app/was-cached-string.pipe';
+import { User } from '../../app/user.model';
+import { GitHubFollowersService } from '../../app/github-followers.service';
+import { GitHubFollowingsService } from '../../app/github-followings.service';
 import { UserDetailComponent } from '../../app/components/user-detail/user-detail.component';
 import { UserFollowersComponent } from '../../app/components/user-followers/user-followers.component';
-import { WasCachedHighlightDirective } from '../../../src/app/was-cached-highlight.directive';
-import { FilterFollowersPipe } from '../../../src/app/filter-followers.pipe';
-import { Gist } from '../../../src/app/gist.model';
+import { WasCachedHighlightDirective } from '../../app/was-cached-highlight.directive';
+import { FilterFollowersPipe } from '../../app/filter-followers.pipe';
+import { Gist } from '../../app/gist.model';
 import { GitHubGistService } from '../../../src/app/github-gist.service';
 import { GistComponent } from '../../app/components/gist/gist.component';
 
@@ -176,11 +176,11 @@ class MockToastrService {
 }
 
 @Pipe({
-  name: 'wasCached'
+  name: 'wasCachedString'
 })
-export class MockWasCachedPipe implements PipeTransform {
+export class MockWasCachedStringPipe implements PipeTransform {
   transform(value: boolean): string {
-    return 'WasCachedPipe';
+    return 'wasCachedStringPipe';
   }
 }
 
@@ -265,7 +265,7 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
-        WasCachedPipe,
+        WasCachedStringPipe,
         UserFollowingsComponent,
         UserFollowersComponent,
         UserDetailComponent,
@@ -290,7 +290,7 @@ describe('AppComponent', () => {
         {provide: HttpClient, useClass: MockHttpClient},
         {provide: FaIconComponent, useClass: MockFaIconComponent},
 
-        {provide: WasCachedPipe, useClass: MockWasCachedPipe},
+        {provide: WasCachedStringPipe, useClass: MockWasCachedStringPipe},
         {provide: WasCachedHighlightDirective, useClass: MockWasCachedHighlightDirective},
         {provide: GitHubGistsService, useClass: MockGitHubGistsService},
         {provide: GitHubFollowersService, useClass: MockGitHubFollowersService},
@@ -332,8 +332,8 @@ describe('AppComponent', () => {
       expect(typeof component.onErrorMessage === 'function').toBeTrue();
     });
 
-    it('should have onErrorMessage', () => {
-      expect(typeof component.onErrorMessage === 'function').toBeTrue();
+    it('should have onMessage', () => {
+      expect(typeof component.onMessage === 'function').toBeTrue();
     });
 
     it('should have clearCache', () => {
@@ -363,13 +363,13 @@ describe('AppComponent', () => {
   });
 
   it(`should have as title 'GitHub Users'`, (() => {
-    expect(component.title).toEqual('githubusers');
+    expect(component.title).toEqual('GitHub Users');
   }));
 
   it('should render title in a nav a tag', (() => {
     fixture.detectChanges();
 
-    expect(dom.querySelector('nav a').textContent).toContain('githubusers');
+    expect(dom.querySelector('nav a').textContent).toContain('GitHub Users');
   }));
 
   describe('components', () => {

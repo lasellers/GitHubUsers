@@ -18,8 +18,8 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
   @Input() cacheOnly: boolean = false;
   public cachedUsers = [];
   public followers = [];
-  wasCached: boolean = false;
-  cached: boolean = false;
+  public wasCached: boolean = false;
+  public cached: boolean = false;
 
   constructor(
     public userService: GitHubUserService,
@@ -42,6 +42,15 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.followersService.followersCached$.subscribe(cached => {
+      this.wasCached = cached;
+      if (this.wasCached) {
+        this.notifyMessage.emit({message: `Followers: ${this.baseUsername} CACHED`, type:'cached', title:''})
+      } else {
+        this.notifyMessage.emit({message: `Followers: ${this.baseUsername} NOT CACHED`, type:'not-cached', title:''})
+      }
+    });
+
     // initial load
     this.followersService.getFollowers(this.baseUsername).subscribe(followers => {
         this.followersService.followers$.emit(followers);
@@ -51,14 +60,6 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.followersService.followersCached$.subscribe(cached => {
-      this.wasCached = cached;
-      if (this.wasCached) {
-        this.notifyMessage.emit({message: `Followers: ${this.baseUsername} CACHED`, type:'cached', title:''})
-      } else {
-        this.notifyMessage.emit({message: `Followers: ${this.baseUsername} NOT CACHED`, type:'not-cached', title:''})
-      }
-    });
   }
 
   ngOnDestroy(): void {

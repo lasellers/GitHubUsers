@@ -29,6 +29,15 @@ export class UserGistsComponent implements OnInit, OnDestroy {
       this.gists = gists;
     });
 
+    this.gistsService.gistsCached$.subscribe(cached => {
+      this.wasCached = cached;
+      if (this.wasCached) {
+        this.notifyMessage.emit({message: `Gists: ${this.baseUsername} CACHED`, type: 'cached', title: ''})
+      } else {
+        this.notifyMessage.emit({message: `Gists: ${this.baseUsername} NOT CACHED`, type: 'not-cached', title: ''})
+      }
+    });
+
     // initial load
     this.gistsService.getGists(this.baseUsername).subscribe(
       gists => {
@@ -37,15 +46,6 @@ export class UserGistsComponent implements OnInit, OnDestroy {
       error => {
         this.errorMessage$.emit(error);
       });
-
-    this.gistsService.gistsCached$.subscribe(cached => {
-      this.wasCached = cached;
-      if (this.wasCached) {
-        this.notifyMessage.emit({message: `Gists: ${this.baseUsername} CACHED`, type:'cached', title:''})
-      } else {
-        this.notifyMessage.emit({message: `Gists: ${this.baseUsername} NOT CACHED`, type:'not-cached', title:''})
-      }
-    });
 
   }
 

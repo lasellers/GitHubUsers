@@ -10,11 +10,7 @@ import { User } from './user.model';
  */
 @Injectable({providedIn: 'root'})
 export class GitHubUserService {
-  private apiUrl: string = 'https://api.github.com/users/';
-  // private apiUrl: string = 'https://localhost:3000/users/';
-
   // current data
-  private defaultBaseUsername: string = 'lasellers';
   private baseUsername: string = 'lasellers';
 
   // These are resolved async
@@ -33,12 +29,12 @@ export class GitHubUserService {
   @Output() errorMessage$ = new EventEmitter(true);
 
   constructor(
-    private http: HttpClient
+    public http: HttpClient
   ) {
   }
 
   getApiUrl(): string {
-    return this.apiUrl;
+    return 'https://api.github.com/users/';
   }
 
   getUserBasename(): string {
@@ -46,7 +42,7 @@ export class GitHubUserService {
   }
 
   getBaseUserDefault(): string {
-    return this.defaultBaseUsername;
+    return 'lasellers';
   }
 
   clearUserCache(username: string): void {
@@ -73,7 +69,7 @@ export class GitHubUserService {
 
     if(this.cacheOnly) return of();
 
-    return this.http.get(this.apiUrl + username).pipe(
+    return this.http.get(this.getApiUrl() + username).pipe(
       delay(0),
       // map((res: HttpResponse<any>) => res),
       map((user: User) => {
