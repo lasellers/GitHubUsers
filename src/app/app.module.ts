@@ -49,7 +49,13 @@ import { environment } from '../environments/environment';
     FormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      timeOut: 10000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: false,
+      maxOpened: 8,
+      autoDismiss: true
+    }),
     NgbModule,
     FontAwesomeModule,
     StoreModule.forRoot(reducers, {
@@ -59,7 +65,7 @@ import { environment } from '../environments/environment';
         strictActionImmutability: true,
       }
     }),
-    !environment.production ? StoreDevtoolsModule.instrument() : []
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   providers: [
     GitHubUserService

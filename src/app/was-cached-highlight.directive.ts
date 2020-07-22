@@ -4,8 +4,7 @@ import { OnInit, Directive, ElementRef, Input, OnChanges, SimpleChanges } from '
   selector: '[appWasCachedHighlight]'
 })
 export class WasCachedHighlightDirective implements OnInit, OnChanges {
-  @Input() wasCached: boolean = false; // [wasCached]="'false'"
-  @Input() classString: string = 'text-info'; // [classString]="'text-warning'"
+  @Input() @Input() wasCached: boolean = false; // [wasCached]="'false'"
   public elementRef: ElementRef;
 
   constructor(

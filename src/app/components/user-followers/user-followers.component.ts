@@ -18,8 +18,8 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
   @Input() cacheOnly: boolean = false;
   public cachedUsers = [];
   public followers = [];
-  public wasCached: boolean = false;
-  public cached: boolean = false;
+  @Input() wasCached: boolean = false;
+  @Input() cached: boolean = false;
 
   constructor(
     public userService: GitHubUserService,

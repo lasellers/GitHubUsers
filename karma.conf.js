@@ -25,9 +25,10 @@ module.exports = function (config) {
     singleRun: false,
     restartOnFileChange: true,
     client: {
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
+      // leave Jasmine Spec Runner output visible in browser
+      clearContext: false
     },
-    //browsers: ['Chrome'],
+    // browsers: ['Chrome'],
     browsers: ['ChromeHeadless'],
     customLaunchers: {
       ChromeHeadless: {

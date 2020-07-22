@@ -15,8 +15,8 @@ export class UserGistsComponent implements OnInit, OnDestroy {
   @Input() cacheOnly: boolean = false;
   @Output() notifyMessage: EventEmitter<object> = new EventEmitter<object>();
   public gists: Gist[] = [];
-  wasCached: boolean = false;
-  cached: boolean = false;
+  @Input() wasCached: boolean = false;
+  @Input() cached: boolean = false;
 
   constructor(
     public gistsService: GitHubGistsService,

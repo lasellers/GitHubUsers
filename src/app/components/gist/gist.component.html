@@ -1,6 +1,5 @@
 <div appWasCachedHighlight
-     [wasCached]="wasCached"
-     [classString]="'text-danger'">
+     [wasCached]="wasCached">
   Gist {{ wasCached | wasCachedString}}
   <fa-icon [icon]="['fas','minus-circle']" *ngIf="gistService.isGistCached(baseUsername)"
            (click)="gistService.clearGistCache(gist)" placement="left"

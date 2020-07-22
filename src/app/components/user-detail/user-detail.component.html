@@ -1,6 +1,5 @@
 <div appWasCachedHighlight
-     [wasCached]="wasCached"
-     [classString]="'text-danger'">
+     [wasCached]="wasCached">
   User {{ wasCached | wasCachedString}}
   <fa-icon [icon]="['fas','cloud']" *ngIf="userService.isUserCached(baseUsername)"
            placement="left"

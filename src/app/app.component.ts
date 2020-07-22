@@ -4,7 +4,7 @@ import {
   OnDestroy,
   Input,
   Output,
-  EventEmitter
+  EventEmitter, NgZone
 } from '@angular/core';
 import { GitHubUserService } from './github-user.service';
 import { ToastrService } from 'ngx-toastr';
@@ -13,6 +13,8 @@ import { GitHubFollowersService } from './github-followers.service';
 import { GitHubFollowingsService } from './github-followings.service';
 import { GitHubGistService } from './github-gist.service';
 import { Gist } from './gist.model';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Inject } from '@angular/core';
 import packageJson from '../../package.json';
 
 console.clear();
@@ -32,9 +34,6 @@ export class AppComponent implements OnInit, OnDestroy {
   public title: string = packageJson.fullName;
   public filterString: string = '';
 
-  gist: Gist = new Gist(
-  );
-
   /**
    *
    */
@@ -44,7 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public followersService: GitHubFollowersService,
     public followingsService: GitHubFollowingsService,
     public gistsService: GitHubGistsService,
-    public toast: ToastrService
+    public toast: ToastrService,
   ) {
     this.baseUsername = this.userService.getBaseUserDefault();
   }
@@ -57,7 +56,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public loadUser(username: string): void {
     this.baseUsername = username;
 
-    this.toast.warning(`loadUser: ${username}`);
+    this.onMessage({message: `loadUser: ${username}`, type: 'default', title: ''});
 
     this.userService.getUser(username).subscribe((user) => {
         this.userService.user$.emit(user);
@@ -97,7 +96,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param username
    */
   public showUser(username: string): void {
-    this.toast.warning(`showUser: ${username}`);
+    this.onMessage({message: `showUser: ${username}`, type: 'default', title: 'App'});
     this.userService.getUser(username).subscribe((user) => {
         this.userService.user$.emit(user);
       },
@@ -107,36 +106,15 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.toast.warning(this.version, this.title, {
-      timeOut: 12000
-    });
+    /*this.toast.success(this.version, this.title, {
+      timeOut: 6000
+    });*/
 
     /*Notification.requestPermission().then(permission => {
       if(Notification.permission == 'granted') {
         let notify = new Notification(this.title + ' ' + this.version);
       }
     });*/
-  }
-
-  onErrorMessage(error: Response): void {
-    const text: string = error.statusText || 'Internet Error';
-    const message: string = `Error: (${error.status}) (${error.body}) ${text} {typeof error}`;
-    console.error(`Error: ${message}`);
-    this.toast.error(text, `Error: ${message} `);
-  }
-
-  onMessage(data): void {
-    const {message, type, title} = data;
-    switch (type) {
-      case 'cached':
-        this.toast.success(message, title);
-        break;
-      case 'not-cached':
-        this.toast.warning(message, title);
-        break;
-      default:
-        this.toast.info(message, title);
-    }
   }
 
   ngOnDestroy(): void {
@@ -147,34 +125,36 @@ export class AppComponent implements OnInit, OnDestroy {
     this.gistService.gist$.unsubscribe();
   }
 
-  clearGistCache(gist: Gist): void {
-    this.gistService.clearGistCache(gist);
-    this.gistService.gist$.next(gist);
-  }
+  /*
+    clearGistCache(gist: Gist): void {
+      this.gistService.clearGistCache(gist);
+      this.gistService.gist$.next(gist);
+    }
+  */
 
   clearCache(): void {
     localStorage.clear();
+    this.onMessage({message: 'Cache cleared ', type: 'default', title: 'App'});
 
     this.loadUser(this.baseUsername);
-    this.toast.success('Cache cleared');
   }
 
   // notifyShowBaseUsername
   onShowUser(username: string): void {
     this.showUser(username);
-    this.toast.warning('onShowUser: ' + username);
+    // this.onMessage({message: 'onShowUser: ' + username, type: 'default', title: 'App'});
   }
 
   // notifySwitchToUser
   onSwitchToUser(username: string): void {
     this.loadUser(username);
-    this.toast.warning('onSwitchToUser: ' + username);
+    // this.onMessage({message: 'onSwitchToUser: ' + username, type: 'default', title: 'App'});
   }
 
   switchToUserDefault(): void {
     const username = this.userService.getBaseUserDefault();
     this.loadUser(username);
-    this.toast.warning('Switch to user ' + username);
+    this.onMessage({message: 'Switch to user: ' + username, type: 'default', title: 'App'});
   }
 
   changeCaching(value: boolean): void {
@@ -183,7 +163,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.gistService.isCaching = value;
     this.followingsService.isCaching = value;
     this.followersService.isCaching = value;
-    this.toast.success('Caching ' + (value ? 'On' : 'Off'), 'App');
+    this.onMessage({message: 'Caching ' + (value ? 'On' : 'Off'), type: 'default', title: 'App'});
   }
 
   changeCacheOnly(value: boolean): void {
@@ -192,7 +172,39 @@ export class AppComponent implements OnInit, OnDestroy {
     this.gistService.cacheOnly = value;
     this.followingsService.cacheOnly = value;
     this.followersService.cacheOnly = value;
-    this.toast.success('Cache Only ' + (value ? 'On' : 'Off'), 'App');
+    this.onMessage({message: 'Cache Only ' + (value ? 'On' : 'Off'), type: 'default', title: 'App'});
   }
+
+  onErrorMessage(error: Response): void {
+    const text: string = error.statusText || 'Internet Error';
+    const message: string = `Error: (${error.status}) (${error.body}) ${text} {typeof error}`;
+    console.error(`Error: ${message}`);
+    this.onMessage({message: `Error: ${message} `, type: 'error', title: 'App'});
+  }
+
+  onMessage(data = null): void {
+    const {message, type, title} = data;
+    switch (type) {
+      case 'cached':
+        this.toast.success(message, title, {
+          timeOut: 2000,
+        });
+        break;
+      case 'not-cached':
+        this.toast.warning(message, title, {
+          timeOut: 2000,
+        });
+        break;
+      case 'error':
+        this.toast.error(message, title, {
+          timeOut: 2000,
+        });
+        break;
+      default:
+        this.toast.info(message, title, {
+          timeOut: 2000,
+        });
+    }
+  };
 
 }

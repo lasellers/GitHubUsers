@@ -15,8 +15,8 @@ export class UserDetailComponent implements OnInit {
   @Input() isCaching: boolean = true;
   @Input() cacheOnly: boolean = false;
   public user: User = {};
-  wasCached: boolean = false;
-  cached: boolean = false;
+  @Input() wasCached: boolean = false;
+  @Input() cached: boolean = false;
 
   constructor(
     public userService: GitHubUserService

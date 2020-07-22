@@ -1,7 +1,7 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Component } from '@angular/core';
 
-import { WasCachedHighlightDirective } from '../../../src/app/was-cached-highlight.directive';
+import { WasCachedHighlightDirective } from '../../app/was-cached-highlight.directive';
 
 // Simple test component that will not in the actual app
 @Component({

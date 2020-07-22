@@ -84,6 +84,7 @@ class MockGitHubGistService { // extends GitHubGistService {
   selector: '[appWasCachedHighlight]'
 })
 export class MockWasCachedHighlightDirective {
+  @Input() @Input() wasCached: boolean = false; // [wasCached]="'false'"
 }
 
 @Pipe({
@@ -158,6 +159,29 @@ describe('GistComponent', () => {
     expect(gistService).toBeTruthy();
 
     expect(userService.getUserBasename()).toEqual('mock');
+  });
+
+  describe('public methods', () => {
+    it('should have ngOnInit', () => {
+      expect(typeof component.ngOnInit === 'function').toBeTrue();
+    });
+
+    it('should have ngOnDestroy', () => {
+      expect(typeof component.ngOnDestroy === 'function').toBeTrue();
+    });
+
+
+    it('should have gistGistData', () => {
+      expect(typeof component.gistGistData === 'function').toBeTrue();
+    });
+
+    it('should have getGist', () => {
+      expect(typeof component.getGist === 'function').toBeTrue();
+    });
+
+    it('should have clearGistCache', () => {
+      expect(typeof component.clearGistCache === 'function').toBeTrue();
+    });
   });
 
   describe('Given sample data, the HTML', () => {

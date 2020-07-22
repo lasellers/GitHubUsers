@@ -29,7 +29,7 @@ import { GitHubUserService } from '../../app/github-user.service';
 import { AppComponent } from '../../app/app.component';
 import { UserGistsComponent } from '../../app/components/user-gists/user-gists.component';
 import { GitHubGistsService } from '../../app/github-gists.service';
-import { WasCachedStringPipe } from '../../../src/app/was-cached-string.pipe';
+import { WasCachedStringPipe } from '../../app/was-cached-string.pipe';
 import { User } from '../../app/user.model';
 import { GitHubFollowersService } from '../../app/github-followers.service';
 import { GitHubFollowingsService } from '../../app/github-followings.service';
@@ -188,6 +188,7 @@ export class MockWasCachedStringPipe implements PipeTransform {
   selector: '[appWasCachedHighlight]'
 })
 export class MockWasCachedHighlightDirective {
+  @Input() @Input() wasCached: boolean = false; // [wasCached]="'false'"
 }
 
 @Pipe({
@@ -322,7 +323,15 @@ describe('AppComponent', () => {
     expect(httpMock).toBeTruthy();
   });
 
-  describe('methods', () => {
+  describe('public methods', () => {
+
+    it('should have ngOnInit', () => {
+      expect(typeof component.ngOnInit === 'function').toBeTrue();
+    });
+
+    it('should have ngOnDestroy', () => {
+      expect(typeof component.ngOnDestroy === 'function').toBeTrue();
+    });
 
     it('should have loadUser', () => {
       expect(typeof component.loadUser === 'function').toBeTrue();
@@ -354,10 +363,6 @@ describe('AppComponent', () => {
 
     it('should have changeCaching', () => {
       expect(typeof component.changeCaching === 'function').toBeTrue();
-    });
-
-    it('should have clearGistCache', () => {
-      expect(typeof component.clearGistCache === 'function').toBeTrue();
     });
 
   });

@@ -21,8 +21,6 @@ export class GitHubGistService {
   @Input() cacheOnly: boolean = false;
   public apiCalls: number = 0;
 
-  // public gistObs$ = this.gist$.asObservable();
-
   constructor(
     public http: HttpClient
   ) {

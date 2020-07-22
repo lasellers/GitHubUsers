@@ -15,8 +15,8 @@ export class GistComponent implements OnInit, OnDestroy {
   @Input() isCaching: boolean = true;
   @Input() cacheOnly: boolean = false;
   public gist: Gist;
-  public wasCached: boolean = false;
-  public cached: boolean = false;
+  @Input() wasCached: boolean = false;
+  @Input() cached: boolean = false;
 
   constructor(
     public gistService: GitHubGistService
@@ -77,6 +77,11 @@ export class GistComponent implements OnInit, OnDestroy {
       error => {
         this.errorMessage$.emit(error);
       });
+  }
+
+  clearGistCache(gist: Gist): void {
+    this.gistService.clearGistCache(gist);
+    this.gistService.gist$.next(gist);
   }
 
   ngOnDestroy(): void {
