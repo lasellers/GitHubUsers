@@ -34,7 +34,7 @@ import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatSelectModule } from "@angular/material/select";
 import { MatInputModule } from "@angular/material/input";
 import { MatExpansionModule } from "@angular/material/expansion";
-import { MatPseudoCheckboxModule } from "@angular/material/core";
+import { MatPseudoCheckboxModule, MatRippleModule } from "@angular/material/core";
 //// import { StoreModule } from '@ngrx/store';
 //// import { reducers, metaReducers } from './reducers';
 // import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -42,6 +42,7 @@ import { MatPseudoCheckboxModule } from "@angular/material/core";
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatTableModule } from "@angular/material/table";
+import { MatCardModule } from "@angular/material/card";
 
 @NgModule({
   declarations: [
@@ -88,7 +89,9 @@ import { MatTableModule } from "@angular/material/table";
     MatPseudoCheckboxModule,
     MatBadgeModule,
     MatCheckboxModule,
-    MatTableModule
+    MatTableModule,
+    MatCardModule,
+    MatRippleModule
   ],
   providers: [
     GitHubUserService

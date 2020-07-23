@@ -125,7 +125,7 @@ export class AppPage {
   }
 
   public isFollowersInLocalStorage(username: string) {
-    return element(by.css('[ngbtooltip="followers is cached"]')).isPresent() as Promise<boolean>
+    return element(by.css('[ngbtooltip="Followers is cached"]')).isPresent() as Promise<boolean>
   }
 
   public isFollowingsInLocalStorage(username: string) {

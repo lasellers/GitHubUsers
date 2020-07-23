@@ -31,7 +31,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public title: string = packageJson.fullName;
   public filterString: string = '';
 
-  public panel = 0;
+  public panel: boolean = false;
 
   /**
    *
@@ -47,7 +47,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.baseUsername = this.userService.getBaseUserDefault();
   }
 
-  public setPanel(panel: number): void {
+  public setPanel(panel: boolean): void {
     this.panel = panel;
   }
 

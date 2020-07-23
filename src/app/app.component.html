@@ -8,29 +8,26 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <!--a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a-->
       </li>
     </ul>
     <div class="lead">Learning Angular 9 using the GitHub API (v {{version}})</div>
   </div>
 </nav>
 
-<mat-divider [inset]="true"></mat-divider>
+<mat-accordion class="advanced-headers-align">
 
-<mat-accordion class="example-headers-align">
-
-  <mat-expansion-panel [expanded]="panel === 0" (opened)="setPanel(0)" hideToggle>
+  <mat-expansion-panel [expanded]="panel === true" (opened)="setPanel(false)" hideToggle>
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Search
       </mat-panel-title>
       <mat-panel-description>
-        Search Users
-        <mat-icon>account_circle</mat-icon>
+        <div>Advanced Settings</div>
+        <mat-icon>unfold_more</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
 
-    <mat-action-row>
+    <mat-card>
 
       <form class="">
         https://github.com/
@@ -42,73 +39,42 @@
                name="baseUsername"
                [(ngModel)]="baseUsername"
                value="{{baseUsername}}">
+
+        <span class="button-container-right">
         <button mat-raised-button color="primary" type="submit"
                 (click)="onSwitchToUser(usernameInput.value)"
                 placement="bottom"
                 ngbTooltip="Change user">User
         </button>
+        </span>
+
+        <span class="button-container-left">
+        <button mat-raised-button color="accent"
+                (click)="switchToUserDefault()"
+                placement="bottom"
+                ngbTooltip="Change to Default User">Default User
+        </button>
+        </span>
       </form>
 
-      <button mat-raised-button color="primary"
-              (click)="switchToUserDefault()"
-              placement="bottom"
-              ngbTooltip="Change to Default User">Default User
-      </button>
+      <mat-label for="filterString" class="">Filter </mat-label>
+      <input matInput type="text"
+             id="filterString"
+             name="filterString"
+             placeholder="User filter string..."
+             class="" [(ngModel)]="filterString">
 
-        <label for="filterString" class="sr-only">Filter</label>
-        <input type="text"
-               id="filterString"
-               name="filterString"
-               placeholder="User filter string..."
-               class="" [(ngModel)]="filterString">
-    </mat-action-row>
+    </mat-card>
 
-    <mat-form-field>
-      <mat-label>First name</mat-label>
-      <input matInput>
-    </mat-form-field>
+    <mat-card>
+      <b matBadge="{{userService.apiCalls}}" matBadgeOverlap="false">User</b>
+      <b matBadge="{{followingsService.apiCalls}}" matBadgeOverlap="false">Followings</b>
+      <b matBadge="{{followersService.apiCalls}}" matBadgeOverlap="false">Followers</b>
+      <b matBadge="{{gistsService.apiCalls}}" matBadgeOverlap="false">Gists</b>
+      <b matBadge="{{gistService.apiCalls}}" matBadgeOverlap="false">Gist</b>
+    </mat-card>
 
-    <mat-form-field>
-      <mat-label>Age</mat-label>
-      <input matInput type="number" min="1">
-    </mat-form-field>
-    <mat-action-row>
-      <button mat-button color="primary" (click)="setPanel(1)">Next</button>
-    </mat-action-row>
-  </mat-expansion-panel>
-
-
-  <mat-expansion-panel [expanded]="panel === 1" (opened)="setPanel(1)" hideToggle>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        API Calls
-      </mat-panel-title>
-      <mat-panel-description>
-        Uncached API Calls
-        <mat-icon>account_circle</mat-icon>
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <span matBadge="{{userService.apiCalls}}" matBadgeOverlap="false">User</span>
-    <span matBadge="{{followingsService.apiCalls}}" matBadgeOverlap="false">Followings</span>
-    <span matBadge="{{followersService.apiCalls}}" matBadgeOverlap="false">Followers</span>
-    <span matBadge="{{gistsService.apiCalls}}" matBadgeOverlap="false">Gists</span>
-    <span matBadge="{{gistService.apiCalls}}" matBadgeOverlap="false">Gist</span>
-  </mat-expansion-panel>
-
-
-  <mat-expansion-panel [expanded]="panel === 2" (opened)="setPanel(2)" hideToggle>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Caching
-      </mat-panel-title>
-      <mat-panel-description>
-        Caching
-        <mat-icon>account_circle</mat-icon>
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-
-    <mat-action-row>
-
+    <mat-card>
       <mat-checkbox
         id="local-storage-caching"
         [(ngModel)]="userService.isCaching"
@@ -121,12 +87,14 @@
         (change)="changeCacheOnly(userService.cacheOnly)">Cache Only
       </mat-checkbox>
 
-      <button
-        class="mat-raised-button"
-        (click)="clearCache()">Clear local storage cache
+      <span class="button-container-left">
+      <button mat-raised-button color="accent"
+              (click)="clearCache()">Clear local storage cache
       </button>
+    </span>
 
-    </mat-action-row>
+    </mat-card>
+
   </mat-expansion-panel>
 
 </mat-accordion>

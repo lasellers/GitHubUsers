@@ -1,5 +1,7 @@
 <div appWasCachedHighlight
      [wasCached]="wasCached">
+</div>
+<div>
   User {{ wasCached | wasCachedString}}
   <fa-icon [icon]="['fas','cloud']" *ngIf="userService.isUserCached(baseUsername)"
            placement="left"
@@ -19,7 +21,7 @@
     <h3 id="photo-name" class="card-title" *ngIf="!isEmpty(user)">
       {{user.name}}
       <fa-icon [icon]="['fas','user-cog']" (click)="changeBaseUser(user.login)"
-               placement="left" ngbTooltip="Make user base"></fa-icon>
+               placement="left" ngbTooltip="Swich to User"></fa-icon>
     </h3>
   </div>
 
