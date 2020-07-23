@@ -1,3 +1,4 @@
+/*
 import { Action, createReducer, on } from '@ngrx/store';
 
 
@@ -16,4 +17,5 @@ export const reducer = createReducer(
   initialState,
 
 );
+*/
 

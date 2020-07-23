@@ -1,3 +1,4 @@
+/*
 import { Action, createReducer, on } from '@ngrx/store';
 import packageJson from "../../../package.json";
 import { Gist } from "../gist.model";
@@ -41,14 +42,8 @@ export const initialState: State = {
   }
 };
 
-/*export const reducer = createReducer(
+export const reducer = createReducer(
   initialState,
-);*/
+);
 
-export function reducer(state = initialState, action: Action): State {
-  switch (action.type) {
-    default:
-      return state;
-  }
-}
-
+*/
