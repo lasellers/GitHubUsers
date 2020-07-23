@@ -10,16 +10,16 @@ import { GitHubFollowingsService } from '../../github-followings.service';
 export class UserFollowingsComponent implements OnInit, OnDestroy {
   @Input() baseUsername;
   @Input() filterString: string = '';
+  @Input() isCaching: boolean = true;
+  @Input() cacheOnly: boolean = false;
+  @Input() wasCached: boolean = false;
+  @Input() cached: boolean = false;
   @Output() errorMessage$ = new EventEmitter(true);
   @Output() notifySwitchToUser = new EventEmitter();
   @Output() notifyShowBaseUsername = new EventEmitter();
   @Output() notifyMessage: EventEmitter<object> = new EventEmitter<object>();
-  @Input() isCaching: boolean = true;
-  @Input() cacheOnly: boolean = false;
   public cachedUsers = [];
   public followings = [];
-  @Input() wasCached: boolean = false;
-  @Input() cached: boolean = false;
 
   constructor(
     public userService: GitHubUserService,

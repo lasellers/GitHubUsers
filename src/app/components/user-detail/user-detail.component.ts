@@ -10,13 +10,13 @@ import { User } from '../../user.model';
 })
 export class UserDetailComponent implements OnInit {
   @Input() baseUsername;
-  @Output() notifySwitchToUser: EventEmitter<string> = new EventEmitter<string>();
-  @Output() notifyMessage: EventEmitter<object> = new EventEmitter<object>();
   @Input() isCaching: boolean = true;
   @Input() cacheOnly: boolean = false;
-  public user: User = {};
   @Input() wasCached: boolean = false;
   @Input() cached: boolean = false;
+  @Output() notifySwitchToUser: EventEmitter<string> = new EventEmitter<string>();
+  @Output() notifyMessage: EventEmitter<object> = new EventEmitter<object>();
+  public user: User = {};
 
   constructor(
     public userService: GitHubUserService

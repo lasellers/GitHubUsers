@@ -54,18 +54,27 @@ or
 
 ###
 Before run any e2e tests you may need to update your chrome and gecko drivers as well
-as latest browsers. Try:
-`npm ls webdriver-manager`
-`node_modules/protractor/node_modules/webdriver-manager/bin/webdriver-manager clean`
-`node_modules/protractor/node_modules/webdriver-manager/bin/webdriver-manager update`
-`npm ls webdriver-manager`
+as latest browsers. We have a npm run command just for that:
 
-`npx webdriver-manager clean`
-`./node_modules/.bin/webdriver-manager update`
+`npm run e2e-prep`
+
+This cleans and updates the webdriver-manager dependency.
+
+`npm run e2e-v`
+
+Will list the versions of protractor and the webdriver manager.You might want to run that before and after e2e-prep.
+
+`npm run e2e-drivers`
+
+Will list all the webdriver drivers and their versions.
 
 To run e2e tests, type at the cli:
 
-`ng e2e`
+`npm run e2e`
+
+After, you can generate an html report if you want with:
+
+`npm run e2e-report`
 
 
 ## CircleCI

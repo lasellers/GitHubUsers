@@ -24,7 +24,10 @@
     "test-mocha": "mocha --recursive src/test/*.js",
     "test-nyc": "nyc ng test --code-coverage --progress",
     "test-simple": "ng test",
-    "e2e-report": "node e2e/cucumber-html-reporter.js"
+    "e2e-report": "node e2e/cucumber-html-reporter.js",
+    "e2e-prep": "node_modules/protractor/node_modules/webdriver-manager/bin/webdriver-manager clean && node_modules/protractor/node_modules/webdriver-manager/bin/webdriver-manager update",
+    "e2e-v": "npm ls webdriver-manager",
+    "e2e-drivers": "node_modules/protractor/node_modules/webdriver-manager/bin/webdriver-manager status"
   },
   "private": true,
   "dependencies": {

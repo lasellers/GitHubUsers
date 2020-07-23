@@ -10,13 +10,13 @@ import { GitHubGistService } from '../../github-gist.service';
 })
 export class UserGistsComponent implements OnInit, OnDestroy {
   @Input() baseUsername;
-  @Output() errorMessage$ = new EventEmitter(true);
   @Input() isCaching: boolean = true;
   @Input() cacheOnly: boolean = false;
-  @Output() notifyMessage: EventEmitter<object> = new EventEmitter<object>();
-  public gists: Gist[] = [];
   @Input() wasCached: boolean = false;
   @Input() cached: boolean = false;
+  @Output() errorMessage$ = new EventEmitter(true);
+  @Output() notifyMessage: EventEmitter<object> = new EventEmitter<object>();
+  public gists: Gist[] = [];
 
   constructor(
     public gistsService: GitHubGistsService,
