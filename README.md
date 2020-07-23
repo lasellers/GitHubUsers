@@ -53,16 +53,17 @@ or
 ## E2E tests
 
 ###
-Before run any e2e tests you may need to update your chrome and gecko drivers as well
+Before running any e2e tests you may need to update your chrome and gecko drivers as well
 as latest browsers. We have a npm run command just for that:
 
 `npm run e2e-prep`
 
 This cleans and updates the webdriver-manager dependency.
 
-`npm run e2e-v`
+`npm run e2e-v` or `npm run e2e-versions`
 
-Will list the versions of protractor and the webdriver manager.You might want to run that before and after e2e-prep.
+... will list the versions of protractor and the webdriver manager.
+You might want to run that before and after e2e-prep.
 
 `npm run e2e-drivers`
 
@@ -72,7 +73,7 @@ To run e2e tests, type at the cli:
 
 `npm run e2e`
 
-After, you can generate an html report if you want with:
+Afterward, you can generate an html report if you want with:
 
 `npm run e2e-report`
 
@@ -123,7 +124,9 @@ Optionally you can run:
 * v3.0.6 Cleanup karma build issues. Look into e2e testing.
 * v3.0.7 7/15/2020 Cleanup UI -- It's confusing now that I look at it again. Add e2e cucumber tests.
 * v3.0.8 7/16/2020 Focus on testing
-* v3.0.9 7/21/2020 Refactor
+* v3.0.9 7/21/2020
+    Refactor. Updated toasts, and completely redid/cleaned up a lot of the original experimental code.
+    Updated package scripts.
 
 
 ## Todo
@@ -136,12 +139,12 @@ Optionally you can run:
 
 * Re-add CircleCI CD -- worked once, then broke for some reason. Sort that out. (ng deploy works anyway.)
 * Bump to Angular v10
-* Add Material
+* <s>Add Material</s>
 * Add variant with ngrx
 * Add routing so we can have a couple different variations in the same app
 * Add HTTP Interceptor for caching to simplify httpclient....
 * Add Travis and Jenkins
 * Add more tests for coverage
-* Fix gists tests
+* <s>Fix gists tests</s>
 * Update unit/integration tests to use class-based isolated tests
-* Add e2e coverage
+* <s>Add e2e coverage</s>
