@@ -23,6 +23,8 @@ console.clear();
 })
 export class AppComponent implements OnInit, OnDestroy {
   @Output() errorMessage$ = new EventEmitter(true);
+  @Output() gitShow$ = new EventEmitter(true);
+
   @Input() baseUsername: string = this.userService.getBaseUserDefault();
   @Input() isCaching: boolean = true;
   @Input() cacheOnly: boolean = false;
@@ -31,7 +33,8 @@ export class AppComponent implements OnInit, OnDestroy {
   public title: string = packageJson.fullName;
   public filterString: string = '';
 
-  public panel: boolean = false;
+  settingsToggle: boolean = false;
+  // gitShow: boolean = false;
 
   /**
    *
@@ -47,8 +50,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.baseUsername = this.userService.getBaseUserDefault();
   }
 
-  public setPanel(panel: boolean): void {
-    this.panel = panel;
+  public setSettingsToggle(settingsToggle: boolean): void {
+    this.settingsToggle = settingsToggle;
   }
 
   /**
@@ -67,6 +70,7 @@ export class AppComponent implements OnInit, OnDestroy {
       error => {
         this.userService.errorMessage$.emit(error);
       });
+
     this.followersService.getFollowers(username).subscribe(followers => {
         this.followersService.followers$.emit(followers);
       },
@@ -74,6 +78,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.errorMessage$.emit(error);
       }
     );
+
     this.followingsService.getFollowings(username).subscribe(followings => {
         this.followingsService.followings$.emit(followings);
       },
@@ -81,6 +86,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.errorMessage$.emit(error);
       }
     );
+
     this.gistsService.getGists(username).subscribe(
       gists => {
         this.gistsService.gists$.emit(gists);
@@ -109,10 +115,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    /*this.toast.success(this.version, this.title, {
-      timeOut: 6000
-    });*/
-
     /*Notification.requestPermission().then(permission => {
       if(Notification.permission == 'granted') {
         let notify = new Notification(this.title + ' ' + this.version);
@@ -138,13 +140,11 @@ export class AppComponent implements OnInit, OnDestroy {
   // notifyShowBaseUsername
   onShowUser(username: string): void {
     this.showUser(username);
-    // this.onMessage({message: 'onShowUser: ' + username, type: 'default', title: 'App'});
   }
 
   // notifySwitchToUser
   onSwitchToUser(username: string): void {
     this.loadUser(username);
-    // this.onMessage({message: 'onSwitchToUser: ' + username, type: 'default', title: 'App'});
   }
 
   switchToUserDefault(): void {
@@ -202,5 +202,10 @@ export class AppComponent implements OnInit, OnDestroy {
         });
     }
   }
+
+  /*onGitShow(flag: boolean): void {
+    console.log('gist show ' + flag);
+    this.gitShow = flag;
+  }*/
 
 }

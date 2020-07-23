@@ -127,6 +127,7 @@ Optionally you can run:
 * v3.0.9 7/21/2020
     Refactor. Updated toasts, and completely redid/cleaned up a lot of the original experimental code.
     Updated package scripts.
+* v3.0.10 7/22/2020 Removed bootstrap, and added Material. Broke several tests. :)
 
 
 ## Todo
@@ -137,9 +138,9 @@ Optionally you can run:
  Also, for gist try writing isolated unit tests.
  As well as add some more cucumber test support.
 
+* Mull responsive layout for low res -- some of the columns toggle hidding
 * Re-add CircleCI CD -- worked once, then broke for some reason. Sort that out. (ng deploy works anyway.)
 * Bump to Angular v10
-* <s>Add Material</s>
 * Add variant with ngrx
 * Add routing so we can have a couple different variations in the same app
 * Add HTTP Interceptor for caching to simplify httpclient....

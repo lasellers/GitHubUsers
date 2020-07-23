@@ -15,8 +15,11 @@ export class GistComponent implements OnInit, OnDestroy {
   @Input() cacheOnly: boolean = false;
   @Input() wasCached: boolean = false;
   @Input() cached: boolean = false;
+
   @Output() errorMessage$ = new EventEmitter(true);
   @Output() notifyMessage: EventEmitter<ToastMessage> = new EventEmitter<ToastMessage>();
+  @Output() notifyGitShow: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   public gist: Gist;
 
   constructor(

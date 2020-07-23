@@ -15,8 +15,11 @@ export class UserDetailComponent implements OnInit {
   @Input() cacheOnly: boolean = false;
   @Input() wasCached: boolean = false;
   @Input() cached: boolean = false;
+
   @Output() notifySwitchToUser: EventEmitter<string> = new EventEmitter<string>();
   @Output() notifyMessage: EventEmitter<ToastMessage> = new EventEmitter<ToastMessage>();
+  @Output() notifyGitShow: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   public user: User = {};
 
   constructor(

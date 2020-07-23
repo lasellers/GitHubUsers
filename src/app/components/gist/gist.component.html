@@ -1,10 +1,11 @@
-<div appWasCachedHighlight
-     [wasCached]="wasCached">
+<div appWasCachedHighlight [wasCached]="wasCached">
   Gist {{ wasCached | wasCachedString}}
   <fa-icon [icon]="['fas','minus-circle']" *ngIf="gistService.isGistCached(baseUsername)"
            (click)="gistService.clearGistCache(gist)" placement="left"
            ngbTooltip="Clear gist cache"></fa-icon>
 </div>
+
+<!-- button (click)="this.notifyGitShow.emit(false)">Close</button-->
 
 <div *ngIf="gist !== undefined && gist.content !== undefined">
   <h2>Gist</h2>

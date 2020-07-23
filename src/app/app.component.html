@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand navbar-light bg-light">
   <a class="navbar-brand" href="#"><h1>{{title}}</h1></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,7 +17,7 @@
 
 <mat-accordion class="advanced-headers-align">
 
-  <mat-expansion-panel [expanded]="panel === true" (opened)="setPanel(false)" hideToggle>
+  <mat-expansion-panel [expanded]="settingsToggle === true" (opened)="setSettingsToggle(false)" hideToggle>
     <mat-expansion-panel-header>
       <mat-panel-title>
       </mat-panel-title>
@@ -57,7 +57,7 @@
         </span>
       </form>
 
-      <mat-label for="filterString" class="">Filter </mat-label>
+      <mat-label for="filterString" class="">Filter</mat-label>
       <input matInput type="text"
              id="filterString"
              name="filterString"
@@ -99,11 +99,10 @@
 
 </mat-accordion>
 
-<mat-divider [inset]="true"></mat-divider>
-
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-4 col-lg-4 col-xl-2">
+    <!-- ngIf="!gitShow" -->
+    <div class="column">
       <user-detail [baseUsername]="baseUsername"
                    [cacheOnly]="cacheOnly"
                    [isCaching]="isCaching"
@@ -112,7 +111,8 @@
       ></user-detail>
     </div>
 
-    <div class="col-sm-4 col-lg-4 col-xl-2">
+    <!-- ngIf="!gitShow" -->
+    <div class="column">
       <app-user-followers
         [baseUsername]="baseUsername"
         [filterString]="filterString"
@@ -124,7 +124,8 @@
       ></app-user-followers>
     </div>
 
-    <div class="col-sm-4 col-lg-4 col-xl-2">
+    <!--ngIf="!gitShow" -->
+    <div class="column">
       <app-user-followings
         [baseUsername]="baseUsername"
         [filterString]="filterString"
@@ -136,7 +137,7 @@
       ></app-user-followings>
     </div>
 
-    <div class="col-sm-6 col-lg-6 col-xl-3">
+    <div class="column">
       <app-user-gists
         [baseUsername]="baseUsername"
         [cacheOnly]="cacheOnly"
@@ -144,14 +145,17 @@
         (notifyMessage)='onMessage($event)'
       ></app-user-gists>
     </div>
+    <!-- (notifyGitShow)='onGitShow($event)' -->
 
-    <div class="col-sm-6 col-lg-6 col-xl-3">
+    <!-- ngIf="gitShow" -->
+    <div class="column">
       <app-gist
         [baseUsername]="baseUsername"
         [cacheOnly]="cacheOnly"
         [isCaching]="isCaching"
         (notifyMessage)='onMessage($event)'
       ></app-gist>
+      <!-- (notifyGitShow)='onGitShow($event)' -->
     </div>
 
   </div>

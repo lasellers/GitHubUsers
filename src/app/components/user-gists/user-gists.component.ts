@@ -15,8 +15,11 @@ export class UserGistsComponent implements OnInit, OnDestroy {
   @Input() cacheOnly: boolean = false;
   @Input() wasCached: boolean = false;
   @Input() cached: boolean = false;
+
   @Output() errorMessage$ = new EventEmitter(true);
   @Output() notifyMessage: EventEmitter<ToastMessage> = new EventEmitter<ToastMessage>();
+  @Output() notifyGitShow: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   public gists: Gist[] = [];
 
   constructor(
@@ -54,6 +57,7 @@ export class UserGistsComponent implements OnInit, OnDestroy {
     this.gistService.getGist(gist).subscribe(
       gistResponse => {
         this.gistService.gist$.next(gistResponse);
+        this.notifyGitShow.emit(true);
       },
       error => {
         this.errorMessage$.emit(error);

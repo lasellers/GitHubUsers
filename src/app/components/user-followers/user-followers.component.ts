@@ -19,6 +19,8 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
   @Output() notifySwitchToUser = new EventEmitter();
   @Output() notifyShowBaseUsername = new EventEmitter();
   @Output() notifyMessage: EventEmitter<ToastMessage> = new EventEmitter<ToastMessage>();
+  @Output() notifyGitShow: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   public cachedUsers = [];
   public followers = [];
 

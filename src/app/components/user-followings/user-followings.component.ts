@@ -15,10 +15,13 @@ export class UserFollowingsComponent implements OnInit, OnDestroy {
   @Input() cacheOnly: boolean = false;
   @Input() wasCached: boolean = false;
   @Input() cached: boolean = false;
+
   @Output() errorMessage$ = new EventEmitter(true);
   @Output() notifySwitchToUser = new EventEmitter();
   @Output() notifyShowBaseUsername = new EventEmitter();
   @Output() notifyMessage: EventEmitter<ToastMessage> = new EventEmitter<ToastMessage>();
+  @Output() notifyGitShow: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   public cachedUsers = [];
   public followings = [];
 
