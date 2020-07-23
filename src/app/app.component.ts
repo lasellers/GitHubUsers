@@ -31,6 +31,8 @@ export class AppComponent implements OnInit, OnDestroy {
   public title: string = packageJson.fullName;
   public filterString: string = '';
 
+  public panel = 0;
+
   /**
    *
    */
@@ -43,6 +45,10 @@ export class AppComponent implements OnInit, OnDestroy {
     public toast: ToastrService,
   ) {
     this.baseUsername = this.userService.getBaseUserDefault();
+  }
+
+  public setPanel(panel: number): void {
+    this.panel = panel;
   }
 
   /**

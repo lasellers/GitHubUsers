@@ -13,7 +13,7 @@
 </div>
 
 <h3>Followers <b>{{followers.length}}</b></h3>
-<table id="followers" class="table table-striped">
+<table id="followers">
   <tbody>
   <tr class="row" *ngFor="let follower of followers | filterFollowers:filterString:'login'">
     <td class="col">
@@ -26,7 +26,7 @@
                placement="left" ngbTooltip="User {{follower.login}} was cached as of last pull"></fa-icon>
     </td>
     <td class="col">
-      <button class="btn btn-primary btn-sm following" (click)="changeBaseUser(follower.login)">Switch To
+      <button mat-raised-button color="primary" class="following" (click)="changeBaseUser(follower.login)">Switch To
       </button>
     </td>
   </tr>

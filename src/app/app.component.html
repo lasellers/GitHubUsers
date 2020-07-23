@@ -15,94 +15,123 @@
   </div>
 </nav>
 
-<div class="container-fluid">
+<mat-divider [inset]="true"></mat-divider>
 
-  <div class="row">
+<mat-accordion class="example-headers-align">
 
-    <div class="col-lg-4 col-xl-6">
-      <form class="form-inline my-2 my-lg-0">
+  <mat-expansion-panel [expanded]="panel === 0" (opened)="setPanel(0)" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Search
+      </mat-panel-title>
+      <mat-panel-description>
+        Search Users
+        <mat-icon>account_circle</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-action-row>
+
+      <form class="">
         https://github.com/
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
-               #usernameInput name="baseUsername" [(ngModel)]="baseUsername"
+        <input class="mat-input-element"
+               type="search"
+               placeholder="Search"
+               aria-label="Search"
+               #usernameInput
+               name="baseUsername"
+               [(ngModel)]="baseUsername"
                value="{{baseUsername}}">
-        <button class="btn btn-primary my-2 my-sm-0" type="submit"
+        <button mat-raised-button color="primary" type="submit"
                 (click)="onSwitchToUser(usernameInput.value)"
                 placement="bottom"
                 ngbTooltip="Change user">User
         </button>
       </form>
-    </div>
 
-    <div class="col-lg-2 col-xl-6">
-      <button class="btn btn-outline-primary btn-sm my-2 my-sm-0"
+      <button mat-raised-button color="primary"
               (click)="switchToUserDefault()"
               placement="bottom"
               ngbTooltip="Change to Default User">Default User
       </button>
-    </div>
 
-      <div class="col-lg-3 col-xl-6">
-        Local Storage Caching <input type="checkbox"
-                                     id="local-storage-caching"
-                                     [(ngModel)]="userService.isCaching"
-                                     (change)="changeCaching(userService.isCaching)">
-        Cache Only <input type="checkbox"
-                          id="cache-only"
-                          [(ngModel)]="userService.cacheOnly"
-                          (change)="changeCacheOnly(userService.cacheOnly)">
-      </div>
-      <div class="col-lg-3 col-lg-6">
-        <button class="btn btn-outline-primary btn-sm my-2 my-sm-0" (click)="clearCache()">Clear local storage cache
-        </button>
-      </div>
+        <label for="filterString" class="sr-only">Filter</label>
+        <input type="text"
+               id="filterString"
+               name="filterString"
+               placeholder="User filter string..."
+               class="" [(ngModel)]="filterString">
+    </mat-action-row>
 
-  </div>
+    <mat-form-field>
+      <mat-label>First name</mat-label>
+      <input matInput>
+    </mat-form-field>
 
-</div>
+    <mat-form-field>
+      <mat-label>Age</mat-label>
+      <input matInput type="number" min="1">
+    </mat-form-field>
+    <mat-action-row>
+      <button mat-button color="primary" (click)="setPanel(1)">Next</button>
+    </mat-action-row>
+  </mat-expansion-panel>
 
-<div class="container-fluid">
 
-  <div class="row small">
-    <div class="col">
-      Uncached Api Calls
-    </div>
-    <div class="col">
-      User: {{userService.apiCalls}}
-    </div>
-    <div class="col">
-      Followings: {{followingsService.apiCalls}}
-    </div>
-    <div class="col">
-      Followers: {{followersService.apiCalls}}
-    </div>
-    <div class="col">
-      Gists: {{gistsService.apiCalls}}
-    </div>
-    <div class="col">
-      Gist: {{gistService.apiCalls}}
-    </div>
-  </div>
+  <mat-expansion-panel [expanded]="panel === 1" (opened)="setPanel(1)" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        API Calls
+      </mat-panel-title>
+      <mat-panel-description>
+        Uncached API Calls
+        <mat-icon>account_circle</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <span matBadge="{{userService.apiCalls}}" matBadgeOverlap="false">User</span>
+    <span matBadge="{{followingsService.apiCalls}}" matBadgeOverlap="false">Followings</span>
+    <span matBadge="{{followersService.apiCalls}}" matBadgeOverlap="false">Followers</span>
+    <span matBadge="{{gistsService.apiCalls}}" matBadgeOverlap="false">Gists</span>
+    <span matBadge="{{gistService.apiCalls}}" matBadgeOverlap="false">Gist</span>
+  </mat-expansion-panel>
 
-  <div class="row">
 
-    <div class="col-md-4">
-    </div>
+  <mat-expansion-panel [expanded]="panel === 2" (opened)="setPanel(2)" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Caching
+      </mat-panel-title>
+      <mat-panel-description>
+        Caching
+        <mat-icon>account_circle</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
 
-    <div class="col-md-8">
-      <form class="form-inline" role="form">
+    <mat-action-row>
 
-        <div class="form-group-row">
-          <label for="filterString" class="sr-only">Filter</label>
-          <input type="text" id="filterString" name="filterString" placeholder="Filter string..."
-                 class="form-control mb-2 mr-sm-2" [(ngModel)]="filterString">
-        </div>
+      <mat-checkbox
+        id="local-storage-caching"
+        [(ngModel)]="userService.isCaching"
+        (change)="changeCaching(userService.isCaching)">Local Storage Caching
+      </mat-checkbox>
 
-      </form>
+      <mat-checkbox
+        id="cache-only"
+        [(ngModel)]="userService.cacheOnly"
+        (change)="changeCacheOnly(userService.cacheOnly)">Cache Only
+      </mat-checkbox>
 
-    </div>
+      <button
+        class="mat-raised-button"
+        (click)="clearCache()">Clear local storage cache
+      </button>
 
-  </div>
-</div>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+</mat-accordion>
+
+<mat-divider [inset]="true"></mat-divider>
 
 <div class="container-fluid">
   <div class="row">

@@ -30,7 +30,7 @@
   <tbody>
   <tr *ngFor="let gist of gists">
     <td>
-      <button class="btn btn-primary" (click)="getGist(gist)">Get</button>
+      <button mat-raised-button color="primary" (click)="getGist(gist)">Get</button>
     </td>
     <td>{{gist.filename}}</td>
     <td class="bytes">
@@ -48,6 +48,20 @@
                (click)="gistService.clearGistCache(gist)" placement="left"
                ngbTooltip="Clear gist cache {{gist.id}}"></fa-icon>
     </td>
+    <!--td>
+      <mat-expansion-panel hideToggle> aaaaaaaaaaaaaaaa
+    <mat-expansion-panel-header> {{gist.id}}
+      <mat-panel-title>
+        This is the expansion title
+      </mat-panel-title>
+      <mat-panel-description>
+        This is a summary of the content
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>This is the primary content of the panel.</p>
+  </mat-expansion-panel>
+
+      </td-->
   </tr>
   </tbody>
 </table>

@@ -1,4 +1,4 @@
-import { ToastMessage } from './toast-message.model';
+import { ToastMessage } from '../../app/toast-message.model';
 
 describe('ToastMessage', () => {
   it('should create an instance', () => {

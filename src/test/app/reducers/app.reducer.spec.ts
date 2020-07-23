@@ -1,6 +1,6 @@
-// import { reducer, initialState } from './gists.reducer';
+// import { reducer, initialState } from '../../../app/reducers/app.reducer';
 //
-// describe('Gists Reducer', () => {
+// describe('App Reducer', () => {
 //   describe('an unknown action', () => {
 //     it('should return the previous state', () => {
 //       const action = {} as any;

@@ -24,12 +24,24 @@ import { GistComponent } from './components/gist/gist.component';
 import { WasCachedStringPipe } from './was-cached-string.pipe';
 import { WasCachedHighlightDirective } from './was-cached-highlight.directive';
 import { FilterFollowersPipe } from './filter-followers.pipe';
-//// import { StoreModule } from '@ngrx/store';
-//// import { reducers, metaReducers } from './reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { MatDividerModule } from "@angular/material/divider";
+import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatButtonToggleModule } from "@angular/material/button-toggle";
+import { MatSelectModule } from "@angular/material/select";
+import { MatInputModule } from "@angular/material/input";
+import { MatExpansionModule } from "@angular/material/expansion";
+import { MatPseudoCheckboxModule } from "@angular/material/core";
+//// import { StoreModule } from '@ngrx/store';
+//// import { reducers, metaReducers } from './reducers';
 // import { fas } from '@fortawesome/free-solid-svg-icons';
 // import { far } from '@fortawesome/free-regular-svg-icons';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatTableModule } from "@angular/material/table";
 
 @NgModule({
   declarations: [
@@ -66,6 +78,17 @@ import { environment } from '../environments/environment';
     //   }
     // }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
+    MatDividerModule,
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatInputModule,
+    MatIconModule,
+    MatSelectModule,
+    MatExpansionModule,
+    MatPseudoCheckboxModule,
+    MatBadgeModule,
+    MatCheckboxModule,
+    MatTableModule
   ],
   providers: [
     GitHubUserService

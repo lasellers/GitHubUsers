@@ -303,18 +303,26 @@ describe('AppComponent', () => {
         {provide: UserGistsComponent, useClass: MockUserGistsComponent},
         {provide: GistComponent, useClass: MockGistComponent},
       ]
-    }).compileComponents().then(() => {
-
-      fixture = TestBed.createComponent(AppComponent);
-      fixture.detectChanges();
-      component = fixture.debugElement.componentInstance;
-      dom = fixture.debugElement.nativeElement;
-      httpMock = TestBed.inject(HttpTestingController);
-      userService = TestBed.inject(GitHubUserService);
-    });
+    }).compileComponents(); //.then(() => {
+      // fixture = TestBed.createComponent(AppComponent);
+      // fixture.detectChanges();
+      // component = fixture.debugElement.componentInstance;
+      // dom = fixture.debugElement.nativeElement;
+      // httpMock = TestBed.inject(HttpTestingController);
+      // userService = TestBed.inject(GitHubUserService);
+//    });
   });
 
   beforeEach(() => {
+    fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    component = fixture.debugElement.componentInstance;
+    dom = fixture.debugElement.nativeElement;
+    httpMock = TestBed.inject(HttpTestingController);
+    userService = TestBed.inject(GitHubUserService);
+  });
+
+  describe('test mock setup', () => {
     expect(fixture).toBeTruthy();
     expect(component).toBeTruthy();
     expect(dom).toBeTruthy();
