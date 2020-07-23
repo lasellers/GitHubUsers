@@ -28,7 +28,7 @@ export class GistComponent implements OnInit, OnDestroy {
     this.gistService.gist$.subscribe(
       data => {
         this.gist = data as any;
-        // this.gistEvent(data);
+        // this.gistGistData(data);
       },
       error => {
         this.errorMessage$.emit(error);

@@ -4,7 +4,7 @@ import {
   OnDestroy,
   Input,
   Output,
-  EventEmitter, NgZone
+  EventEmitter
 } from '@angular/core';
 import { GitHubUserService } from './github-user.service';
 import { ToastrService } from 'ngx-toastr';
@@ -12,9 +12,6 @@ import { GitHubGistsService } from './github-gists.service';
 import { GitHubFollowersService } from './github-followers.service';
 import { GitHubFollowingsService } from './github-followings.service';
 import { GitHubGistService } from './github-gist.service';
-import { Gist } from './gist.model';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Inject } from '@angular/core';
 import packageJson from '../../package.json';
 
 console.clear();
@@ -124,13 +121,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.gistsService.gistsCached$.unsubscribe();
     this.gistService.gist$.unsubscribe();
   }
-
-  /*
-    clearGistCache(gist: Gist): void {
-      this.gistService.clearGistCache(gist);
-      this.gistService.gist$.next(gist);
-    }
-  */
 
   clearCache(): void {
     localStorage.clear();

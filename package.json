@@ -6,7 +6,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ngcc && ng build",
+    "rebuild": "npm clean-install && ng build",
     "test": "ng test --watch=false --reporters=spec",
     "ci": "npm run test --code-coverage --no-watch --no-progress --browsers=ChromeHeadless --reporters=spec,kjhtml,coverage-istanbul,junit,htmlDetailed",
     "test-ci": "ng test --code-coverage --watch=false --browsers=ChromeHeadless --reporters=spec,kjhtml,coverage-istanbul,junit,htmlDetailed",

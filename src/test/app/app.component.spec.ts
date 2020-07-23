@@ -38,7 +38,6 @@ import { UserFollowersComponent } from '../../app/components/user-followers/user
 import { WasCachedHighlightDirective } from '../../app/was-cached-highlight.directive';
 import { FilterFollowersPipe } from '../../app/filter-followers.pipe';
 import { Gist } from '../../app/gist.model';
-import { GitHubGistService } from '../../../src/app/github-gist.service';
 import { GistComponent } from '../../app/components/gist/gist.component';
 
 class MockHttpClient {
