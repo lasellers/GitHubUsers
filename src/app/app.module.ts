@@ -24,8 +24,8 @@ import { GistComponent } from './components/gist/gist.component';
 import { WasCachedStringPipe } from './was-cached-string.pipe';
 import { WasCachedHighlightDirective } from './was-cached-highlight.directive';
 import { FilterFollowersPipe } from './filter-followers.pipe';
-import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './reducers';
+//// import { StoreModule } from '@ngrx/store';
+//// import { reducers, metaReducers } from './reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 // import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -58,13 +58,13 @@ import { environment } from '../environments/environment';
     }),
     NgbModule,
     FontAwesomeModule,
-    StoreModule.forRoot(reducers, {
-      metaReducers,
-      runtimeChecks: {
-        strictStateImmutability: true,
-        strictActionImmutability: true,
-      }
-    }),
+    // StoreModule.forRoot(reducers, {
+    //   metaReducers,
+    //   runtimeChecks: {
+    //     strictStateImmutability: true,
+    //     strictActionImmutability: true,
+    //   }
+    // }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   providers: [
