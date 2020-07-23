@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, Output, EventEmitter, Input } from '@angu
 import { Gist } from '../../gist.model';
 import { GitHubGistService } from '../../github-gist.service';
 import { BytesPipe } from "../../bytes.pipe";
+import { ToastMessage } from "../../toast-message.model";
 
 @Component({
   selector: 'app-gist',
@@ -10,13 +11,13 @@ import { BytesPipe } from "../../bytes.pipe";
 })
 export class GistComponent implements OnInit, OnDestroy {
   @Input() baseUsername;
-  @Output() errorMessage$ = new EventEmitter(true);
-  @Output() notifyMessage: EventEmitter<object> = new EventEmitter<object>();
   @Input() isCaching: boolean = true;
   @Input() cacheOnly: boolean = false;
-  public gist: Gist;
   @Input() wasCached: boolean = false;
   @Input() cached: boolean = false;
+  @Output() errorMessage$ = new EventEmitter(true);
+  @Output() notifyMessage: EventEmitter<ToastMessage> = new EventEmitter<ToastMessage>();
+  public gist: Gist;
 
   constructor(
     public gistService: GitHubGistService
@@ -27,8 +28,7 @@ export class GistComponent implements OnInit, OnDestroy {
     this.gist = Gist.constructor();
     this.gistService.gist$.subscribe(
       data => {
-        this.gist = data as any;
-        // this.gistGistData(data);
+        this.gist = data;
       },
       error => {
         this.errorMessage$.emit(error);
@@ -38,7 +38,8 @@ export class GistComponent implements OnInit, OnDestroy {
     this.gistService.gist$.subscribe(
       data => {
         if (data === null) {
-          this.notifyMessage.emit({message: 'Clear gist cache', type: 'default', title: ''});
+          const note: ToastMessage = {message: 'Clear gist cache', type: 'default', title: ''}
+          this.notifyMessage.emit(note);
         } else {
           this.gistGistData(data);
         }

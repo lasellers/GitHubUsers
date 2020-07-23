@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, OnDestroy, Output } from '@angu
 import { GitHubGistsService } from '../../github-gists.service';
 import { Gist } from '../../gist.model';
 import { GitHubGistService } from '../../github-gist.service';
+import { ToastMessage } from "../../toast-message.model";
 
 @Component({
   selector: 'app-user-gists',
@@ -15,7 +16,7 @@ export class UserGistsComponent implements OnInit, OnDestroy {
   @Input() wasCached: boolean = false;
   @Input() cached: boolean = false;
   @Output() errorMessage$ = new EventEmitter(true);
-  @Output() notifyMessage: EventEmitter<object> = new EventEmitter<object>();
+  @Output() notifyMessage: EventEmitter<ToastMessage> = new EventEmitter<ToastMessage>();
   public gists: Gist[] = [];
 
   constructor(

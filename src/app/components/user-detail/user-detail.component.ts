@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { GitHubUserService } from '../../github-user.service';
 import { User } from '../../user.model';
+import { ToastMessage} from "../../toast-message.model";
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -15,7 +16,7 @@ export class UserDetailComponent implements OnInit {
   @Input() wasCached: boolean = false;
   @Input() cached: boolean = false;
   @Output() notifySwitchToUser: EventEmitter<string> = new EventEmitter<string>();
-  @Output() notifyMessage: EventEmitter<object> = new EventEmitter<object>();
+  @Output() notifyMessage: EventEmitter<ToastMessage> = new EventEmitter<ToastMessage>();
   public user: User = {};
 
   constructor(

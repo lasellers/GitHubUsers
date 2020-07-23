@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, OnDestroy, Output } from '@angular/core';
 import { GitHubUserService } from '../../github-user.service';
 import { GitHubFollowersService } from '../../github-followers.service';
+import { ToastMessage} from "../../toast-message.model";
 
 @Component({
   selector: 'app-user-followers',
@@ -17,7 +18,7 @@ export class UserFollowersComponent implements OnInit, OnDestroy {
   @Output() errorMessage$ = new EventEmitter(true);
   @Output() notifySwitchToUser = new EventEmitter();
   @Output() notifyShowBaseUsername = new EventEmitter();
-  @Output() notifyMessage: EventEmitter<object> = new EventEmitter<object>();
+  @Output() notifyMessage: EventEmitter<ToastMessage> = new EventEmitter<ToastMessage>();
   public cachedUsers = [];
   public followers = [];
 

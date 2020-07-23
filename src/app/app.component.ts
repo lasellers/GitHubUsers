@@ -195,6 +195,6 @@ export class AppComponent implements OnInit, OnDestroy {
           timeOut: 2000,
         });
     }
-  };
+  }
 
 }
